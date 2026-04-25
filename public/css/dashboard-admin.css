@@ -1,0 +1,225 @@
+/* ==========================================================================
+   DASHBOARD ADMIN - FINAL STABLE VERSION (CENTERED + MODERN UI)
+   ========================================================================== */
+
+/* ========================
+   ROOT COLOR
+   ======================== */
+:root {
+    --primary: #4FB7B3;
+    --secondary: #637AB9;
+    --dark: #31326F;
+    --light: #A8FBD3;
+}
+
+/* ========================
+   GLOBAL BACKGROUND
+   ======================== */
+body {
+    background: #f5f7fb;
+}
+
+/* ========================
+   DASHBOARD HEADER
+   ======================== */
+.dashboard-header {
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 40px;
+}
+
+.dashboard-title {
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--dark);
+}
+
+.dashboard-subtitle {
+    font-size: 14px;
+    color: #8a94a6;
+    margin-top: 8px;
+}
+
+.dashboard-note {
+    font-size: 12px;
+    color: #a0a8b8;
+    margin-top: 5px;
+}
+
+/* ========================
+   CENTER LAYOUT (SAFE FIX)
+   ======================== */
+
+/* Fokus ke isi dashboard saja */
+.dashboard-header,
+.grid,
+.admin-card {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Grid tetap rapi */
+.grid {
+    justify-content: center;
+}
+
+/* ========================
+   STAT CARD
+   ======================== */
+.admin-card-stat {
+    background: linear-gradient(145deg, #ffffff, #f9fbff);
+    padding: 28px;
+    border-radius: 2rem;
+    box-shadow: 
+        0 8px 25px rgba(0,0,0,0.04),
+        inset 0 1px 0 rgba(255,255,255,0.6);
+    transition: all 0.35s ease;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(0,0,0,0.03);
+}
+
+/* Glow effect */
+.admin-card-stat::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        120deg,
+        transparent,
+        rgba(255,255,255,0.5),
+        transparent
+    );
+    opacity: 0;
+    transition: 0.4s;
+}
+
+.admin-card-stat:hover::before {
+    opacity: 1;
+}
+
+.admin-card-stat:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 
+        0 20px 40px rgba(0,0,0,0.08),
+        0 0 0 1px rgba(0,0,0,0.02);
+}
+
+/* TEXT */
+.stat-label {
+    font-size: 10px;
+    font-weight: 700;
+    color: #8a94a6;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.stat-value {
+    font-size: 2.8rem;
+    font-weight: 900;
+    color: var(--dark);
+    margin-top: 8px;
+}
+
+/* ICON */
+.stat-icon {
+    width: 55px;
+    height: 55px;
+    border-radius: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(6px);
+    transition: all 0.3s ease;
+}
+
+.admin-card-stat:hover .stat-icon {
+    transform: rotate(8deg) scale(1.1);
+}
+
+.stat-icon i {
+    width: 26px;
+    height: 26px;
+}
+
+/* DESC */
+.stat-desc {
+    font-size: 11px;
+    color: #9aa3b2;
+    margin-top: 12px;
+}
+
+/* ========================
+   CHART CARD
+   ======================== */
+.admin-card {
+    background: linear-gradient(135deg, #ffffff, #f5f7ff);
+    border-radius: 2rem;
+    padding: 30px;
+    box-shadow: 
+        0 10px 40px rgba(0,0,0,0.06),
+        inset 0 1px 0 rgba(255,255,255,0.6);
+    border: 1px solid rgba(0,0,0,0.03);
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+}
+
+/* Glow */
+.admin-card::after {
+    content: "";
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    top: -50px;
+    right: -50px;
+    background: radial-gradient(circle, rgba(79,183,179,0.2), transparent);
+    filter: blur(40px);
+}
+
+/* TITLE */
+.admin-card h3 {
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--dark);
+    letter-spacing: 2px;
+}
+
+/* ========================
+   ANIMATION
+   ======================== */
+.admin-card-stat,
+.admin-card {
+    animation: fadeUp 0.6s ease forwards;
+    opacity: 0;
+}
+
+.admin-card-stat:nth-child(1) { animation-delay: 0.1s; }
+.admin-card-stat:nth-child(2) { animation-delay: 0.2s; }
+.admin-card-stat:nth-child(3) { animation-delay: 0.3s; }
+.admin-card-stat:nth-child(4) { animation-delay: 0.4s; }
+
+@keyframes fadeUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* ========================
+   RESPONSIVE
+   ======================== */
+@media (max-width: 768px) {
+    .stat-value {
+        font-size: 2rem;
+    }
+
+    .admin-card {
+        padding: 20px;
+    }
+}

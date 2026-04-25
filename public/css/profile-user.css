@@ -1,0 +1,186 @@
+:root {
+    --primary-orange: #FF5722;
+    --navy-dark: #1A3A34;
+    --bg-creamy: #FDFDFB;
+    --text-main: #1A1A1A;
+    --text-muted: #666;
+    --serif: 'Playfair Display', serif;
+    --sans: 'Poppins', sans-serif;
+    --transition-premium: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+body { background: var(--bg-creamy); color: var(--text-main); font-family: var(--sans); }
+.container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+/* --- HERO BANNER --- */
+.profile-hero-full-image { 
+    position: relative; 
+    height: 70vh; 
+    overflow: hidden; 
+    border-bottom-left-radius: 80px;
+    border-bottom-right-radius: 80px;
+}
+.banner-img { width: 100%; height: 100%; object-fit: cover; }
+.hero-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.5)); }
+.hero-text-floating { position: absolute; bottom: 60px; left: 80px; color: white; }
+.hero-title-serif { font-family: var(--serif); font-size: 5rem; font-weight: 900; }
+.label-white { font-weight: 700; letter-spacing: 4px; font-size: 0.9rem; opacity: 0.8; }
+
+/* --- HEADER --- */
+.profile-header { text-align: center; padding: 100px 0 60px; }
+.top-label { color: var(--primary-orange); font-weight: 700; letter-spacing: 2px; font-size: 0.8rem; display: block; margin-bottom: 15px; }
+.main-title { font-family: var(--serif); font-size: 3.5rem; font-weight: 900; margin-bottom: 25px; }
+.header-desc { color: var(--text-muted); max-width: 700px; margin: 0 auto; line-height: 1.8; font-size: 1.1rem; }
+.header-line { width: 60px; height: 5px; background: var(--primary-orange); margin: 30px auto 0; border-radius: 10px; }
+
+/* --- SEJARAH --- */
+.grid-sejarah { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; padding: 80px 0; }
+.sejarah-title { font-family: var(--serif); font-size: 3rem; line-height: 1.1; margin-bottom: 25px; }
+.italic-orange { color: var(--primary-orange); font-style: italic; }
+.sejarah-text { color: var(--text-muted); line-height: 1.8; font-size: 1rem; margin-bottom: 40px; }
+.stats-row { display: flex; gap: 50px; }
+.stat-box h3 { font-size: 2.5rem; font-weight: 800; color: var(--navy-dark); }
+.stat-box p { font-size: 0.7rem; font-weight: 700; letter-spacing: 1px; color: #aaa; }
+
+.about-image-card { position: relative; height: 500px; border-radius: 40px; overflow: hidden; z-index: 2; }
+.about-image-card img { width: 100%; height: 100%; object-fit: cover; }
+.decorative-blob { position: absolute; top: -20px; right: -20px; width: 200px; height: 200px; background: #FFD8CC; border-radius: 50%; z-index: -1; opacity: 0.5; }
+
+/* --- VISI MISI --- */
+.visi-misi-container { background: #F9F9F4; padding: 120px 0; margin-top: 50px; }
+.section-title-serif { font-family: var(--serif); font-size: 3rem; font-weight: 800; }
+.visi-misi-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 30px; }
+.vm-card { padding: 60px; border-radius: 40px; background: white; box-shadow: 0 20px 50px rgba(0,0,0,0.03); position: relative; overflow: hidden; }
+.vm-card.misi { background: var(--navy-dark); color: white; }
+.vm-icon { color: var(--primary-orange); margin-bottom: 25px; }
+.vm-icon svg { width: 45px; height: 45px; }
+.vm-card h3 { font-family: var(--serif); font-size: 2.2rem; margin-bottom: 20px; }
+.misi-list p { opacity: 0.8; line-height: 1.8; }
+
+/* --- TEAM --- */
+.team-section { padding: 100px 0; }
+.team-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 40px; }
+.team-card { text-align: center; }
+.team-img { position: relative; height: 380px; border-radius: 30px; overflow: hidden; margin-bottom: 20px; }
+.team-img img { width: 100%; height: 100%; object-fit: cover;  transition: var(--transition-premium); }
+.team-card:hover .team-img img { filter: grayscale(0%); transform: scale(1.05); }
+.team-overlay { position: absolute; inset: 0; background: rgba(255, 87, 34, 0.8); display: flex; align-items: center; padding: 20px; color: white; font-style: italic; font-size: 0.9rem; opacity: 0; transition: 0.4s; }
+.team-card:hover .team-overlay { opacity: 1; }
+.team-info h5 { font-family: var(--serif); font-size: 1.5rem; font-weight: 800; }
+.position { color: var(--primary-orange); font-weight: 700; font-size: 0.75rem; letter-spacing: 1px; text-transform: uppercase; }
+
+/* --- MAPS --- */
+.maps-section-premium { padding: 100px 0; }
+.grid-maps { display: grid; grid-template-columns: 1fr 2fr; gap: 50px; align-items: center; }
+.maps-title { font-family: var(--serif); font-size: 3.5rem; line-height: 1.1; font-weight: 800; }
+.text-orange { color: var(--primary-orange); }
+.map-wrapper { border-radius: 40px; overflow: hidden; box-shadow: 0 30px 60px rgba(0,0,0,0.1); }
+
+/* --- ANIMATIONS (PREMIUM) --- */
+.reveal, .reveal-up, .reveal-left, .reveal-right { opacity: 0; transition: var(--transition-premium); }
+.reveal-up { transform: translateY(50px); }
+.reveal-left { transform: translateX(-50px); }
+.reveal-right { transform: translateX(50px); }
+
+.active { opacity: 1; transform: translate(0); }
+
+/* Responsive */
+@media (max-width: 992px) {
+    .grid-sejarah, .visi-misi-grid, .grid-maps { grid-template-columns: 1fr; gap: 40px; }
+    .hero-title-serif { font-size: 3rem; }
+    .hero-text-floating { left: 40px; }
+}
+
+/* --- DATA PERUSAHAAN CARD --- */
+.data-perusahaan-section {
+    padding: 100px 0;
+    display: flex;
+    justify-content: center;
+}
+
+.data-card-premium {
+    background: #ffffff;
+    width: 100%;
+    max-width: 900px;
+    border-radius: 60px; /* Corner bulat besar sesuai gambar */
+    padding: 80px 100px;
+    position: relative;
+    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.06); /* Shadow lembut */
+}
+
+/* Dekorasi di sudut kiri atas */
+.card-corner-decoration {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100px;
+    height: 100px;
+    background: #FFD8CC; /* Warna krem kemerahan sesuai gambar */
+    opacity: 0.4;
+    border-bottom-right-radius: 100%; /* Membuat efek lengkungan */
+    border-top-left-radius: 60px;
+}
+
+.data-card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem;
+    font-weight: 700;
+    text-align: center;
+    color: #1a1a1a;
+    margin-bottom: 60px;
+}
+
+.data-card-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.data-card-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 25px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.data-card-row:last-child {
+    border-bottom: none;
+}
+
+.data-label {
+    color: #b0b0b0; /* Warna abu-abu pudar sesuai gambar */
+    font-weight: 700;
+    font-size: 0.75rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.data-value {
+    color: #1a1a1a;
+    font-weight: 700;
+    font-size: 1.1rem;
+    text-align: right;
+}
+
+/* Responsif untuk HP */
+@media (max-width: 768px) {
+    .data-card-premium {
+        padding: 50px 30px;
+        border-radius: 40px;
+    }
+    
+    .data-card-title {
+        font-size: 2rem;
+    }
+
+    .data-card-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .data-value {
+        text-align: left;
+        font-size: 1rem;
+    }
+}

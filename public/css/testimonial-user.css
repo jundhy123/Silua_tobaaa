@@ -1,0 +1,193 @@
+/* --- BASE SETUP --- */
+:root {
+    --primary-orange: #FF5722;
+    --olive-green: #5B5B41;
+    --bg-creamy: #F9F9F4;
+    --text-dark: #1a1a1a;
+    --serif: 'Playfair Display', serif;
+    --sans: 'Poppins', sans-serif;
+    --transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.testi-page-wrapper {
+    padding-top: 140px;
+    padding-bottom: 120px;
+    background-color: var(--bg-creamy);
+    font-family: var(--sans);
+}
+
+.container { max-width: 1200px; margin: 0 auto; padding: 0 25px; }
+
+/* --- HEADER --- */
+.testi-header { text-align: center; margin-bottom: 80px; }
+.top-label { color: var(--primary-orange); font-weight: 800; letter-spacing: 2px; font-size: 0.75rem; display: block; margin-bottom: 15px; }
+.main-title { font-family: var(--serif); font-size: 3.5rem; font-weight: 900; color: var(--text-dark); line-height: 1.2; }
+.header-desc { color: #777; max-width: 600px; margin: 20px auto 0; line-height: 1.8; }
+.header-line { width: 60px; height: 5px; background: var(--primary-orange); margin: 30px auto 0; border-radius: 10px; }
+
+/* --- CARDS GRID --- */
+.testi-grid { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); 
+    gap: 35px; 
+    /* PERBAIKAN: Jarak bawah grid diperbesar agar tidak menempel dengan kotak olive */
+    margin-bottom: 120px; 
+}
+
+.testi-card-premium {
+    background: white;
+    padding: 50px;
+    border-radius: 40px;
+    position: relative;
+    box-shadow: 0 15px 50px rgba(0,0,0,0.03);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 380px;
+    transition: var(--transition);
+    overflow: hidden;
+}
+
+.testi-card-premium:hover { transform: translateY(-12px); box-shadow: 0 30px 70px rgba(0,0,0,0.07); }
+
+.testi-quote-mark {
+    position: absolute;
+    top: 20px; right: 40px;
+    font-family: var(--serif);
+    font-size: 7rem;
+    color: #F8F8F8;
+    line-height: 1;
+    z-index: 1;
+}
+
+.testi-body { position: relative; z-index: 2; margin-bottom: 40px; }
+.testi-msg { 
+    font-style: italic; 
+    font-size: 1.05rem; 
+    line-height: 1.9; 
+    color: #555; 
+    word-break: break-word; 
+    white-space: pre-line;
+}
+
+/* --- FOOTER & USER INFO --- */
+.testi-footer { 
+    display: flex; 
+    align-items: center; 
+    gap: 18px; 
+    padding-top: 25px;
+    border-top: 1px solid #f9f9f9;
+}
+
+.testi-avatar-wrapper { 
+    width: 65px; height: 65px; 
+    border-radius: 50%; 
+    overflow: hidden; 
+    flex-shrink: 0; 
+    border: 3px solid #F9F9F4;
+}
+
+.testi-avatar-wrapper img { width: 100%; height: 100%; object-fit: cover; }
+
+.user-name { 
+    font-family: var(--serif); 
+    font-size: 1.4rem; 
+    font-weight: 800; 
+    color: #1a1a1a; 
+    margin-bottom: 2px;
+}
+
+.user-label-tag { 
+    font-size: 9px; 
+    font-weight: 700; 
+    color: #bbb; 
+    text-transform: uppercase; 
+    letter-spacing: 1.5px;
+}
+
+/* --- TOMBOL EDIT & HAPUS --- */
+.testi-owner-actions { 
+    display: flex; 
+    gap: 8px; 
+    margin-top: 12px; 
+}
+
+.btn-action {
+    font-size: 9px;
+    font-weight: 800;
+    padding: 6px 14px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: 0.3s;
+}
+
+.btn-action.edit { background: #f5f5f5; color: #888; }
+.btn-action.delete { background: #fff1f1; color: #ff5252; }
+
+.btn-action:hover { transform: scale(1.05); filter: brightness(0.95); }
+
+/* --- EDIT FORM POPUP INSIDE CARD --- */
+.hidden-edit-form { 
+    display: none; 
+    position: absolute; 
+    inset: 0; 
+    background: white; 
+    z-index: 10; 
+    padding: 40px; 
+}
+.hidden-edit-form.active { display: block; animation: slideIn 0.4s ease; }
+
+.testi-edit-input { 
+    width: 100%; height: 120px; 
+    border: 1px solid #eee; border-radius: 20px; 
+    padding: 15px; font-size: 0.9rem; outline: none; 
+}
+
+.btn-save { background: var(--text-dark); color: white; border: none; padding: 10px 20px; border-radius: 12px; font-weight: 700; font-size: 11px; cursor: pointer; }
+.btn-cancel { background: #eee; color: #777; border: none; padding: 10px 20px; border-radius: 12px; font-weight: 700; font-size: 11px; cursor: pointer; }
+
+/* --- OLIVE CTA CARD --- */
+.input-card-olive {
+    background-color: var(--olive-green);
+    padding: 85px 40px;
+    border-radius: 80px;
+    text-align: center;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.1);
+    /* PERBAIKAN: Tambahkan margin top agar ada space tambahan dari atas */
+    margin-top: 60px; 
+}
+
+.cta-title { font-family: var(--serif); font-size: 3rem; color: white; margin-bottom: 15px; }
+.cta-desc { color: rgba(255, 255, 255, 0.7); margin-bottom: 45px; }
+
+.testi-textarea-white {
+    width: 100%; max-width: 600px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 25px;
+    padding: 25px; color: white; outline: none; margin-bottom: 30px; font-size: 1rem;
+}
+
+.btn-pill-white {
+    background: white; color: var(--olive-green); border: none;
+    padding: 20px 60px; border-radius: 50px;
+    font-weight: 800; font-size: 1rem;
+    cursor: pointer; transition: 0.3s;
+}
+
+.btn-pill-white:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.2); }
+
+/* --- ANIMATIONS --- */
+@keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+.reveal, .reveal-up { opacity: 0; transform: translateY(40px); transition: var(--transition); }
+.active { opacity: 1; transform: translateY(0); }
+
+@media (max-width: 768px) {
+    .main-title { font-size: 2.5rem; }
+    .input-card-olive { border-radius: 40px; padding: 60px 20px; }
+    .testi-grid { margin-bottom: 60px; }
+}

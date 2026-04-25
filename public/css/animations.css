@@ -1,0 +1,88 @@
+/* --- ANIMASI DATANG SAAT SCROLL --- */
+
+.left-side.show {
+    animation: entrySlide 1.2s ease forwards, floatLeft 5s ease-in-out infinite 1.2s;
+}
+
+.right-side.show {
+    animation: entrySlide 1.2s ease forwards, floatRight 5s ease-in-out infinite 1.2s;
+}
+
+.bottom-side.show {
+    animation: entrySlideBottom 1.2s ease forwards, floatBottom 5s ease-in-out infinite 1.2s;
+}
+
+/* Keyframes Masuk */
+@keyframes entrySlide {
+    to { opacity: 1; transform: translate(0, 0); }
+}
+
+@keyframes entrySlideBottom {
+    to { opacity: 1; transform: translate(-50%, 0); }
+}
+
+/* Keyframes Melayang */
+@keyframes floatLeft { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-30px); } }
+@keyframes floatRight { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-30px); } }
+@keyframes floatBottom { 0%, 100% { transform: translate(-50%, 0); } 50% { transform: translate(-50%, -30px); } }
+
+/* --- KEN BURNS EFFECT --- */
+.slide-bg-wrap {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+}
+
+.slide-bg-wrap::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 100%);
+}
+
+.ken-burns {
+    width: 100%; height: 100%; object-fit: cover;
+    transform: scale(1.15);
+    transition: transform 8s linear;
+}
+
+.premium-slide.active .ken-burns {
+    transform: scale(1);
+}
+
+/* --- MASKED REVEAL (UP ANIMATION) --- */
+.reveal-line {
+    overflow: hidden;
+    margin-bottom: 8px;
+}
+
+.hero-main-text, .hero-sub-text, .micro-label, .btn-subway-pill {
+    display: block;
+    transform: translateY(115%);
+    transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.premium-slide.active .hero-main-text,
+.premium-slide.active .hero-sub-text,
+.premium-slide.active .micro-label,
+.premium-slide.active .btn-subway-pill {
+    transform: translateY(0);
+}
+
+/* Staggered Delay */
+.premium-slide.active .micro-label { transition-delay: 0.4s; }
+.premium-slide.active .reveal-line:nth-child(2) .hero-main-text { transition-delay: 0.5s; }
+.premium-slide.active .reveal-line:nth-child(3) .hero-main-text { transition-delay: 0.6s; }
+.premium-slide.active .hero-sub-text { transition-delay: 0.8s; }
+.premium-slide.active .btn-subway-pill { transition-delay: 1s; }
+
+/* Floating Story Glow */
+.story-glow {
+    position: absolute;
+    top: -40px; left: -40px;
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, var(--accent-gold) 0%, transparent 70%);
+    opacity: 0.1;
+    z-index: 1;
+    filter: blur(40px);
+}

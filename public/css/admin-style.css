@@ -1,0 +1,203 @@
+/* ============================================= */
+/* ADMIN SPECIFIC STYLES - EARTHY PALETTE        */
+/* ============================================= */
+
+/* Wrapper Utama */
+.admin-wrapper {
+    display: flex;
+    width: 100%;
+}
+
+/* PANEL UTAMA (SOLUSI AGAR TIDAK TERTUTUP SIDEBAR) */
+.admin-main-panel {
+    flex: 1;
+    min-height: 100vh;
+    /* PENTING: Harus sama dengan lebar sidebar agar konten terdorong ke kanan */
+    margin-left: 280px; 
+    background-color: var(--bg-light); /* #FFDE42 */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Konten di dalam panel */
+.admin-content-inner {
+    padding: 40px;
+    width: 100%;
+    max-width: 1400px; 
+}
+
+/* --- PERBAIKAN STRUKTUR TABEL --- */
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white; /* Tabel tetap putih agar teks cokelat tua terbaca jelas */
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.admin-table thead th {
+    background-color: var(--navy-dark); /* #1B0C0C */
+    color: white;
+    padding: 18px 20px;
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.admin-table tbody tr {
+    border-bottom: 1px solid rgba(76, 92, 45, 0.1); /* Border Hijau Zaitun tipis */
+    transition: all 0.3s ease;
+}
+
+.admin-table tbody tr:hover {
+    background-color: rgba(255, 222, 66, 0.1); /* Highlight Kuning tipis */
+}
+
+/* --- TABLE ALIGNMENT FIX --- */
+.admin-table td {
+    padding: 20px;
+    vertical-align: middle; 
+}
+
+/* --- DETAIL PRODUK --- */
+.product-img-thumb {
+    width: 65px;
+    height: 65px;
+    object-fit: cover;
+    border-radius: 18px;
+    border: 3px solid white;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+}
+
+.product-name-title {
+    font-family: 'Lora', serif;
+    font-weight: 800;
+    color: var(--navy-dark); /* #1B0C0C */
+    font-size: 16px;
+    margin-bottom: 2px;
+}
+
+.product-id-tag {
+    font-size: 10px;
+    color: var(--gray-soft); /* #4C5C2D */
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.price-text {
+    font-weight: 900;
+    color: var(--navy-dark);
+}
+
+.badge-pill-category {
+    background-color: rgba(76, 92, 45, 0.1); /* Hijau Zaitun transparan */
+    color: var(--gray-soft); /* #4C5C2D */
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+/* --- TOMBOL AKSI BARU (ATTRACTIVE) --- */
+.action-btn-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 800;
+    text-decoration: none !important;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: none;
+    cursor: pointer;
+}
+
+/* Edit Button (Earthy Theme) */
+.action-btn-pill.edit {
+    background-color: #f0f4f8; /* Background netral */
+    color: var(--silua-grey); /* #313E17 */
+}
+
+.action-btn-pill.edit:hover {
+    background-color: var(--silua-grey);
+    color: white;
+    transform: translateY(-3px);
+}
+
+.action-btn-pill.delete {
+    background-color: #fff1f2;
+    color: #e11d48;
+}
+
+.action-btn-pill.delete:hover {
+    background-color: #e11d48;
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(225, 29, 72, 0.2);
+}
+
+/* Animation Alert */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in { animation: fadeIn 0.5s ease-out; }
+
+/* --- STATUS BADGES --- */
+.badge-status-pending { 
+    background: #FFECB3; /* Kuning pucat */
+    color: #8D6E63; /* Cokelat */
+    padding: 5px 12px; 
+    border-radius: 50px; 
+    font-size: 11px; 
+    font-weight: 800; 
+    text-transform: uppercase; 
+}
+
+.badge-status-confirm { 
+    background: var(--gray-soft); /* Hijau Zaitun */
+    color: white; 
+    padding: 5px 12px; 
+    border-radius: 50px; 
+    font-size: 11px; 
+    font-weight: 800; 
+    text-transform: uppercase; 
+}
+
+.badge-status-reject { 
+    background: #FFCDD2; 
+    color: #D32F2F; 
+    padding: 5px 12px; 
+    border-radius: 10px; 
+    font-size: 10px; 
+    font-weight: 800; 
+}
+
+/* --- TOMBOL AKSI KECIL --- */
+.btn-action-small {
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-confirm { 
+    background: var(--silua-grey); /* Hijau Gelap */
+    color: white; 
+}
+
+.btn-reject { 
+    background: #f1f5f9; 
+    color: #ef4444; 
+}
+
+.btn-confirm:hover { 
+    background: var(--orange-brand); /* Menjadi Kuning saat hover */
+    color: var(--navy-dark);
+}

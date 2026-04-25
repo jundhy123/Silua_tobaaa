@@ -1,0 +1,154 @@
+/* ============================================= */
+/* SIDEBAR ADMIN - PREMIUM EARTHY THEME          */
+/* ============================================= */
+
+:root {
+    --side-bg: #1a1c1e;           /* Navy Darker yang lebih profesional */
+    --side-hover: #25282c;        /* Warna hover yang halus */
+    --brand-accent: #FF5722;      /* Orange khas Silua Toba */
+    --text-inactive: #94a3b8;     /* Abu-abu kebiruan agar mata tidak lelah */
+    --text-bright: #ffffff;
+}
+
+/* === ROOT SIDEBAR === */
+.silua-admin-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    width: 280px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--side-bg);
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.3);
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* === HEADER === */
+.sidebar-header {
+    padding: 50px 24px;
+    text-align: center;
+}
+
+.sidebar-logo {
+    font-family: 'Playfair Display', serif; /* Agar senada dengan User Page */
+    font-size: 1.6rem;
+    font-weight: 900;
+    letter-spacing: 1px;
+    color: var(--text-bright);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.sidebar-logo span {
+    color: var(--brand-accent);
+}
+
+/* === NAV CONTAINER === */
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 0 15px;
+}
+
+/* === GROUP LABEL === */
+.nav-group-label {
+    margin: 25px 15px 10px;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #475569; /* Warna lebih gelap agar tidak mengganggu fokus */
+}
+
+/* === NAV ITEM === */
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 4px 0;
+    padding: 14px 20px;
+    border-radius: 12px;
+    color: var(--text-inactive);
+    font-weight: 500;
+    font-size: 0.95rem;
+    text-decoration: none !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-item i {
+    width: 20px;
+    height: 20px;
+    opacity: 0.7;
+    transition: 0.3s;
+}
+
+/* Hover effect */
+.nav-item:hover {
+    color: var(--text-bright);
+    background-color: var(--side-hover);
+    transform: translateX(5px);
+}
+
+.nav-item:hover i {
+    color: var(--brand-accent);
+    opacity: 1;
+}
+
+/* === ACTIVE STATE (Perbaikan Utama) === */
+.nav-item.active {
+    background-color: var(--brand-accent) !important;
+    color: #ffffff !important;
+    font-weight: 700;
+    /* Shadow disesuaikan dengan warna orange, bukan kuning */
+    box-shadow: 0 10px 20px rgba(255, 87, 34, 0.25);
+}
+
+.nav-item.active i {
+    color: #ffffff !important;
+    opacity: 1;
+    stroke-width: 2.5px;
+}
+
+/* === DIVIDER === */
+.sidebar-divider {
+    height: 1px;
+    margin: 20px 15px;
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* === LOGOUT BUTTON (Dibuat Lebih Soft) === */
+.logout-pill {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin: 20px 0 40px;
+    padding: 14px;
+    border: 1px solid rgba(255, 92, 92, 0.2);
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    background-color: transparent;
+    color: #ff5c5c;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.logout-pill:hover {
+    background-color: #ff5c5c;
+    color: #ffffff !important;
+    border-color: #ff5c5c;
+    box-shadow: 0 8px 15px rgba(255, 92, 92, 0.2);
+}
+
+/* === UTILITIES === */
+.mt-auto {
+    margin-top: auto;
+}

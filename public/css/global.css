@@ -1,0 +1,62 @@
+/* IMPORT FONT PREMIUM */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@300;400;600;700&display=swap');
+
+:root {
+    --base-white: #FFFFFF;
+    --cream-soft: #F5F5F0;     /* Background hangat */
+    --accent-gold: #B45309;    /* Terakota / Emas Rempah */
+    --navy-dark: #141414;      /* Hitam Dof */
+    --gray-soft: #888888;
+    
+    --font-display: 'Playfair Display', serif;
+    --font-body: 'Inter', sans-serif;
+    --shadow-premium: 0 25px 50px -12px rgba(0, 0, 0, 0.05);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--base-white);
+    color: var(--navy-dark);
+    font-family: var(--font-body);
+    font-weight: 300;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Typography Editorial */
+h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -0.02em;
+}
+
+/* Label Kecil Kapital (Tracking Lebar) */
+.micro-label {
+    font-family: var(--font-body);
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    color: var(--accent-gold);
+}
+
+/* Button Base */
+.btn-premium {
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    cursor: pointer;
+}
+
+.btn-premium:active {
+    transform: scale(0.95);
+}
+
+/* Lucide Icon Standard */
+svg.lucide {
+    stroke-width: 1.5px;
+}

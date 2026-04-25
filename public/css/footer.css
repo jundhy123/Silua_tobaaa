@@ -1,0 +1,149 @@
+/* ==========================================================================
+   [06] SILUA PREMIUM FOOTER - ARTISANAL CULINARY STYLE
+   ========================================================================== */
+
+.silua-footer-mewah {
+    /* background-color: var(--cream-soft); /* #F5F5F0 */
+    background-color: var (--cream-soft);
+    color: var(--navy-dark);
+    padding-top: 80px;
+    font-family: var(--font-body);
+    border-top: 1px solid rgba(20, 20, 20, 0.05);
+    position: relative;
+    overflow: hidden;
+}
+
+/* --- BRANDING COLUMN --- */
+.footer-brand-title {
+    font-family: var(--font-display);
+    font-size: 2.5rem;
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    margin-bottom: 1rem;
+}
+
+.footer-brand-title span {
+    color: var(--accent-gold);
+    font-style: italic;
+}
+
+.footer-description {
+    font-size: 0.9rem;
+    line-height: 1.8;
+    font-weight: 300;
+    color: var(--navy-dark);
+    opacity: 0.6;
+    max-width: 300px;
+}
+
+/* --- NAVIGATION LISTS --- */
+.footer-column-title {
+    display: block;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    color: var(--accent-gold);
+    margin-bottom: 2rem;
+}
+
+.footer-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-list li {
+    margin-bottom: 0.75rem;
+}
+
+.footer-list li a {
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: var(--navy-dark);
+    opacity: 0.6;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.footer-list li a:hover {
+    opacity: 1;
+    color: var(--accent-gold);
+    transform: translateX(5px); /* Micro-interaction: geser halus */
+}
+
+/* --- CONTACT INFO --- */
+.contact-detail {
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+.contact-detail strong {
+    display: block;
+    margin-top: 1rem;
+    font-weight: 600;
+    color: var(--navy-dark);
+}
+
+/* --- SOCIAL ICONS --- */
+.footer-social-wrapper {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.social-icon-btn {
+    color: var(--navy-dark);
+    opacity: 0.4;
+    transition: all 0.3s ease;
+}
+
+.social-icon-btn:hover {
+    opacity: 1;
+    color: var(--accent-gold);
+    transform: translateY(-3px);
+}
+
+/* --- BOTTOM BAR --- */
+.footer-copyright-bar {
+    margin-top: 80px;
+    padding: 2rem 0;
+    border-top: 1px solid rgba(20, 20, 20, 0.03);
+    text-align: center;
+}
+
+.copyright-text {
+    font-size: 9px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--navy-dark);
+    opacity: 0.4;
+}
+
+/* --- RESPONSIVE ADJUSTMENT --- */
+@media (max-width: 768px) {
+    .silua-footer-mewah {
+        padding-top: 60px;
+        text-align: center;
+    }
+    
+    .footer-description {
+        margin: 0 auto;
+    }
+    
+    .footer-social-wrapper {
+        justify-content: center;
+    }
+    
+    .footer-column-title {
+        margin-top: 3rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .footer-list li a:hover {
+        transform: translateX(0) scale(1.1);
+    }
+}

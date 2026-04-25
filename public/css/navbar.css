@@ -1,0 +1,107 @@
+/* --- REVISI PREMIUM NAVBAR --- */
+
+.silua-navbar {
+    background-color: transparent;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    height: 100px; /* Tinggi awal lebih lega untuk teks besar */
+    display: flex;
+    align-items: center;
+}
+
+#navbar.scrolled {
+    background-color: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    height: 85px; /* Sedikit menyusut saat scroll */
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+}
+
+/* Styling Logo Gambar */
+.logo-img-premium {
+    height: 60px; /* Ukuran logo diperbesar */
+    width: auto;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.brand-name-premium {
+    font-size: 1.5rem; /* Nama brand diperbesar */
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    color: #111c26;
+    line-height: 1;
+}
+
+/* Navigasi Tengah (Teks Diperbesar) */
+.nav-link-premium {
+    font-family: var(--font-body);
+    font-size: 1rem; /* Ukuran teks diperbesar dari 12px ke 16px (1rem) */
+    font-weight: 800; /* Dibuat lebih tebal agar tegas */
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #111c26 !important;
+    text-decoration: none;
+    position: relative;
+    padding: 10px 0;
+    white-space: nowrap; /* Mencegah teks patah/turun kebawah */
+    transition: 0.3s ease;
+}
+
+/* Garis Bawah Premium (Tebal & Manis) */
+.nav-link-premium.active::after {
+    content: '';
+    position: absolute;
+    bottom: -5px; 
+    left: 0;
+    width: 100%; 
+    height: 4px; /* Garis dipertebal agar terlihat mewah */
+    background-color: #FF5722; /* Warna oranye/gold brand Anda */
+    border-radius: 10px;
+}
+
+/* Tombol Login Bentuk Kapsul (Pill) */
+.btn-login-premium {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #111c26;
+    color: white !important;
+    padding: 12px 32px; /* Padding samping diperlebar agar berbentuk kapsul */
+    border-radius: 50px; /* Full Rounded / Pill shape */
+    font-size: 14px; /* Teks login diperbesar sedikit */
+    font-weight: 700;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+}
+
+.btn-login-premium:hover {
+    background-color: #FF5722;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(255, 87, 34, 0.2);
+}
+
+.badge-premium {
+    position: absolute;
+    top: -8px; right: -12px;
+    background: #FF5722;
+    color: white;
+    font-size: 10px;
+    font-weight: 900;
+    width: 20px; height: 20px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 50%;
+    border: 2px solid white;
+}
+
+/* Mencegah Berantakan di layar antara 1024px - 1280px */
+@media (max-width: 1280px) {
+    .nav-link-premium {
+        font-size: 0.9rem;
+        letter-spacing: 0.05em;
+    }
+    .max-w-7xl {
+        max-width: 95%;
+    }
+}

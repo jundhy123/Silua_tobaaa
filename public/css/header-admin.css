@@ -1,0 +1,62 @@
+/* --- TOP HEADER ADMIN - EARTHY THEME --- */
+.admin-top-header {
+    background-color: #FFFFFF; /* Tetap Putih agar bersih dan kontras */
+    height: 90px; 
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+    /* Border menggunakan Light Gray #EEEEEE */
+    border-bottom: 2px solid #EEEEEE; 
+    position: sticky;
+    top: 0;
+    z-index: 900;
+}
+
+/* Area Profil di Sebelah Kanan */
+.admin-profile-section {
+    display: flex;
+    align-items: center; 
+    gap: 15px; 
+}
+
+.admin-profile-info {
+    text-align: right;
+    line-height: 1.2; 
+}
+
+.admin-name {
+    font-weight: 800;
+    color: var(--navy-dark); /* #1B0C0C (Cokelat Tua) */
+    font-size: 15px;
+    margin: 0;
+}
+
+.admin-id {
+    font-size: 11px;
+    font-weight: 900;
+    /* Menggunakan Hijau Zaitun agar lebih terbaca di atas putih dibanding Kuning */
+    color: var(--gray-soft); 
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 0;
+}
+
+/* LINGKARAN AVATAR (DENGAN RING KUNING CERAH) */
+.admin-avatar-circle {
+    width: 48px; 
+    height: 48px;
+    background-color: var(--navy-dark); /* #1B0C0C (Cokelat Tua) */
+    color: #FFFFFF;
+    border-radius: 50%;
+    display: flex;
+    align-items: center; 
+    justify-content: center; 
+    font-size: 18px;
+    font-weight: 900;
+    /* Border Ring menggunakan Kuning Cerah #FFDE42 */
+    border: 3px solid var(--bg-light); 
+    /* Bayangan menggunakan tone Cokelat Tua */
+    box-shadow: 0 4px 12px rgba(27, 12, 12, 0.15);
+    flex-shrink: 0; 
+}

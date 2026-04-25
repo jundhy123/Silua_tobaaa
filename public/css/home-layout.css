@@ -1,0 +1,140 @@
+/* --- HERO SLIDER BASE --- */
+.hero-editorial-slider {
+    height: 100vh;
+    background-color: #141414;
+    position: relative;
+    overflow: hidden;
+}
+
+.premium-slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 1s ease;
+}
+
+.premium-slide.active {
+    opacity: 1;
+    visibility: visible;
+    z-index: 10;
+}
+
+.hero-main-text {
+    font-family: var(--font-display);
+    font-size: clamp(3.5rem, 10vw, 7.5rem);
+    font-weight: 900;
+    line-height: 0.95; /* Editorial tight line height */
+    text-transform: uppercase;
+}
+
+.hero-main-text i {
+    font-weight: 400;
+    font-style: italic;
+    color: var(--accent-gold);
+}
+
+.hero-sub-text {
+    font-family: var(--font-body);
+    font-size: 1.25rem;
+    font-weight: 300;
+    color: rgba(255,255,255,0.6);
+    margin-top: 1.5rem;
+}
+
+/* --- SECTION STORY (ASYMMETRIC OVAL) --- */
+.story-frame-oval {
+    width: 100%;
+    aspect-ratio: 1 / 1.3;
+    border-radius: 500px; /* Menjadi bentuk Pill/Oval */
+    overflow: hidden;
+    z-index: 2;
+    position: relative;
+}
+
+.section-title-premium {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 800;
+    color: var(--navy-dark);
+    line-height: 1;
+}
+
+.section-title-premium i {
+    color: var(--accent-gold);
+    font-weight: 400;
+}
+
+.section-desc-premium {
+    font-family: var(--font-body);
+    font-size: 1.15rem;
+    font-weight: 300;
+    line-height: 1.8;
+    color: #666;
+    margin-top: 2rem;
+}
+
+/* --- PILLAR CARDS (48px RADIUS) --- */
+.pillar-card {
+    padding: 80px 45px;
+    border-radius: 48px; /* Extra large radius */
+    text-align: center;
+    background-color: var(--base-white);
+    transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: 1px solid rgba(0,0,0,0.03);
+}
+
+.active-pillar {
+    background-color: #141414 !important; /* Hitam Dof - Visual Break */
+    transform: translateY(-20px);
+}
+
+.active-pillar h3 { color: var(--accent-gold) !important; font-style: italic; }
+
+.pillar-card h3 {
+    font-family: var(--font-display);
+    font-size: 1.8rem;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+}
+
+.pillar-icon-box {
+    width: 60px; height: 60px;
+    background-color: var(--cream-soft);
+    border-radius: 1.2rem;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 35px;
+    color: var(--accent-gold);
+}
+
+.active-pillar .pillar-icon-box { background-color: rgba(255,255,255,0.05); }
+
+/* --- UI ELEMENTS --- */
+.nav-round-btn {
+    width: 50px; height: 50px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.15);
+    background: transparent;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+    display: flex; align-items: center; justify-content: center;
+}
+
+.nav-round-btn:hover { background: white; color: black; }
+
+.btn-subway-pill {
+    background-color: white;
+    color: black !important;
+    padding: 18px 45px;
+    border-radius: 100px;
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-decoration: none;
+    display: inline-block;
+    transition: 0.4s;
+}
+
+.btn-subway-pill:hover { background-color: var(--accent-gold); color: white !important; }
