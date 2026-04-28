@@ -38,7 +38,7 @@
 
                             <div class="flex items-center gap-3 mt-2">
                                 <!-- UPDATE QTY -->
-                                <form action="{{ route('cart.update', $item->id) }}" method="POST">
+                                <form action="{{ route('cart.update', $item) }}" method="POST">
                                     @csrf
                                     @method('PATCH')
 
@@ -48,7 +48,7 @@
                                 </form>
 
                                 <!-- DELETE -->
-                                <form action="{{ route('cart.destroy', $item->id) }}" method="POST" class="ml-auto">
+                                <form action="{{ route('cart.destroy', $item) }}" method="POST" class="ml-auto">
                                     @csrf
                                     @method('DELETE')
 
@@ -72,19 +72,24 @@
     @auth
         @if(isset($total) && $total > 0)
         <div class="cart-footer">
-            <div class="flex justify-between mb-4">
-                <span class="font-bold text-gray-400">Total</span>
-                <span class="font-black text-navy-dark text-xl">
+            <div class="flex justify-between items-center mb-6 p-4 bg-gray-50 rounded-lg">
+                <span class="font-bold text-gray-600 text-sm">TOTAL BELANJA</span>
+                <span class="font-black text-orange-brand text-2xl">
                     Rp {{ number_format($total,0,',','.') }}
                 </span>
             </div>
 
-            <form action="{{ route('cart.checkout') }}" method="POST">
-    @csrf
-    <button type="submit" class="btn-order-giant w-full">
-        CHECKOUT SEKARANG (WA)
-    </button>
-</form>
+            <form action="{{ route('cart.checkout') }}" method="POST" class="w-full">
+                @csrf
+                <button type="submit"
+    class="w-full py-3 px-4 bg-orange-500 text-white font-black text-base uppercase tracking-wide rounded-xl 
+    transition-all duration-300 hover:bg-orange-600 active:scale-95 shadow-lg hover:shadow-xl 
+    flex items-center justify-center gap-2">
+
+    <i data-lucide="shopping-cart" class="w-5 h-5 text-white"></i>
+    <span class="text-white">CHECKOUT KE WHATSAPP</span>
+</button>
+            </form>
         </div>
         @endif
     @endauth

@@ -24,7 +24,7 @@ use App\Http\Controllers\Admin\AboutController;
 
 /*
 |--------------------------------------------------------------------------
-| 1. RUTE PUBLIK (Bisa diakses tanpa login)
+| 1. RUTE PUBLIK
 |--------------------------------------------------------------------------
 */
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -42,7 +42,7 @@ Route::get('/about', [HomeController::class, 'about'])->name('user.about');
 
 /*
 |--------------------------------------------------------------------------
-| 2. RUTE GUEST (Hanya jika BELUM login)
+| 2. RUTE GUEST
 |--------------------------------------------------------------------------
 */
 Route::middleware('guest')->group(function () {
@@ -57,7 +57,7 @@ Route::middleware('guest')->group(function () {
         Route::post('/register', [UserAuthController::class, 'register'])->name('user.register.post');
     });
 
-    // ALIAS LOGIN DEFAULT
+    // ALIAS LOGIN
     Route::get('/login', [UserAuthController::class, 'showLogin'])->name('login');
 
     // ADMIN AUTH
@@ -70,7 +70,7 @@ Route::middleware('guest')->group(function () {
 
 /*
 |--------------------------------------------------------------------------
-| 3. RUTE TERPROTEKSI (Wajib Login)
+| 3. RUTE TERPROTEKSI
 |--------------------------------------------------------------------------
 */
 Route::middleware('auth')->group(function () {
@@ -78,55 +78,55 @@ Route::middleware('auth')->group(function () {
     Route::post('/logout', [UserAuthController::class, 'logout'])->name('logout');
 
     /*
-    |--- AREA KHUSUS ADMIN (Role: Admin) ---
+    |--- AREA ADMIN ---
     */
     Route::middleware('can:access-admin')->prefix('admin')->group(function () {
         
-        // Dashboard
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
 
-        // CRUD PRODUK
         Route::resource('produk', ProductController::class)
             ->names('admin.produk')
             ->except(['show']);
 
-        // KELOLA PESANAN MASUK
+        // PESANAN MASUK (DARI CART & DIRECT ORDER)
         Route::get('/pesanan', [OrderController::class, 'index'])->name('admin.orders.index');
-        Route::patch('/pesanan/update/{id}', [OrderController::class, 'updateStatus'])->name('admin.orders.update');
-        Route::delete('/pesanan/hapus/{id}', [OrderController::class, 'destroy'])->name('admin.orders.destroy');
+        Route::patch('/pesanan/{order}/update', [OrderController::class, 'updateStatus'])->name('admin.orders.update');
+        Route::delete('/pesanan/{order}', [OrderController::class, 'destroy'])->name('admin.orders.destroy');
 
-        // KELOLA GALERI
         Route::resource('gallery', GalleryController::class)
             ->names('admin.gallery')
             ->except(['show']);
 
-        // ✅ PERBAIKAN DI SINI (PROFILE JADI CRUD)
         Route::resource('profile', CompanyProfileController::class)
             ->names('admin.profile');
 
-        // KELOLA TIM
         Route::resource('teams', TeamController::class)
             ->names('admin.teams');
 
-        // CRUD ABOUT
         Route::resource('about', AboutController::class)
             ->names('admin.about');
     });
 
 
     /*
-    |--- AREA KHUSUS PEMBELI (Role: Pelanggan) ---
+    |--- AREA CUSTOMER ---
     */
     Route::middleware('can:access-customer')->group(function () {
         
         // CART
         Route::post('/cart/add', [CartController::class, 'store'])->name('cart.store');
-        Route::patch('/cart/update/{id}', [CartController::class, 'update'])->name('cart.update');
-        Route::delete('/cart/delete/{id}', [CartController::class, 'destroy'])->name('cart.destroy');
+        Route::patch('/cart/{cart}', [CartController::class, 'update'])->name('cart.update');
+        Route::delete('/cart/{cart}', [CartController::class, 'destroy'])->name('cart.destroy');
         
-        // CHECKOUT
+        // CHECKOUT CART
         Route::post('/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
+
+        // 🔥 DIRECT ORDER (INI YANG DIPAKAI PESAN SEKARANG)
+        Route::post('/direct-order', [CartController::class, 'directOrder'])->name('cart.direct-order');
+
         Route::get('/pesanan-saya', fn() => view('user.orders'))->name('user.orders');
+
+        // OPTIONAL (kalau masih dipakai)
         Route::post('/order/process', [UserAuthController::class, 'processOrder'])->name('order.process');
 
         // WISHLIST
@@ -135,11 +135,11 @@ Route::middleware('auth')->group(function () {
 
         // REVIEW
         Route::post('/review/store', [ReviewController::class, 'store'])->name('review.store');
-        Route::delete('/review/delete/{id}', [ReviewController::class, 'destroy'])->name('review.destroy');
+        Route::delete('/review/{review}', [ReviewController::class, 'destroy'])->name('review.destroy');
 
         // TESTIMONI
         Route::post('/testimoni', [TestimonialController::class, 'store'])->name('testimoni.store');
-        Route::patch('/testimoni/{id}', [TestimonialController::class, 'update'])->name('testimoni.update');
-        Route::delete('/testimoni/{id}', [TestimonialController::class, 'destroy'])->name('testimoni.destroy');
+        Route::patch('/testimoni/{testimonial}', [TestimonialController::class, 'update'])->name('testimoni.update');
+        Route::delete('/testimoni/{testimonial}', [TestimonialController::class, 'destroy'])->name('testimoni.destroy');
     });
 });

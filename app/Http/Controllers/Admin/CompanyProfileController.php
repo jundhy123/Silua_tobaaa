@@ -8,9 +8,23 @@ use Illuminate\Http\Request;
 
 class CompanyProfileController extends Controller
 {
+    /**
+     * Validasi rules untuk company profile
+     */
+    protected function validationRules(): array
+    {
+        return [
+            'hero_title'   => 'required|string|max:255',
+            'history_text' => 'required|string',
+            'vision'       => 'required|string',
+            'mission'      => 'required|string',
+            'map_embed'    => 'required|string', // Pastikan tidak mengandung JS berbahaya
+        ];
+    }
+
     public function index()
     {
-        $profiles = CompanyProfile::latest()->get();
+        $profiles = CompanyProfile::latest()->paginate(10);
         return view('admin.profile.index', compact('profiles'));
     }
 
@@ -21,13 +35,10 @@ class CompanyProfileController extends Controller
 
     public function store(Request $request)
     {
-        $data = $request->validate([
-            'hero_title'   => 'required|string|max:255',
-            'history_text' => 'required',
-            'vision'       => 'required',
-            'mission'      => 'required',
-            'map_embed'    => 'required',
-        ]);
+        $data = $request->validate($this->validationRules());
+
+        // Sanitize map_embed jika berisi HTML
+        $data['map_embed'] = strip_tags($data['map_embed'], '<iframe>');
 
         CompanyProfile::create($data);
 
@@ -35,23 +46,17 @@ class CompanyProfileController extends Controller
             ->with('success', 'Profil berhasil ditambahkan');
     }
 
-    public function edit($id)
+    public function edit(CompanyProfile $profile)
     {
-        $profile = CompanyProfile::findOrFail($id);
         return view('admin.profile.edit', compact('profile'));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, CompanyProfile $profile)
     {
-        $profile = CompanyProfile::findOrFail($id);
+        $data = $request->validate($this->validationRules());
 
-        $data = $request->validate([
-            'hero_title'   => 'required|string|max:255',
-            'history_text' => 'required',
-            'vision'       => 'required',
-            'mission'      => 'required',
-            'map_embed'    => 'required',
-        ]);
+        // Sanitize map_embed jika berisi HTML
+        $data['map_embed'] = strip_tags($data['map_embed'], '<iframe>');
 
         $profile->update($data);
 
@@ -59,9 +64,9 @@ class CompanyProfileController extends Controller
             ->with('success', 'Profil berhasil diupdate');
     }
 
-    public function destroy($id)
+    public function destroy(CompanyProfile $profile)
     {
-        CompanyProfile::destroy($id);
+        $profile->delete();
 
         return back()->with('success', 'Profil berhasil dihapus');
     }

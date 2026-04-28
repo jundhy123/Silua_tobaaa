@@ -6,67 +6,70 @@ use App\Http\Controllers\Controller;
 use App\Models\About;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
 
 class AboutController extends Controller
 {
+    private const UPLOAD_PATH = 'uploads/about';
+
+    /**
+     * Validasi rules untuk about content
+     */
+    protected function validationRules($isUpdate = false): array
+    {
+        return [
+            'title' => 'required|string|max:255',
+            'subtitle' => 'nullable|string|max:255',
+            'description' => 'required|string',
+            'years_experience' => 'nullable|integer|min:0',
+            'image' => ($isUpdate ? 'nullable' : 'required') . '|image|mimes:jpg,png,jpeg,webp|max:2048'
+        ];
+    }
+
     // Menampilkan Daftar Semua Konten About (READ)
-    public function index() {
-        $abouts = About::latest()->get();
+    public function index()
+    {
+        $abouts = About::latest()->paginate(10);
         return view('admin.about.index', compact('abouts'));
     }
 
     // Menampilkan Form Tambah (CREATE)
-    public function create() {
+    public function create()
+    {
         return view('admin.about.create');
     }
 
     // Menyimpan Data Baru (STORE)
-    public function store(Request $request) {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required',
-            'image' => 'required|image|mimes:jpg,png,jpeg,webp|max:2048'
-        ]);
+    public function store(Request $request)
+    {
+        $data = $request->validate($this->validationRules());
 
-        $fileName = time().'.'.$request->image->extension();
-        $request->image->move(public_path('uploads/about'), $fileName);
+        if ($request->hasFile('image')) {
+            $fileName = $this->storeImage($request->file('image'));
+            $data['image'] = $fileName;
+        }
 
-        About::create([
-            'title' => $request->title,
-            'subtitle' => $request->subtitle,
-            'description' => $request->description,
-            'years_experience' => $request->years_experience,
-            'image' => $fileName
-        ]);
-
+        About::create($data);
         return redirect()->route('admin.about.index')->with('success', 'Konten About berhasil ditambahkan!');
     }
 
     // Menampilkan Form Edit Berdasarkan ID
-    public function edit($id) {
-        $about = About::findOrFail($id); // Mencari data berdasarkan ID
+    public function edit(About $about)
+    {
         return view('admin.about.edit', compact('about'));
     }
 
     // Mengupdate Data (UPDATE)
-    public function update(Request $request, $id) {
-        $about = About::findOrFail($id);
-
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required',
-            'image' => 'nullable|image|mimes:jpg,png,jpeg,webp|max:2048'
-        ]);
-
-        $data = $request->all();
+    public function update(Request $request, About $about)
+    {
+        $data = $request->validate($this->validationRules(true));
 
         if ($request->hasFile('image')) {
-            // Hapus foto lama agar tidak menumpuk di folder
-            if ($about->image && File::exists(public_path('uploads/about/'.$about->image))) {
-                File::delete(public_path('uploads/about/'.$about->image));
-            }
-            $fileName = time().'.'.$request->image->extension();
-            $request->image->move(public_path('uploads/about'), $fileName);
+            // Hapus foto lama terlebih dahulu
+            $this->deleteImage($about->image);
+            
+            // Simpan foto baru
+            $fileName = $this->storeImage($request->file('image'));
             $data['image'] = $fileName;
         }
 
@@ -75,12 +78,47 @@ class AboutController extends Controller
     }
 
     // Menghapus Data (DELETE)
-    public function destroy($id) {
-        $about = About::findOrFail($id);
-        if ($about->image && File::exists(public_path('uploads/about/'.$about->image))) {
-            File::delete(public_path('uploads/about/'.$about->image));
-        }
+    public function destroy(About $about)
+    {
+        $this->deleteImage($about->image);
         $about->delete();
         return back()->with('success', 'Konten About berhasil dihapus!');
+    }
+
+    /**
+     * Upload dan simpan image
+     */
+    private function storeImage($image): string
+    {
+        $uploadDir = public_path(self::UPLOAD_PATH);
+        
+        // Pastikan folder exist
+        if (!File::exists($uploadDir)) {
+            File::makeDirectory($uploadDir, 0755, true);
+        }
+
+        $fileName = Str::slug(pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME)) 
+                    . '_' . Str::random(8) 
+                    . '.' . $image->extension();
+        
+        $image->move($uploadDir, $fileName);
+        
+        return $fileName;
+    }
+
+    /**
+     * Hapus image dari storage
+     */
+    private function deleteImage(?string $fileName): void
+    {
+        if (!$fileName) {
+            return;
+        }
+
+        $filePath = public_path(self::UPLOAD_PATH . '/' . $fileName);
+        
+        if (File::exists($filePath)) {
+            File::delete($filePath);
+        }
     }
 }

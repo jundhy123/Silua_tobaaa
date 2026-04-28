@@ -96,7 +96,7 @@ class UserAuthController extends Controller
         ]);
 
         // 2. Format pesan WhatsApp untuk Admin
-        $adminWA = "628123456789"; // Ganti dengan nomor WA Admin Silua Toba
+        $adminWA = "6285361839192"; // Ganti dengan nomor WA Admin Silua Toba
         $message = "Halo Admin Silua Toba!%0A%0ASaya ingin memesan:%0A" .
                    "*Kode Order:* " . $orderCode . "%0A" .
                    "*Produk:* " . $product->name . "%0A" .
