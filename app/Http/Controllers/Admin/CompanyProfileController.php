@@ -18,7 +18,7 @@ class CompanyProfileController extends Controller
             'history_text' => 'required|string',
             'vision'       => 'required|string',
             'mission'      => 'required|string',
-            'map_embed'    => 'required|string', // Pastikan tidak mengandung JS berbahaya
+            'map_embed'    => 'required|string',
         ];
     }
 

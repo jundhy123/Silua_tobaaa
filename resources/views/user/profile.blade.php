@@ -30,7 +30,6 @@
     <section class="container sejarah-section">
         <div class="grid-sejarah">
             <div class="sejarah-content reveal-left">
-                <span class="icon-label"><i data-lucide="history"></i> SEJARAH KAMI</span>
                 <h2 class="sejarah-title">Perjalanan Rasa Yang Dimulai dari <span class="italic-orange">Resep Keluarga</span></h2>
                 
                 <div class="sejarah-text">

@@ -1,7 +1,10 @@
 <div id="cartDrawer" class="cart-sidebar">
     <div class="cart-header">
-        <h3 class="text-xl font-black text-navy-dark uppercase italic">Troli Saya</h3>
-        <button onclick="toggleCart()" class="text-gray-400 hover:text-red-500 transition">
+        <div class="flex flex-col">
+            <h3 class="text-xl font-black text-navy-dark uppercase italic" style="font-family: 'Playfair Display', serif;">Troli Saya</h3>
+            <span class="text-[9px] font-bold text-orange-brand tracking-widest uppercase">Silua Toba Artisanal</span>
+        </div>
+        <button onclick="toggleCart()" class="close-cart-btn">
             <i data-lucide="x"></i>
         </button>
     </div>
@@ -16,83 +19,72 @@
             @endphp
 
             @forelse($carts as $item)
-
                 @if($item->product)
                     @php 
                         $subtotal = $item->product->price * $item->quantity;
                         $total += $subtotal;
                     @endphp
 
-                    <div class="cart-item">
-                        <img src="{{ asset('uploads/products/'.$item->product->image) }}" 
-                             class="w-16 h-16 rounded-2xl object-cover">
+                    <div class="cart-item-premium">
+                        <div class="item-img">
+                            <img src="{{ asset('uploads/products/'.$item->product->image) }}">
+                        </div>
 
-                        <div class="flex-1">
-                            <h4 class="font-bold text-navy-dark text-sm">
-                                {{ $item->product->name }}
-                            </h4>
+                        <div class="item-info">
+                            <h4 class="product-name-mini">{{ $item->product->name }}</h4>
+                            <p class="product-price-mini">Rp {{ number_format($item->product->price,0,',','.') }}</p>
 
-                            <p class="text-orange-brand font-black text-xs">
-                                Rp {{ number_format($subtotal,0,',','.') }}
-                            </p>
-
-                            <div class="flex items-center gap-3 mt-2">
-                                <!-- UPDATE QTY -->
-                                <form action="{{ route('cart.update', $item) }}" method="POST">
+                            <div class="item-actions-row">
+                                <form action="{{ route('cart.update', $item) }}" method="POST" class="qty-form">
                                     @csrf
                                     @method('PATCH')
-
-                                    <button name="action" value="minus" class="qty-btn">-</button>
-                                    <span class="font-bold text-xs">{{ $item->quantity }}</span>
-                                    <button name="action" value="plus" class="qty-btn">+</button>
+                                    <div class="qty-stepper-mini">
+                                        <button name="action" value="minus" class="step-btn">-</button>
+                                        <span class="qty-val">{{ $item->quantity }}</span>
+                                        <button name="action" value="plus" class="step-btn">+</button>
+                                    </div>
                                 </form>
 
-                                <!-- DELETE -->
-                                <form action="{{ route('cart.destroy', $item) }}" method="POST" class="ml-auto">
+                                <form action="{{ route('cart.destroy', $item) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
-
-                                    <button class="text-red-400 hover:text-red-600">
-                                        <i data-lucide="trash-2" class="w-4 h-4"></i>
+                                    <button class="delete-icon-btn">
+                                        <i data-lucide="trash-2"></i>
                                     </button>
                                 </form>
                             </div>
                         </div>
                     </div>
                 @endif
-
             @empty
-                <p class="text-center text-gray-400 mt-20 italic">
-                    Troli masih kosong...
-                </p>
+                <div class="empty-cart-state">
+                    <i data-lucide="shopping-bag" class="w-12 h-12 opacity-10 mx-auto mb-4"></i>
+                    <p>Troli Anda masih kosong...</p>
+                </div>
             @endforelse
         @endauth
     </div>
 
     @auth
         @if(isset($total) && $total > 0)
-        <div class="cart-footer">
-            <div class="flex justify-between items-center mb-6 p-4 bg-gray-50 rounded-lg">
-                <span class="font-bold text-gray-600 text-sm">TOTAL BELANJA</span>
-                <span class="font-black text-orange-brand text-2xl">
-                    Rp {{ number_format($total,0,',','.') }}
-                </span>
+        <div class="cart-footer-premium">
+            <div class="total-row">
+                <span class="label">TOTAL BELANJA</span>
+                <span class="value">Rp {{ number_format($total,0,',','.') }}</span>
             </div>
 
             <form action="{{ route('cart.checkout') }}" method="POST" class="w-full">
                 @csrf
-                <button type="submit"
-    class="w-full py-3 px-4 bg-orange-500 text-white font-black text-base uppercase tracking-wide rounded-xl 
-    transition-all duration-300 hover:bg-orange-600 active:scale-95 shadow-lg hover:shadow-xl 
-    flex items-center justify-center gap-2">
-
-    <i data-lucide="shopping-cart" class="w-5 h-5 text-white"></i>
-    <span class="text-white">CHECKOUT KE WHATSAPP</span>
-</button>
+                <button type="submit" class="btn-checkout-wa">
+                    <i data-lucide="message-circle"></i>
+                    <span>CHECKOUT KE WHATSAPP</span>
+                </button>
             </form>
         </div>
         @endif
     @endauth
 </div>
 
-<div id="cartOverlay" class="cart-overlay" onclick="toggleCart()"></div>
+<!-- Overlay dengan Efek Blur -->
+<div id="cartOverlay" class="cart-overlay-blur" onclick="toggleCart()"></div>
+

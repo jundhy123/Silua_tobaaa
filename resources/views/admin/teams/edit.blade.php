@@ -44,7 +44,7 @@
                     <label class="form-label-custom">Jabatan / Posisi</label>
                     <div class="relative">
                         <i data-lucide="briefcase" class="input-icon-left"></i>
-                        <input type="text" name="name" name="position" value="{{ old('position', $team->position) }}" required class="silua-input-v2" placeholder="Contoh: Owner / Manager">
+                        <input type="text" name="position" value="{{ old('position', $team->position) }}" required class="silua-input-v2" placeholder="Contoh: Owner / Manager">
                     </div>
                     @error('position') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                 </div>

@@ -56,7 +56,7 @@
                             <button type="button" class="btn-wish-cart" 
                                 onclick="openOrderModal('{{ $w->product->id }}', '{{ addslashes($w->product->name) }}', '{{ $w->product->price }}', '{{ asset('uploads/products/'.$w->product->image) }}', '{{ addslashes($w->product->description) }}')">
                                 <i data-lucide="shopping-cart"></i>
-                                <span>MASUK KERANJANG</span>
+                                <span>Pesan Sekarang</span>
                             </button>
                         </div>
                     </div>

@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="{{ asset('css/footer.css') }}">
     <link rel="stylesheet" href="{{ asset('css/produk-user.css') }}">
     <link rel="stylesheet" href="{{ asset('css/modal-produk.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/cart-premium.css') }}">
 
     <!-- TAILWIND CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -28,13 +29,15 @@
 
 <body class="min-h-screen bg-[#EAEFEF] font-sans text-gray-900 overflow-x-hidden">
 
-    <!-- NOTIFIKASI SUKSES GLOBAL (Laravel Session) -->
-    @if(session('success'))
-        <div id="global-alert" class="fixed top-28 right-8 z-[10002] bg-navy-dark text-white px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-4 animate-bounce-in">
-            <div class="bg-orange-brand p-2 rounded-full text-white">
+    <!-- NOTIFIKASI GLOBAL (Laravel Session) -->
+    @if(session('success') || session('error'))
+        <div id="global-alert" class="fixed top-28 right-8 z-[10002] px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-4 animate-bounce-in {{ session('error') ? 'bg-red-600 text-white' : 'bg-green-600 text-white' }}">
+            <div class="p-2 rounded-full bg-white/10">
                 <i data-lucide="check" class="w-4 h-4"></i>
             </div>
-            <p class="text-xs font-bold uppercase tracking-widest">{{ session('success') }}</p>
+            <p class="text-xs font-bold uppercase tracking-widest">
+                {{ session('error') ?? session('success') }}
+            </p>
             <button onclick="this.parentElement.remove()" class="ml-4 opacity-50 hover:opacity-100">
                 <i data-lucide="x" class="w-4 h-4"></i>
             </button>
@@ -74,173 +77,148 @@
 
     <!-- SCRIPTS -->
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            // 1. Inisialisasi Lucide Icons
-            lucide.createIcons();
+document.addEventListener("DOMContentLoaded", function () {
 
-            // 2. Intersection Observer (Animasi Muncul saat Scroll)
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('show');
-                    }
-                });
-            }, { threshold: 0.1 });
+    /* ===============================
+       1. INIT LUCIDE ICONS
+    =============================== */
+    if (window.lucide) {
+        lucide.createIcons();
+    }
 
-            document.querySelectorAll('.img-box, .product-premium-card').forEach(el => {
-                observer.observe(el);
-            });
-
-            // 3. Logika Wishlist (Love Button)
-            document.addEventListener('click', function (e) {
-                const btn = e.target.closest('.wishlist-btn');
-                if (btn) {
-                    e.preventDefault();
-                    btn.classList.toggle('active');
-                    const icon = btn.querySelector('i');
-                    if (btn.classList.contains('active')) {
-                        icon.setAttribute('fill', '#ef4444');
-                        btn.style.color = '#ef4444';
-                    } else {
-                        icon.setAttribute('fill', 'none');
-                        btn.style.color = '';
-                    }
-                    lucide.createIcons();
-                }
-            });
-
-            // 4. Logika Navbar Scroll
-            window.addEventListener('scroll', function() {
-                const navbar = document.getElementById('navbar');
-                if (navbar) {
-                    if (window.scrollY > 50) navbar.classList.add('scrolled');
-                    else navbar.classList.remove('scrolled');
-                }
-            });
-
-            // Auto-hide alert setelah 4 detik
-            const alertBox = document.getElementById('global-alert');
-            if(alertBox) setTimeout(() => alertBox.remove(), 4000);
+    /* ===============================
+       2. INTERSECTION OBSERVER
+    =============================== */
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('show');
+            }
         });
+    }, { threshold: 0.1 });
 
-        /* --- FUNGSI GLOBAL (Bisa dipanggil dari mana saja) --- */
+    document.querySelectorAll('.img-box, .product-premium-card')
+        .forEach(el => observer.observe(el));
 
-        // A. Toggle Cart Drawer
-        function toggleCart() {
-            const drawer = document.getElementById('cartDrawer');
-            const overlay = document.getElementById('cartOverlay');
-            if(drawer && overlay) {
-                drawer.classList.toggle('active');
-                overlay.classList.toggle('active');
-                document.body.style.overflow = drawer.classList.contains('active') ? 'hidden' : 'auto';
-            }
-        }
+    /* ===============================
+       3. WISHLIST BUTTON
+    =============================== */
+    document.addEventListener('click', function (e) {
+        const btn = e.target.closest('.wishlist-btn');
+        if (btn) {
+            e.preventDefault();
+            btn.classList.toggle('active');
 
-        // B. Modal Detail Produk & Render Ulasan Dinamis
-        const orderModal = document.getElementById('modalOrder');
-
-        function openOrderModal(id, name, price, img, desc, reviews = []) {
-            if(!orderModal) return;
-            
-            // Pengisian Data Utama
-            const idInput = document.getElementById('m-id');
-            const revInput = document.getElementById('rev-prod-id');
-            if(idInput) idInput.value = id;
-            if(revInput) revInput.value = id;
-
-            document.getElementById('m-name').innerText = name;
-            document.getElementById('m-price').innerText = "Rp " + new Intl.NumberFormat('id-ID').format(price);
-            document.getElementById('m-img').src = img;
-            document.getElementById('m-desc').innerText = desc ? desc : "Kelezatan autentik khas Toba.";
-            
-            const qtyInput = document.getElementById('m-qty');
-            if(qtyInput) qtyInput.value = 1;
-
-            // Render Bintang Rata-rata di Atas
-            const starSummary = document.getElementById('m-star-rating');
-            const countLabel = document.getElementById('m-review-count');
-            
-            if(starSummary) starSummary.innerHTML = '';
-            if(countLabel) countLabel.innerText = `(${reviews.length} Ulasan)`;
-
-            // Render List Ulasan Pembeli
-            const container = document.getElementById('m-reviews-container');
-            if(container) {
-                container.innerHTML = ''; 
-
-                if (reviews.length > 0) {
-                    reviews.forEach(rev => {
-                        // Generate Bintang Ulasan
-                        let starsHTML = '';
-                        for(let i=1; i<=5; i++) {
-                            starsHTML += `<i data-lucide="star" class="w-3 h-3" ${i <= rev.rating ? 'fill="#fbbf24" stroke="#fbbf24"' : 'stroke="#cbd5e1"'}></i>`;
-                        }
-
-                        container.innerHTML += `
-                            <div class="review-card-modern" style="background:#f8fafc; padding:20px; border-radius:1.5rem; border:1px solid #edf2f7; margin-bottom:10px;">
-                                <div class="flex justify-between mb-3">
-                                    <div class="flex gap-1 text-yellow-500">${starsHTML}</div>
-                                    <span class="text-[9px] text-gray-400 font-bold uppercase tracking-widest">
-                                        ${new Date(rev.created_at).toLocaleDateString('id-ID', {day:'numeric', month:'short'})}
-                                    </span>
-                                </div>
-                                <p class="font-black text-navy-dark text-sm flex items-center gap-2">
-                                    ${rev.user ? rev.user.name : 'Pelanggan Silua'} 
-                                    <i data-lucide="check-circle" class="w-3 h-3 text-green-500"></i>
-                                </p>
-                                <p class="text-xs text-gray-500 mt-2 italic leading-relaxed">"${rev.comment}"</p>
-                            </div>
-                        `;
-                    });
-                } else {
-                    container.innerHTML = '<p class="col-span-full text-center text-gray-400 italic py-10 font-medium">Belum ada ulasan untuk produk ini.</p>';
-                }
+            const icon = btn.querySelector('i');
+            if (btn.classList.contains('active')) {
+                icon.setAttribute('fill', '#ef4444');
+                btn.style.color = '#ef4444';
+            } else {
+                icon.setAttribute('fill', 'none');
+                btn.style.color = '';
             }
 
-            // Tampilkan Modal
-            orderModal.classList.add('active');
-            document.body.style.overflow = 'hidden';
-            
-            // Refresh Lucide untuk merender ikon bintang & centang hijau yang baru diinject
             lucide.createIcons();
-        }
-
-        function closeModal() {
-            if(orderModal) {
-                orderModal.classList.remove('active');
-                document.body.style.overflow = 'auto';
-            }
-        }
-
-        // C. Quantity Changer
-        function changeQty(amount) {
-            const qtyInput = document.getElementById('m-qty');
-            if(qtyInput) {
-                let current = parseInt(qtyInput.value);
-                if (current + amount >= 1) qtyInput.value = current + amount;
-            }
-        }
-
-        // D. Toggle Review Form
-        function toggleReviewForm() {
-            const form = document.getElementById('reviewFormSection');
-            if(form) form.classList.toggle('hidden');
-        }
-
-        // E. Global Click Handlers
-        window.onclick = function(event) {
-            if (event.target == orderModal) closeModal();
-        }
-
-        window.addEventListener('scroll', function() {
-        const navbar = document.getElementById('navbar');
-        if (window.scrollY > 50) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
         }
     });
-        
-    </script>
+
+    /* ===============================
+       4. NAVBAR SCROLL EFFECT
+    =============================== */
+    window.addEventListener('scroll', function() {
+        const navbar = document.getElementById('navbar');
+        if (navbar) {
+            if (window.scrollY > 50) navbar.classList.add('scrolled');
+            else navbar.classList.remove('scrolled');
+        }
+    });
+
+    /* ===============================
+       5. AUTO HIDE ALERT
+    =============================== */
+    const alertBox = document.getElementById('global-alert');
+    if(alertBox) {
+        setTimeout(() => alertBox.remove(), 4000);
+    }
+
+});
+
+/* ===============================
+   6. FALLBACK LUCIDE (IMPORTANT)
+=============================== */
+window.addEventListener("load", function () {
+    if (window.lucide) {
+        lucide.createIcons();
+    }
+});
+
+/* ===============================
+   GLOBAL FUNCTIONS
+=============================== */
+
+// CART DRAWER
+function toggleCart() {
+    const drawer = document.getElementById('cartDrawer');
+    const overlay = document.getElementById('cartOverlay');
+
+    drawer.classList.toggle('active');
+    overlay.classList.toggle('active');
+
+    document.body.style.overflow =
+        drawer.classList.contains('active') ? 'hidden' : 'auto';
+}
+
+// MODAL
+const orderModal = document.getElementById('modalOrder');
+
+if (!window.openOrderModal) {
+    window.openOrderModal = function(id, name, price, img, desc, reviews = []) {
+        if(!orderModal) return;
+
+        document.getElementById('m-name').innerText = name;
+        document.getElementById('m-price').innerText =
+            "Rp " + new Intl.NumberFormat('id-ID').format(price);
+        document.getElementById('m-img').src = img;
+        document.getElementById('m-desc').innerText =
+            desc || "Kelezatan autentik khas Toba.";
+
+        const container = document.getElementById('m-reviews-container');
+        if(container) {
+            container.innerHTML = reviews.length
+                ? reviews.map(rev => `
+                    <div style="background:#f8fafc;padding:20px;border-radius:20px;margin-bottom:10px;">
+                        <p><strong>${rev.user?.name || 'Pelanggan'}</strong></p>
+                        <p>"${rev.comment}"</p>
+                    </div>
+                `).join('')
+                : '<p class="text-center text-gray-400">Belum ada ulasan</p>';
+        }
+
+        orderModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+
+        lucide.createIcons();
+    }
+}
+
+if (!window.closeModal) {
+    window.closeModal = function() {
+        if(orderModal){
+            orderModal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+    }
+}
+
+if (!window.changeQty) {
+    window.changeQty = function(amount) {
+        const qty = document.getElementById('m-qty');
+        if(qty){
+            let val = parseInt(qty.value);
+            if(val + amount >= 1) qty.value = val + amount;
+        }
+    }
+}
+</script>
 </body>
 </html>

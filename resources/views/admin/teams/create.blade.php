@@ -16,17 +16,30 @@
         <form action="{{ route('admin.teams.store') }}" method="POST" enctype="multipart/form-data" class="space-y-8">
             @csrf
 
+            @if ($errors->any())
+                <div class="bg-red-50 border-l-4 border-red-500 p-4 mb-6 rounded-r-xl">
+                    <p class="text-sm text-red-700 font-bold mb-2">Periksa kembali data yang Anda masukkan:</p>
+                    <ul class="text-xs text-red-600 list-disc ml-5">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <!-- Nama -->
                 <div class="admin-input-group">
                     <label>Nama Lengkap</label>
-                    <input type="text" name="name" required class="silua-input" placeholder="Contoh: Jundhy Situmorang">
+                    <input type="text" name="name" value="{{ old('name') }}" required class="silua-input" placeholder="Contoh: Jundhy Situmorang">
+                    @error('name') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                 </div>
 
                 <!-- Jabatan -->
                 <div class="admin-input-group">
                     <label>Jabatan / Posisi</label>
-                    <input type="text" name="position" required class="silua-input" placeholder="Contoh: Founder / Head Chef">
+                    <input type="text" name="position" value="{{ old('position') }}" required class="silua-input" placeholder="Contoh: Founder / Head Chef">
+                    @error('position') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                 </div>
             </div>
 
@@ -34,10 +47,7 @@
             <div class="admin-input-group">
                 <label>Foto Anggota</label>
                 <input type="file" name="photo" required class="silua-input file-input">
-                <p class="text-[10px] text-gray-400 mt-1">*Rekomendasi ukuran portrait (3:4), maksimal 2MB</p>
-            </div>
-
-            <div class="flex justify-end pt-4">
+                @error('photo') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                 <button type="submit" class="btn-admin-submit">
                     <i data-lucide="save" class="w-5 h-5 mr-2"></i>
                     <span>SIMPAN DATA TIM</span>

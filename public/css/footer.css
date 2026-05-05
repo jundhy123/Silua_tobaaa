@@ -1,14 +1,13 @@
 /* ==========================================================================
-   [06] SILUA PREMIUM FOOTER - ARTISANAL CULINARY STYLE
+   [06] SILUA PREMIUM FOOTER - LIGHT VERSION FINAL FIX
    ========================================================================== */
 
 .silua-footer-mewah {
-    /* background-color: var(--cream-soft); /* #F5F5F0 */
-    background-color: var (--cream-soft);
-    color: var(--navy-dark);
+    background-color: #FFFFFF;
+    color: #1a1a1a;
     padding-top: 80px;
     font-family: var(--font-body);
-    border-top: 1px solid rgba(20, 20, 20, 0.05);
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
     position: relative;
     overflow: hidden;
 }
@@ -21,10 +20,11 @@
     letter-spacing: -0.03em;
     line-height: 1;
     margin-bottom: 1rem;
+    color: #1a1a1a;
 }
 
 .footer-brand-title span {
-    color: var(--accent-gold);
+    color: #B45309;
     font-style: italic;
 }
 
@@ -32,8 +32,7 @@
     font-size: 0.9rem;
     line-height: 1.8;
     font-weight: 300;
-    color: var(--navy-dark);
-    opacity: 0.6;
+    color: rgba(0,0,0,0.6);
     max-width: 300px;
 }
 
@@ -44,7 +43,7 @@
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.3em;
-    color: var(--accent-gold);
+    color: #B45309;
     margin-bottom: 2rem;
 }
 
@@ -62,55 +61,78 @@
     text-decoration: none;
     font-size: 0.9rem;
     font-weight: 400;
-    color: var(--navy-dark);
-    opacity: 0.6;
+    color: rgba(0,0,0,0.65);
     transition: all 0.3s ease;
     display: inline-block;
 }
 
 .footer-list li a:hover {
-    opacity: 1;
-    color: var(--accent-gold);
-    transform: translateX(5px); /* Micro-interaction: geser halus */
+    color: #1a3a34;
+    transform: translateX(5px);
 }
 
 /* --- CONTACT INFO --- */
 .contact-detail {
     font-size: 0.9rem;
     line-height: 1.6;
+    color: rgba(0,0,0,0.7);
 }
 
 .contact-detail strong {
     display: block;
     margin-top: 1rem;
     font-weight: 600;
-    color: var(--navy-dark);
+    color: #B45309;
 }
 
-/* --- SOCIAL ICONS --- */
+/* =========================
+   SOCIAL ICONS (FIX UTAMA)
+   ========================= */
 .footer-social-wrapper {
     display: flex;
-    gap: 1.5rem;
+    gap: 1.2rem;
     margin-top: 2rem;
 }
 
 .social-icon-btn {
-    color: var(--navy-dark);
-    opacity: 0.4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: #f3f4f6; /* abu soft */
+    color: #1a1a1a; /* biar jelas */
     transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
 }
 
+/* efek hover premium */
 .social-icon-btn:hover {
-    opacity: 1;
-    color: var(--accent-gold);
-    transform: translateY(-3px);
+    transform: translateY(-5px) scale(1.1);
+}
+
+/* warna brand saat hover */
+.social-icon-btn:nth-child(1):hover {
+    background: #25D366; /* WhatsApp */
+    color: white;
+}
+
+.social-icon-btn:nth-child(2):hover {
+    background: #E1306C; /* Instagram */
+    color: white;
+}
+
+.social-icon-btn:nth-child(3):hover {
+    background: #1877F2; /* Facebook */
+    color: white;
 }
 
 /* --- BOTTOM BAR --- */
 .footer-copyright-bar {
     margin-top: 80px;
     padding: 2rem 0;
-    border-top: 1px solid rgba(20, 20, 20, 0.03);
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
     text-align: center;
 }
 
@@ -119,11 +141,10 @@
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.2em;
-    color: var(--navy-dark);
-    opacity: 0.4;
+    color: rgba(0,0,0,0.4);
 }
 
-/* --- RESPONSIVE ADJUSTMENT --- */
+/* --- RESPONSIVE --- */
 @media (max-width: 768px) {
     .silua-footer-mewah {
         padding-top: 60px;

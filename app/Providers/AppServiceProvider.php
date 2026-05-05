@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Models\User;
+use App\Models\CompanyProfile; // 1. Pastikan Model CompanyProfile di-import
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\View; // 2. Pastikan Facade View di-import
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -22,7 +24,17 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         // =========================================================
-        // PEMBATAS AKSES (GATES) - SILUA TOBA
+        // 1. PEMBAGIAN DATA GLOBAL (VIEW COMPOSER)
+        // =========================================================
+        
+        // Mengirimkan data profil ke halaman user (satu record untuk logo/info)
+        View::composer('user.*', function ($view) {
+            $view->with('profile', CompanyProfile::first());
+        });
+
+
+        // =========================================================
+        // 2. PEMBATAS AKSES (GATES) - SILUA TOBA
         // =========================================================
 
         // Pembatas untuk Admin (Hanya bisa diakses jika role = admin)

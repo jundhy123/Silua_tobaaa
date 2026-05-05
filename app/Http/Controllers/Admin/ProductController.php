@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use App\Models\CompanyProfile; // 1. Pastikan Model Profile di-import
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 
@@ -14,8 +15,13 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::all();
-        return view('admin.produk.index', compact('products'));
+        $products = Product::with('reviews.user')->get();
+        
+        // 2. Ambil data profil (baris pertama)
+        $profiles = CompanyProfile::first(); 
+
+        // 3. Kirim 'profiles' ke view bersama 'products'
+        return view('admin.produk.index', compact('products', 'profiles'));
     }
 
     /**
@@ -23,7 +29,9 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('admin.produk.create');
+        // Tambahkan juga di sini jika halaman create error yang sama
+        $profiles = CompanyProfile::first();
+        return view('admin.produk.create', compact('profiles'));
     }
 
     /**
@@ -65,7 +73,11 @@ class ProductController extends Controller
     public function edit($id)
     {
         $product = Product::findOrFail($id);
-        return view('admin.produk.edit', compact('product'));
+        
+        // Tambahkan juga di sini
+        $profiles = CompanyProfile::first();
+        
+        return view('admin.produk.edit', compact('product', 'profiles'));
     }
 
     /**

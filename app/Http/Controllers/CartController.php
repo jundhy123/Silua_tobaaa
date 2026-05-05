@@ -36,10 +36,10 @@ class CartController extends Controller
         return back()->with('success', 'Produk berhasil masuk troli!');
     }
 
-    // 2. UPDATE JUMLAH
+    // 2. UPDATE JUMLAH (PLUS/MINUS)
     public function update(Request $request, Cart $cart) {
         if (auth()->id() !== $cart->user_id) {
-            return back()->with('error', 'Unauthorized');
+            return back()->with('error', 'Akses ditolak');
         }
 
         if ($request->action == 'plus') {
@@ -54,151 +54,122 @@ class CartController extends Controller
     // 3. HAPUS ITEM
     public function destroy(Cart $cart) {
         if (auth()->id() !== $cart->user_id) {
-            return back()->with('error', 'Unauthorized');
+            return back()->with('error', 'Akses ditolak');
         }
 
         $cart->delete();
         return back();
     }
 
-    // 4. DIRECT ORDER (Langsung ke WA tanpa masuk cart)
+    // 4. DIRECT ORDER (Pesan Sekarang dari Modal Detail)
     public function directOrder(Request $request) {
         $request->validate([
             'product_id' => 'required|exists:products,id',
-            'product_name' => 'required|string',
             'quantity' => 'required|numeric|min:1',
-            'price' => 'required|numeric|min:0',
-            'total_price' => 'required|numeric|min:0'
         ]);
 
         $user = Auth::user();
+        $product = Product::findOrFail($request->product_id);
+        
+        // Hitung total di server (lebih aman dari manipulasi)
+        $totalPrice = $product->price * $request->quantity;
 
         try {
-            $order = null;
-            DB::transaction(function () use ($user, $request, &$order) {
-                
-                // BUAT ORDER
-                $order = Order::create([
-                    'user_id'     => $user->id,
-                    'total_price' => $request->total_price,
-                    'status'      => 'pending'
-                ]);
-
-                // DETAIL ORDER
-                OrderItem::create([
-                    'order_id'   => $order->id,
-                    'product_id' => $request->product_id,
-                    'quantity'   => $request->quantity,
-                    'price'      => $request->price
-                ]);
-            });
-
-            // FORMAT PESAN WHATSAPP
-            $adminWA = "6285361839192"; // Nomor WA Admin Silua Toba
-            
-            $message = "Halo Admin Silua Toba!%0A%0A";
-            $message .= "🛍️ *PESANAN LANGSUNG* 🛍️%0A";
-            $message .= "✅ *Pesanan sudah masuk ke database kami* %0A";
-            $message .= "─────────────────%0A";
-            $message .= "*ID Pesanan:* #" . $order->id . "%0A";
-            $message .= "*Nama Pelanggan:* " . $user->name . "%0A";
-            $message .= "*No. HP:* " . ($user->phone ?? 'Tidak ada') . "%0A%0A";
-            
-            $message .= "*📦 DETAIL PRODUK:*%0A";
-            $message .= "• " . $request->product_name . "%0A";
-            $message .= "  Qty: " . $request->quantity . " | Harga: Rp " . number_format($request->price, 0, ',', '.') . "%0A";
-            $message .= "  Subtotal: Rp " . number_format($request->total_price, 0, ',', '.') . "%0A";
-            
-            $message .= "%0A─────────────────%0A";
-            $message .= "*💰 TOTAL HARGA:* Rp " . number_format($request->total_price, 0, ',', '.') . "%0A%0A";
-            $message .= "Mohon instruksi pembayaran. Terima kasih!";
-
-            // BUAT URL WHATSAPP
-            $whatsappUrl = "https://wa.me/{$adminWA}?text={$message}";
-
-            // Return JSON dengan URL
-            return response()->json([
-                'success' => true,
-                'order_id' => $order->id,
-                'message' => 'Pesanan berhasil dibuat!',
-                'whatsapp_url' => $whatsappUrl
-            ])->header('Location', $whatsappUrl);
-
-        } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Terjadi kesalahan: ' . $e->getMessage()
-            ], 500);
-        }
-    }
-
-    // 5. CHECKOUT
-    public function checkout() {
-        $user = Auth::user();
-
-        $cartItems = Cart::where('user_id', $user->id)
-                        ->with('product')
-                        ->get();
-
-        if ($cartItems->isEmpty()) {
-            return back()->with('error', 'Troli Anda masih kosong!');
-        }
-
-        try {
-            $order = null;
-            DB::transaction(function () use ($user, $cartItems, &$order) {
-                
-                // HITUNG TOTAL
-                $totalPrice = 0;
-                foreach ($cartItems as $item) {
-                    $totalPrice += ($item->product->price * $item->quantity);
-                }
-
-                // BUAT ORDER
-                $order = Order::create([
+            $order = DB::transaction(function () use ($user, $request, $product, $totalPrice) {
+                $newOrder = Order::create([
                     'user_id'     => $user->id,
                     'total_price' => $totalPrice,
                     'status'      => 'pending'
                 ]);
 
-                // DETAIL ORDER
+                OrderItem::create([
+                    'order_id'   => $newOrder->id,
+                    'product_id' => $product->id,
+                    'quantity'   => $request->quantity,
+                    'price'      => $product->price
+                ]);
+
+                return $newOrder;
+            });
+
+            $adminWA = "6285361839192";
+            $message = "✨ *PESANAN LANGSUNG - SILUA TOBA* ✨\n";
+            $message .= "--------------------------------------------\n";
+            $message .= "🆔 *Order ID:* #{$order->id}\n";
+            $message .= "👤 *Nama:* {$user->name}\n";
+            $message .= "📞 *No. HP:* " . ($user->phone ?? '-') . "\n";
+            $message .= "--------------------------------------------\n\n";
+            $message .= "🛒 *Item:* \n";
+            $message .= "• {$product->name}\n";
+            $message .= "  {$request->quantity} x Rp " . number_format($product->price, 0, ',', '.') . "\n\n";
+            $message .= "💰 *TOTAL TAGIHAN: Rp " . number_format($totalPrice, 0, ',', '.') . "*\n";
+            $message .= "--------------------------------------------\n";
+            $message .= "Mohon instruksi selanjutnya ya Admin. Terima kasih!";
+
+            return redirect("https://wa.me/{$adminWA}?text=" . urlencode($message));
+
+        } catch (\Exception $e) {
+            return back()->with('error', 'Gagal memproses pesanan: ' . $e->getMessage());
+        }
+    }
+
+    // 5. CHECKOUT (Dari Troli Samping)
+    public function checkout() {
+        $user = Auth::user();
+        $cartItems = Cart::where('user_id', $user->id)->with('product')->get();
+
+        if ($cartItems->isEmpty()) {
+            return back()->with('error', 'Troli Anda kosong!');
+        }
+
+        try {
+            $order = DB::transaction(function () use ($user, $cartItems) {
+                // Hitung total di server
+                $totalPrice = $cartItems->sum(function($item) {
+                    return $item->product->price * $item->quantity;
+                });
+
+                $newOrder = Order::create([
+                    'user_id'     => $user->id,
+                    'total_price' => $totalPrice,
+                    'status'      => 'pending'
+                ]);
+
                 foreach ($cartItems as $item) {
                     OrderItem::create([
-                        'order_id'   => $order->id,
+                        'order_id'   => $newOrder->id,
                         'product_id' => $item->product_id,
                         'quantity'   => $item->quantity,
                         'price'      => $item->product->price
                     ]);
                 }
 
-                // KOSONGKAN CART
+                // Kosongkan Cart setelah sukses simpan Order
                 Cart::where('user_id', $user->id)->delete();
+
+                return $newOrder;
             });
 
-            // FORMAT PESAN WHATSAPP DENGAN DETAIL ITEMS
-            $adminWA = "6285361839192"; // Nomor WA Admin Silua Toba
-            
-            $message = "Halo Admin Silua Toba!%0A%0A";
-            $message .= "🛍️ *PESANAN BARU* 🛍️%0A";
-            $message .= "─────────────────%0A";
-            $message .= "*ID Pesanan:* #" . $order->id . "%0A";
-            $message .= "*Nama Pelanggan:* " . $user->name . "%0A";
-            $message .= "*No. HP:* " . ($user->phone ?? 'Tidak ada') . "%0A%0A";
-            
-            $message .= "*📦 DETAIL PRODUK:*%0A";
+            $adminWA = "6285361839192";
+            $message = "✨ *PESANAN BARU - SILUA TOBA* ✨\n";
+            $message .= "--------------------------------------------\n";
+            $message .= "🆔 *Order ID:* #{$order->id}\n";
+            $message .= "👤 *Nama:* {$user->name}\n";
+            $message .= "📞 *No. HP:* " . ($user->phone ?? '-') . "\n";
+            $message .= "--------------------------------------------\n\n";
+            $message .= "🛒 *Daftar Belanja:* \n";
+
             foreach ($cartItems as $item) {
                 $subtotal = $item->product->price * $item->quantity;
-                $message .= "• " . $item->product->name . "%0A";
-                $message .= "  Qty: " . $item->quantity . " | Harga: Rp " . number_format($item->product->price, 0, ',', '.') . "%0A";
-                $message .= "  Subtotal: Rp " . number_format($subtotal, 0, ',', '.') . "%0A";
+                $message .= "• {$item->product->name} (x{$item->quantity})\n";
+                $message .= "  Subtotal: Rp " . number_format($subtotal, 0, ',', '.') . "\n";
             }
-            
-            $message .= "%0A─────────────────%0A";
-            $message .= "*💰 TOTAL HARGA:* Rp " . number_format($order->total_price, 0, ',', '.') . "%0A%0A";
-            $message .= "Mohon instruksi pembayaran. Terima kasih!";
 
-            // REDIRECT KE WHATSAPP
-            return redirect("https://wa.me/{$adminWA}?text={$message}");
+            $message .= "\n💰 *TOTAL AKHIR: Rp " . number_format($order->total_price, 0, ',', '.') . "*\n";
+            $message .= "--------------------------------------------\n";
+            $message .= "Mohon konfirmasi pesanannya Admin 🙏";
+
+            return redirect("https://wa.me/{$adminWA}?text=" . urlencode($message));
 
         } catch (\Exception $e) {
             return back()->with('error', 'Terjadi kesalahan saat checkout.');

@@ -1,216 +1,439 @@
 /* ==========================================================================
-   PRODUK ADMIN PAGE - MODERN TABLE UI
+   PRODUK ADMIN PAGE - PREMIUM EARTHY UI (REVISI FINAL)
    ========================================================================== */
+
+/* Import Font Poppins & Playfair */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+    --primary-orange: #FF5722;
+    --olive-green: #5B5B41;
+    --navy-dark: #1a1a3a;
+    --bg-creamy: #FDFDFB;
+    --text-muted: #999;
+    --white: #ffffff;
+    --transition-smooth: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.admin-page-container {
+    padding: 40px;
+    background-color: var(--bg-creamy);
+    min-height: 100vh;
+    font-family: 'Poppins', sans-serif;
+}
 
 /* ========================
    HEADER SECTION
    ======================== */
-.text-navy-dark {
-    color: #31326F;
+.main-title-serif {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem;
+    font-weight: 900;
+    color: var(--navy-dark);
+    letter-spacing: -1px;
+    margin-bottom: 5px;
 }
 
 .btn-admin-primary {
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    background: linear-gradient(135deg, #4FB7B3, #637AB9);
+    background: #111; /* Hitam pekat mewah */
     color: #fff;
-    padding: 12px 18px;
-    border-radius: 1rem;
-    font-size: 13px;
-    font-weight: 700;
-    transition: 0.3s;
+    padding: 16px 28px;
+    border-radius: 18px;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: var(--transition-smooth);
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
 }
 
 .btn-admin-primary:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    background: var(--primary-orange);
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(255, 87, 34, 0.25);
 }
-
 
 /* ========================
    CARD CONTAINER
    ======================== */
 .admin-card {
-    background: #ffffff;
-    border-radius: 2rem;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.06);
+    background: var(--white);
+    border-radius: 40px; /* Corner lebih besar agar manis */
+    box-shadow: 0 30px 80px rgba(0,0,0,0.04);
     border: 1px solid rgba(0,0,0,0.03);
     overflow: hidden;
+    margin-top: 20px;
 }
-
 
 /* ========================
    TABLE STYLE
    ======================== */
-.table-responsive {
-    width: 100%;
-    overflow-x: auto;
-}
-
 .admin-table {
     width: 100%;
-    border-collapse: collapse;
+    border-collapse: separate;
+    border-spacing: 0;
 }
 
-.admin-table thead {
-    background: #f7f9fc;
-}
-
-.admin-table th {
-    padding: 18px;
-    font-size: 12px;
+.admin-table thead th {
+    padding: 30px 24px;
+    font-size: 10px;
+    font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: 1px;
-    color: #8a94a6;
-    text-align: left;
+    letter-spacing: 2px;
+    color: #bbb;
+    background: #fdfdfd;
+    border-bottom: 1px solid #f5f5f5;
 }
 
-.admin-table td {
-    padding: 18px;
-    border-top: 1px solid #f1f3f8;
+.admin-table tbody td {
+    padding: 24px;
+    border-bottom: 1px solid #f9f9f9;
     vertical-align: middle;
+    color: #444;
 }
 
-/* Hover row */
 .admin-table tbody tr {
-    transition: 0.2s;
+    transition: var(--transition-smooth);
 }
 
 .admin-table tbody tr:hover {
-    background: #f9fbff;
+    background: #fcfcf9;
 }
 
-
 /* ========================
-   PRODUCT IMAGE
+   PRODUCT MEDIA & TEXT
    ======================== */
 .product-img-thumb {
-    width: 70px;
-    height: 70px;
+    width: 85px;
+    height: 85px;
     object-fit: cover;
-    border-radius: 1rem;
+    border-radius: 25px; /* Manis & Modern */
+    box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+    transition: var(--transition-smooth);
 }
 
-
-/* ========================
-   PRODUCT TEXT
-   ======================== */
 .product-name-title {
-    font-size: 15px;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.25rem;
     font-weight: 800;
-    color: #31326F;
+    color: var(--navy-dark);
+    margin-bottom: 4px;
 }
 
 .product-id-tag {
-    font-size: 11px;
-    color: #9aa3b2;
-    margin-top: 4px;
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--text-muted);
+    letter-spacing: 1px;
 }
 
-
 /* ========================
-   CATEGORY BADGE
+   BADGES & PRICE
    ======================== */
 .badge-pill-category {
-    background: rgba(79, 183, 179, 0.1);
-    color: #4FB7B3;
-    padding: 6px 12px;
-    border-radius: 999px;
-    font-size: 11px;
-    font-weight: 700;
+    background: #f4f4f0;
+    color: var(--olive-green);
+    padding: 8px 18px;
+    border-radius: 12px;
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border: 1px solid #eee;
 }
 
-
-/* ========================
-   PRICE
-   ======================== */
 .price-text {
     font-weight: 800;
-    color: #637AB9;
-    font-size: 14px;
+    color: var(--navy-dark);
+    font-size: 1.2rem;
+    font-family: 'Poppins', sans-serif;
 }
 
-
 /* ========================
-   ACTION BUTTON
+   ACTION BUTTONS
    ======================== */
 .action-btn-pill {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    padding: 8px 12px;
-    border-radius: 999px;
-    font-size: 12px;
-    font-weight: 700;
-    transition: 0.25s;
+    gap: 8px;
+    padding: 12px 20px;
+    border-radius: 14px;
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    border: none;
+    text-decoration: none !important;
 }
 
 /* EDIT */
 .action-btn-pill.edit {
-    background: rgba(99, 122, 185, 0.1);
-    color: #637AB9;
+    background: #f1f1f1;
+    color: #777;
 }
 
 .action-btn-pill.edit:hover {
-    background: #637AB9;
-    color: #fff;
+    background: var(--navy-dark);
+    color: var(--white);
+    transform: scale(1.05);
 }
 
 /* DELETE */
 .action-btn-pill.delete {
-    background: rgba(255, 99, 99, 0.1);
-    color: #ff4d4f;
+    background: #fff1f1;
+    color: #ff5252;
 }
 
 .action-btn-pill.delete:hover {
-    background: #ff4d4f;
-    color: #fff;
+    background: #ff5252;
+    color: var(--white);
+    transform: scale(1.05);
 }
-
 
 /* ========================
-   EMPTY STATE
+   ALERTS & ANIMATIONS
    ======================== */
-.admin-table td i {
-    opacity: 0.3;
+.alert-premium {
+    background: #e7f6f2;
+    border-radius: 20px;
+    padding: 20px 30px;
+    color: #2c5e50;
+    font-weight: 700;
+    font-size: 0.9rem;
+    border: 1px solid #c9e4de;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 30px;
+    animation: slideInDown 0.8s var(--transition-smooth);
 }
 
-
-/* ========================
-   ALERT SUCCESS
-   ======================== */
-.animate-fade-in {
-    animation: fadeIn 0.5s ease;
+@keyframes slideInDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
 
 /* ========================
    RESPONSIVE
    ======================== */
-@media (max-width: 768px) {
-    .product-img-thumb {
-        width: 55px;
-        height: 55px;
+@media (max-width: 1024px) {
+    .admin-page-container { padding: 25px; }
+    .main-title-serif { font-size: 2.2rem; }
+    .product-img-thumb { width: 65px; height: 65px; }
+}
+
+/* ==========================================================================
+   FORM PRODUK (CREATE & EDIT) - PREMIUM EARTHY UI
+   ========================================================================== */
+
+/* Container Utama Form */
+.admin-card-form {
+    background: #ffffff;
+    border-radius: 45px; /* Corner sangat bulat agar modern */
+    padding: 60px;
+    box-shadow: 0 40px 100px rgba(0,0,0,0.05);
+    border: 1px solid rgba(0,0,0,0.02);
+    margin-top: 30px;
+}
+
+/* ========================
+   IMAGE UPLOAD SECTION
+   ======================== */
+.form-image-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.image-upload-wrapper {
+    position: relative;
+    width: 100%;
+    height: 480px;
+    background: #f8f8f6;
+    border-radius: 35px;
+    overflow: hidden;
+    border: 2px dashed #ecece8;
+    transition: var(--transition-smooth);
+}
+
+.image-upload-wrapper:hover {
+    border-color: var(--primary-orange);
+    transform: scale(0.99);
+}
+
+.img-preview-big {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: var(--transition-smooth);
+}
+
+/* Hover Overlay pada Gambar */
+.upload-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(26, 26, 58, 0.4); /* Navy transparan */
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: var(--transition-smooth);
+    cursor: pointer;
+}
+
+.image-upload-wrapper:hover .upload-overlay {
+    opacity: 1;
+}
+
+.upload-texts {
+    text-align: center;
+    color: #fff;
+}
+
+.upload-texts span {
+    display: block;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 1px;
+    margin-bottom: 5px;
+}
+
+.upload-texts small {
+    opacity: 0.7;
+    font-size: 11px;
+}
+
+/* Input File yang Tersembunyi */
+.upload-overlay input[type="file"] {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+/* ========================
+   INPUT FIELDS SECTION
+   ======================== */
+.input-group-premium {
+    margin-bottom: 25px;
+}
+
+.input-group-premium label {
+    display: block;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: #bbb;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+}
+
+/* Input, Select, Textarea */
+.input-group-premium input,
+.input-group-premium select,
+.input-group-premium textarea {
+    width: 100%;
+    background: #fdfdfb;
+    border: 1px solid #f1f1ee;
+    padding: 18px 24px;
+    border-radius: 18px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    color: var(--navy-dark);
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+/* Focus Effect */
+.input-group-premium input:focus,
+.input-group-premium select:focus,
+.input-group-premium textarea:focus {
+    background: #fff;
+    border-color: var(--primary-orange);
+    box-shadow: 0 10px 30px rgba(255, 87, 34, 0.08);
+}
+
+.input-group-premium textarea {
+    resize: none;
+    line-height: 1.6;
+}
+
+/* Error Text */
+.error-text {
+    color: #ff4d4f;
+    font-size: 10px;
+    font-weight: 700;
+    margin-top: 8px;
+    display: block;
+    letter-spacing: 0.5px;
+}
+
+/* ========================
+   BUTTONS
+   ======================== */
+.btn-admin-submit-premium {
+    width: 100%;
+    background: #111; /* Hitam Mewah */
+    color: #fff;
+    padding: 20px;
+    border-radius: 20px;
+    font-weight: 800;
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 30px;
+    transition: var(--transition-smooth);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+}
+
+.btn-admin-submit-premium:hover {
+    background: var(--primary-orange);
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(255, 87, 34, 0.2);
+}
+
+.btn-admin-secondary {
+    background: #f5f5f5;
+    color: #888;
+    padding: 12px 20px;
+    border-radius: 14px;
+    font-size: 10px;
+    font-weight: 800;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: 0.3s;
+}
+
+.btn-admin-secondary:hover {
+    background: #eeeeee;
+    color: #333;
+}
+
+/* ========================
+   RESPONSIVE
+   ======================== */
+@media (max-width: 992px) {
+    .admin-card-form {
+        padding: 40px 25px;
     }
 
-    .product-name-title {
-        font-size: 13px;
-    }
-
-    .admin-table th,
-    .admin-table td {
-        padding: 12px;
+    .image-upload-wrapper {
+        height: 350px;
+        margin-bottom: 30px;
     }
 }

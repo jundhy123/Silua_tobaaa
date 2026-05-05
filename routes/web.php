@@ -118,16 +118,13 @@ Route::middleware('auth')->group(function () {
         Route::patch('/cart/{cart}', [CartController::class, 'update'])->name('cart.update');
         Route::delete('/cart/{cart}', [CartController::class, 'destroy'])->name('cart.destroy');
         
-        // CHECKOUT CART
+        // CHECKOUT CART (WhatsApp)
         Route::post('/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
 
-        // 🔥 DIRECT ORDER (INI YANG DIPAKAI PESAN SEKARANG)
-        Route::post('/direct-order', [CartController::class, 'directOrder'])->name('cart.direct-order');
+        // 🔥 PERBAIKAN DI SINI: Nama rute diubah dari cart.direct-order menjadi cart.directOrder
+        Route::post('/direct-order', [CartController::class, 'directOrder'])->name('cart.directOrder');
 
         Route::get('/pesanan-saya', fn() => view('user.orders'))->name('user.orders');
-
-        // OPTIONAL (kalau masih dipakai)
-        Route::post('/order/process', [UserAuthController::class, 'processOrder'])->name('order.process');
 
         // WISHLIST
         Route::get('/wishlist', [WishlistController::class, 'index'])->name('user.wishlist');

@@ -2,13 +2,14 @@
     --primary-orange: #FF5722;
     --text-dark: #1a1a1a;
     --bg-light: #FDFDFB;
+     --bg-creamy: #F9F9F4;
     --serif: 'Playfair Display', serif;
     --sans: 'Poppins', sans-serif;
     --transition-premium: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .gallery-wrapper {
-    background-color: var(--bg-light);
+    background-color: var(--bg-creamy);
     padding: 100px 0;
     min-height: 100vh;
 }
