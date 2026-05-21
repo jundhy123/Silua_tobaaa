@@ -61,7 +61,23 @@ class CartController extends Controller
         return back();
     }
 
-    // 4. DIRECT ORDER (Pesan Sekarang dari Modal Detail)
+    /**
+     * 4. PESANAN SAYA (RIWAYAT & TRACKING)
+     * Tambahan fungsi untuk fitur pelacakan pesanan
+     */
+    public function myOrders()
+    {
+        // Mengambil pesanan milik user yang sedang login
+        // 'items.product' berasumsi relasi di model Order bernama 'items'
+        $orders = Order::where('user_id', Auth::id())
+                       ->with('items.product') 
+                       ->latest()
+                       ->get();
+
+        return view('user.orders', compact('orders'));
+    }
+
+    // 5. DIRECT ORDER (Pesan Sekarang dari Modal Detail)
     public function directOrder(Request $request) {
         $request->validate([
             'product_id' => 'required|exists:products,id',
@@ -70,8 +86,6 @@ class CartController extends Controller
 
         $user = Auth::user();
         $product = Product::findOrFail($request->product_id);
-        
-        // Hitung total di server (lebih aman dari manipulasi)
         $totalPrice = $product->price * $request->quantity;
 
         try {
@@ -113,7 +127,7 @@ class CartController extends Controller
         }
     }
 
-    // 5. CHECKOUT (Dari Troli Samping)
+    // 6. CHECKOUT (Dari Troli Samping)
     public function checkout() {
         $user = Auth::user();
         $cartItems = Cart::where('user_id', $user->id)->with('product')->get();
@@ -124,7 +138,6 @@ class CartController extends Controller
 
         try {
             $order = DB::transaction(function () use ($user, $cartItems) {
-                // Hitung total di server
                 $totalPrice = $cartItems->sum(function($item) {
                     return $item->product->price * $item->quantity;
                 });
@@ -144,7 +157,6 @@ class CartController extends Controller
                     ]);
                 }
 
-                // Kosongkan Cart setelah sukses simpan Order
                 Cart::where('user_id', $user->id)->delete();
 
                 return $newOrder;

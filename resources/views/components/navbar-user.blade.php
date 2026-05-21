@@ -45,6 +45,11 @@ Galeri
 class="nav-link-premium {{ Route::is('user.testimoni*') ? 'active' : '' }}">
 Testimoni
 </a>
+
+<nav class="nav-menu-center">
+    <!-- Menu lainnya -->
+    <a href="{{ route('user.orders') }}" class="nav-link {{ Request::is('pesanan-saya*') ? 'active' : '' }}">PESANAN SAYA</a>
+</nav>
         </nav>
 
         <!-- ACTION -->

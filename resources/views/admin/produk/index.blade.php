@@ -9,7 +9,6 @@
     <div class="flex justify-between items-center mb-10">
         <div>
             <h1 class="text-3xl font-black text-navy-dark uppercase tracking-tighter">Kelola Produk</h1>
-            <p class="text-gray-400 text-sm">Dashboard / 
                 <span class="text-orange-brand font-bold">
                     {{ $profiles->company_name ?? 'Silua Toba' }} <!-- FIX ERROR: Tanpa isEmpty -->
                 </span>

@@ -1,6 +1,6 @@
 @extends('layouts.user')
 
-@section('title', 'Katalog Produk Rasa Nusantara')
+@section('title', 'Katalog Produk Silua Toba')
 
 @section('content')
 <link rel="stylesheet" href="{{ asset('css/produk-user.css') }}">
@@ -14,8 +14,8 @@
     <section class="container">
         <div class="section-heading reveal">
             <div class="heading-text">
-                <h2 class="main-title">Karya Terbaik Pengrajin</h2>
-                <p class="sub-title">Setiap produk bercerita tentang dedikasi, keterampilan, dan kekayaan budaya nusantara yang kami jaga.</p>
+                <h2 class="main-title">Produk Terbaik</h2>
+                <p class="sub-title">Setiap produk kami dibuat dengan kualitas terbaik dan bahan berkualitas tinggi.</p>
             </div>
         </div>
 

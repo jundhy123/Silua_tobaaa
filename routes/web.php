@@ -138,5 +138,10 @@ Route::middleware('auth')->group(function () {
         Route::post('/testimoni', [TestimonialController::class, 'store'])->name('testimoni.store');
         Route::patch('/testimoni/{testimonial}', [TestimonialController::class, 'update'])->name('testimoni.update');
         Route::delete('/testimoni/{testimonial}', [TestimonialController::class, 'destroy'])->name('testimoni.destroy');
+
+        Route::middleware('auth')->group(function () {
+    // ... rute lainnya
+    Route::get('/pesanan-saya', [App\Http\Controllers\CartController::class, 'myOrders'])->name('user.orders');
+});
     });
 });
