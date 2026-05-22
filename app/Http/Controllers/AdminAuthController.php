@@ -10,31 +10,29 @@ use Illuminate\Support\Facades\Hash;
 class AdminAuthController extends Controller
 {
     public function showLogin() { 
+        // Mengarahkan ke view login dengan variabel role 'admin'
         return view('auth.login', ['role' => 'admin']); 
     }
 
     public function login(Request $request) {
+        // 1. Validasi Input
         $request->validate([
             'email' => 'required|email',
             'password' => 'required',
         ]);
 
-        // =========================================================
-        // SETTING DATA ADMIN LANGSUNG DI KODINGAN
-        // =========================================================
-        $adminEmail = 'admin@silua.com'; // Ganti dengan email admin mau Anda
-        $adminPass  = 'admin123';        // Ganti dengan password admin mau Anda
-        // =========================================================
+        // DATA ADMIN (HARDCODED UNTUK TAHAP AWAL)
+        $adminEmail = 'admin@silua.com';
+        $adminPass  = 'admin123';
 
-        // 1. Cek apakah yang diinput user sama dengan data di atas
+        // 2. Cek Kredensial
         if ($request->email === $adminEmail && $request->password === $adminPass) {
             
-            // 2. Cari user di database, jika belum ada (karena baru/database kosong), buatkan otomatis
+            // 3. Pastikan user admin ada di database (Sync)
             $user = User::where('email', $adminEmail)->first();
 
             if (!$user) {
                 $user = User::create([
-                    'admin_id' => 'ADM-001',
                     'name'        => 'Super Admin Silua',
                     'first_name'  => 'Super',
                     'last_name'   => 'Admin',
@@ -44,15 +42,17 @@ class AdminAuthController extends Controller
                 ]);
             }
 
-            // 3. Login-kan user tersebut ke dalam sistem
-            Auth::login($user, $request->has('remember'));
+            // 4. Login-kan User
+            Auth::login($user, $request->remember);
+
+            // 5. REGENERATE SESSION (PENTING: Menghindari serangan session fixation)
             $request->session()->regenerate();
 
-            return redirect()->intended('/admin/dashboard');
+            return redirect()->intended(route('admin.dashboard'));
         }
 
-        // Jika input tidak cocok dengan data admin di kodingan tadi
-        return back()->withErrors(['loginError' => 'Akses Admin Ditolak! Data tidak cocok.'])->withInput();
+        // Jika gagal
+        return back()->withErrors(['loginError' => 'Akses Admin Ditolak!'])->withInput();
     }
 
     public function logout(Request $request) {

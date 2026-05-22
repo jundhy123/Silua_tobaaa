@@ -45,20 +45,25 @@ Galeri
 class="nav-link-premium {{ Route::is('user.testimoni*') ? 'active' : '' }}">
 Testimoni
 </a>
-
-<nav class="nav-menu-center">
-    <!-- Menu lainnya -->
-    <a href="{{ route('user.orders') }}" class="nav-link {{ Request::is('pesanan-saya*') ? 'active' : '' }}">PESANAN SAYA</a>
-</nav>
+<a href="{{ route('user.orders') }}" 
+   class="nav-link-premium {{ Route::is('user.orders*') ? 'active' : '' }}">
+    Pesanan Saya
+</a>
         </nav>
 
         <!-- ACTION -->
         <div class="flex items-center gap-6 md:gap-8">
 
             <!-- Wishlist -->
-            <a href="{{ route('user.wishlist') }}" class="nav-icon">
-                <i data-lucide="heart" class="w-6 h-6"></i>
-            </a>
+<a href="{{ route('user.wishlist') }}" class="nav-icon">
+    <i data-lucide="heart" class="w-6 h-6"></i>
+    @auth
+        @php $wishCount = \App\Models\Wishlist::where('user_id', auth()->id())->count(); @endphp
+        @if($wishCount > 0)
+            <span class="badge-premium">{{ $wishCount }}</span>
+        @endif
+    @endauth
+</a>
 
             <!-- Cart -->
             <div class="nav-icon relative cursor-pointer" onclick="toggleCart()">

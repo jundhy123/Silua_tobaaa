@@ -16,6 +16,7 @@
 
         <!-- GROUP 2: TOKO / E-COMMERCE -->
         <div class="nav-group-label">Manajemen Toko</div>
+        <!-- Pendapatan -->
         <a href="{{ route('admin.produk.index') }}"
            class="nav-item {{ Request::is('admin/produk*') ? 'active' : '' }}">
             <i data-lucide="package"></i>
