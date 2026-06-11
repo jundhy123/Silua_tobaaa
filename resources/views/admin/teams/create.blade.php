@@ -1,59 +1,73 @@
 @extends('layouts.admin')
 
-@section('title', 'Tambah Anggota')
-@section('page_title', 'Input Tim Baru')
+@section('title', 'Tambah Talenta - Admin Silua Toba')
+@section('page_title', 'Update Tim')
 
 @section('content')
-<div class="max-w-4xl">
-    <div class="flex items-center gap-4 mb-8">
-        <a href="{{ route('admin.teams.index') }}" class="w-10 h-10 bg-white rounded-full flex items-center justify-center text-navy-dark shadow-md hover:bg-orange-brand hover:text-white transition">
+<link rel="stylesheet" href="{{ asset('css/produk-admin.css') }}">
+
+<div class="max-w-4xl mx-auto space-y-10 animate-fade-in">
+    <!-- HEADER -->
+    <div class="flex items-center gap-6">
+        <a href="{{ route('admin.teams.index') }}" class="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-[#64748B] shadow-sm border border-[#E2E8F0] hover:bg-[#31326F] hover:text-white transition-all">
             <i data-lucide="arrow-left" class="w-5 h-5"></i>
         </a>
-        <h3 class="text-2xl font-black text-navy-dark uppercase tracking-tight">Form Anggota Tim</h3>
+        <div>
+            <h1 class="text-3xl font-black text-[#31326F]">Registrasi <span class="text-[#4FB7B3]">Anggota Baru</span></h1>
+            <p class="text-[#64748B] text-sm mt-1">Tambahkan pengrajin kuliner ke dalam daftar tim resmi.</p>
+        </div>
     </div>
 
-    <div class="admin-card border-t-8 border-orange-brand">
-        <form action="{{ route('admin.teams.store') }}" method="POST" enctype="multipart/form-data" class="space-y-8">
+    <!-- FORM CARD -->
+    <div class="admin-form-card">
+        <form action="{{ route('admin.teams.store') }}" method="POST" enctype="multipart/form-data" class="space-y-12">
             @csrf
 
-            @if ($errors->any())
-                <div class="bg-red-50 border-l-4 border-red-500 p-4 mb-6 rounded-r-xl">
-                    <p class="text-sm text-red-700 font-bold mb-2">Periksa kembali data yang Anda masukkan:</p>
-                    <ul class="text-xs text-red-600 list-disc ml-5">
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
+            <!-- Portrait -->
+            <div class="flex flex-col items-center">
+                <div class="relative w-40 h-40 group">
+                    <div class="w-full h-full rounded-full bg-[#F8FAFC] border-4 border-white shadow-xl overflow-hidden relative ring-1 ring-[#E2E8F0] cursor-pointer" onclick="document.getElementById('photoInput').click()">
+                        <img id="preview" src="{{ asset('images/placeholder-img.png') }}" class="w-full h-full object-cover opacity-40">
+                        <div class="absolute inset-0 bg-[#31326F]/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white">
+                            <i data-lucide="camera" class="w-6 h-6"></i>
+                        </div>
+                        <input type="file" name="photo" id="photoInput" required accept="image/*" onchange="previewImage(event)" class="hidden">
+                    </div>
+                    <label class="text-[9px] font-black uppercase tracking-widest text-[#64748B] text-center block mt-5">Foto Profil Resmi</label>
                 </div>
-            @endif
+                @error('photo') <p class="text-rose-500 text-[10px] font-bold mt-4">{{ $message }}</p> @enderror
+            </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <!-- Nama -->
-                <div class="admin-input-group">
-                    <label>Nama Lengkap</label>
-                    <input type="text" name="name" value="{{ old('name') }}" required class="silua-input" placeholder="Contoh: Jundhy Situmorang">
-                    @error('name') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <div class="space-y-2">
+                    <label class="form-label-premium">Nama Lengkap</label>
+                    <input type="text" name="name" value="{{ old('name') }}" required placeholder="cth. Jundhy Situmorang" class="form-input-premium">
                 </div>
 
-                <!-- Jabatan -->
-                <div class="admin-input-group">
-                    <label>Jabatan / Posisi</label>
-                    <input type="text" name="position" value="{{ old('position') }}" required class="silua-input" placeholder="Contoh: Founder / Head Chef">
-                    @error('position') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+                <div class="space-y-2">
+                    <label class="form-label-premium">Posisi / Jabatan</label>
+                    <input type="text" name="position" value="{{ old('position') }}" required placeholder="cth. Head of Spices" class="form-input-premium">
                 </div>
             </div>
 
-            <!-- Foto -->
-            <div class="admin-input-group">
-                <label>Foto Anggota</label>
-                <input type="file" name="photo" required class="silua-input file-input">
-                @error('photo') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
-                <button type="submit" class="btn-admin-submit">
-                    <i data-lucide="save" class="w-5 h-5 mr-2"></i>
-                    <span>SIMPAN DATA TIM</span>
+            <div class="pt-6">
+                <button type="submit" class="btn-submit-premium">
+                    Daftarkan Anggota Tim
                 </button>
             </div>
         </form>
     </div>
 </div>
+
+<script>
+    function previewImage(event) {
+        var reader = new FileReader();
+        var output = document.getElementById('preview');
+        reader.onload = function(){
+            output.src = reader.result;
+            output.classList.remove('opacity-40');
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    }
+</script>
 @endsection

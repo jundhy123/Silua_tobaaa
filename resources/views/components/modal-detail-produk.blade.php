@@ -1,4 +1,4 @@
-<!-- ========================================================================== 
+<!-- ==========================================================================
      MODAL DETAIL & REVIEW CRUD (FIXED & COMPLETE)
      ========================================================================== -->
 <div id="modalOrder" class="product-modal">
@@ -28,7 +28,7 @@
                         </span>
                         <h3 id="m-price" class="text-3xl font-black text-navy-dark"></h3>
                     </div>
-                    
+
                     <p id="m-desc" class="text-gray-500 mb-8 text-sm leading-relaxed"></p>
 
                     <!-- QTY -->
@@ -43,18 +43,16 @@
 
                     <!-- BUTTON AREA -->
                     <div class="flex flex-col gap-3 mt-8">
+                        <button type="submit" class="btn-masuk-troli w-full shadow-lg">
+                            <i data-lucide="shopping-bag" class="w-6 h-6"></i>
+                            <span>Tambah ke Keranjang</span>
+                        </button>
+
                         <button type="button" onclick="handleDirectOrder()"
-                            class="w-full py-4 px-6 bg-[#25D366] text-white font-black text-sm uppercase rounded-2xl 
+                            class="w-full py-5 px-6 bg-[#25D366] text-white font-black text-sm uppercase rounded-2xl
                             hover:bg-[#128C7E] active:scale-95 transition flex items-center justify-center gap-3 shadow-lg">
                             <i data-lucide="message-circle" class="w-6 h-6"></i>
                             <span>Pesan Sekarang (WhatsApp)</span>
-                        </button>
-
-                        <button type="submit"
-                            class="w-full py-4 px-6 bg-[#1a1a3a] text-white font-bold text-sm uppercase rounded-2xl 
-                            hover:bg-orange-600 active:scale-95 transition flex items-center justify-center gap-3 shadow">
-                            <i data-lucide="shopping-cart" class="w-5 h-5"></i>
-                            <span>Masukkan ke Troli</span>
                         </button>
                     </div>
                 </form>
@@ -68,7 +66,7 @@
 
                 @auth
                 <button onclick="toggleReviewForm()"
-                    class="py-3 px-6 bg-orange-500 text-white font-bold text-sm rounded-xl 
+                    class="py-3 px-6 bg-orange-500 text-white font-bold text-sm rounded-xl
                     hover:bg-orange-600 transition flex items-center gap-2">
                     <i data-lucide="edit-3" class="w-4 h-4"></i>
                     Tulis Ulasan
@@ -86,7 +84,7 @@
                         <label class="block text-[10px] font-black text-navy-dark uppercase mb-3 tracking-widest">Rating Anda</label>
                         <div class="flex justify-center gap-3" id="star-input">
                             @for($i=1; $i<=5; $i++)
-                                <i data-lucide="star" class="w-8 h-8 cursor-pointer text-gray-300 star-btn" 
+                                <i data-lucide="star" class="w-8 h-8 cursor-pointer text-gray-300 star-btn"
                                    onclick="setRating({{ $i }})" data-value="{{ $i }}"></i>
                             @endfor
                         </div>
@@ -158,7 +156,7 @@ function openOrderModal(id, name, price, img, desc, reviews = []) {
                 actions = `
                     <div class="flex gap-4 mt-4 border-t pt-3">
                         <button type="button" onclick="editReview(${rev.id}, ${rev.rating}, '${rev.comment.replace(/'/g, "\\'")}')" class="text-[9px] font-black text-navy-dark underline uppercase">Edit</button>
-                        <form action="/review/${rev.id}" method="POST" onsubmit="return confirm('Hapus ulasan?')" class="inline-block">
+                        <form action="/review/${rev.id}" method="POST" onsubmit="return confirmDelete(this, 'Hapus Ulasan?', 'Ulasan Anda akan dihapus secara permanen.')" class="inline-block">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="text-[9px] font-black text-red-500 underline uppercase">Hapus</button>
@@ -184,7 +182,7 @@ function openOrderModal(id, name, price, img, desc, reviews = []) {
     // 3. Tampilkan Modal
     document.getElementById('modalOrder').classList.add('active');
     document.body.style.overflow = 'hidden';
-    
+
     // Refresh Ikon Lucide
     setTimeout(() => lucide.createIcons(), 50);
 }

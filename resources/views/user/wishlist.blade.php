@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="{{ asset('css/wishlist-user.css') }}">
 
 <div class="wishlist-page-wrapper">
-    
+
     <!-- HEADER SECTION -->
     <header class="wishlist-header container reveal">
         <span class="top-label">KOLEKSI ANDA</span>
@@ -24,7 +24,7 @@
         <div class="wishlist-grid">
             @forelse($wishlists as $key => $w)
             <div class="wish-card-premium reveal-up" style="--order: {{ $key }}">
-                
+
                 <div class="wish-card-content">
                     <!-- Area Gambar -->
                     <div class="wish-img-wrapper">
@@ -44,7 +44,7 @@
                         <!-- Tombol Aksi di Bagian Bawah Info -->
                         <div class="wish-actions-row">
                             <!-- Tombol Hapus (Badge Merah Muda) -->
-                            <form action="{{ route('wishlist.toggle') }}" method="POST">
+                            <form action="{{ route('wishlist.toggle') }}" method="POST" onsubmit="return confirmDelete(this, 'Hapus Wishlist?', 'Produk ini akan dihapus dari daftar keinginan Anda.')">
                                 @csrf
                                 <input type="hidden" name="product_id" value="{{ $w->product->id }}">
                                 <button type="submit" class="btn-wish-action delete" title="Hapus dari Wishlist">
@@ -52,11 +52,11 @@
                                 </button>
                             </form>
 
-                            <!-- Tombol Keranjang (Olive Pill) -->
-                            <button type="button" class="btn-wish-cart" 
+                            <!-- Tombol Detail (Pill Style) -->
+                            <button type="button" class="btn-wish-cart w-full"
                                 onclick="openOrderModal('{{ $w->product->id }}', '{{ addslashes($w->product->name) }}', '{{ $w->product->price }}', '{{ asset('uploads/products/'.$w->product->image) }}', '{{ addslashes($w->product->description) }}')">
-                                <i data-lucide="shopping-cart"></i>
-                                <span>Pesan Sekarang</span>
+                                <i data-lucide="eye"></i>
+                                <span>Lihat Detail & Pesan</span>
                             </button>
                         </div>
                     </div>

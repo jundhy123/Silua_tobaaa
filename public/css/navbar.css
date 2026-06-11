@@ -1,110 +1,251 @@
-/* ================= NAVBAR BASE ================= */
+/* ================= SILUA TOBA NAVIGATION LIST ================= */
+
 .silua-navbar {
     height: 100px;
-    display: flex;
-    align-items: center;
     background: transparent;
-    transition: all 0.4s ease;
+    border-bottom: 1px solid transparent;
 }
 
-/* ================= GLASS EFFECT SCROLL ================= */
+/* Scrolled Navbar Style */
 #navbar.scrolled {
-    background: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(18px) saturate(180%);
-    -webkit-backdrop-filter: blur(18px) saturate(180%);
-    
-    height: 85px;
-    
-    border-bottom: 1px solid rgba(255,255,255,0.4);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    height: 90px;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(15px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
 }
 
-/* ================= LOGO ================= */
-.logo-img-premium {
-    height: 60px;
-}
-
-.brand-name-premium {
-    font-size: 1.4rem;
-    font-weight: 900;
-    color: #111c26;
-}
-
-/* ================= NAV LINK ================= */
-.nav-link-premium {
-    font-size: 0.95rem;
+/* Nav Link List Style (Diperbesar agar Jelas) */
+.nav-list-link {
+    font-size: 12px;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: #111c26;
+    letter-spacing: 0.15em;
+    color: #1a1a1a;
     text-decoration: none;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    padding: 8px 16px;
+    border-radius: 100px;
     position: relative;
-    transition: 0.3s;
+    display: block;
 }
 
-.nav-link-premium:hover {
-    color: #FF5722;
+.nav-list-link:hover {
+    color: #B45309;
+    background: rgba(180, 83, 9, 0.05);
+    transform: translateY(-1px);
 }
 
-/* active underline */
-.nav-link-premium.active::after {
-    content: '';
-    position: absolute;
-    bottom: -6px;
-    left: 0;
-    width: 100%;
-    height: 3px;
-    background: #FF5722;
-    border-radius: 10px;
+.nav-list-link.active {
+    color: #B45309; /* Amber 700 */
+    background: #fffbeb;
+    box-shadow: inset 0 0 0 1px rgba(180, 83, 9, 0.1);
 }
 
-/* ================= ICON ================= */
-.nav-icon {
-    color: #111c26;
-    transition: 0.3s;
+/* ================= BRAND COLORS ================= */
+.brand-text-silua { color: #111c26; transition: color 0.4s ease; }
+.brand-text-toba { color: #B45309; transition: color 0.4s ease; }
+.brand-text-sub { color: #9ca3af; transition: color 0.4s ease; }
+
+/* ================= NAV LIGHT MODE (FOR HERO PAGES) ================= */
+.silua-navbar.nav-light:not(.scrolled) .nav-list-link,
+.silua-navbar.nav-light:not(.scrolled) .nav-util-icon,
+.silua-navbar.nav-light:not(.scrolled) .brand-text-silua,
+.silua-navbar.nav-light:not(.scrolled) .brand-text-sub {
+    color: white !important;
 }
 
-.nav-icon:hover {
-    color: #FF5722;
+.silua-navbar.nav-light:not(.scrolled) .brand-text-toba {
+    color: #B45309 !important; /* Lighter Amber for better visibility on dark hero */
+}
+
+.silua-navbar.nav-light:not(.scrolled) .nav-list-link:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.silua-navbar.nav-light:not(.scrolled) .nav-dot {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.silua-navbar.nav-light:not(.scrolled) .nav-util-icon:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Fix for active/hover pill text color in light mode to prevent white-on-white */
+.silua-navbar.nav-light:not(.scrolled) .nav-list-link.active,
+.silua-navbar.nav-light:not(.scrolled) .nav-list-link:hover {
+    color: #B45309 !important;
+}
+
+/* Login Button in Light Mode */
+.silua-navbar.nav-light:not(.scrolled) a[href*="portal"] {
+    border-color: rgba(255, 255, 255, 0.3);
+    color: white;
+}
+
+.silua-navbar.nav-light:not(.scrolled) a[href*="portal"]:hover {
+    background: white;
+    color: black;
+}
+
+/* ================= UTILS ================= */
+.nav-dot {
+    width: 4px;
+    height: 4px;
+    background: #e5e5e5;
+    border-radius: 50%;
+}
+
+/* Utils Icons (Right Side) */
+.nav-util-icon {
+    color: #1a1a1a;
+    transition: 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+}
+
+.nav-util-icon:hover {
+    color: #B45309;
+    background: #fcfcf9;
     transform: translateY(-2px);
 }
 
-/* ================= LOGIN BUTTON ================= */
-.btn-login-premium {
-    background: #3b3b2f;
-    color: white;
-    padding: 10px 24px;
-    border-radius: 30px;
-    font-size: 13px;
-    font-weight: 700;
-    text-decoration: none;
-    transition: 0.3s;
-}
-
-.btn-login-premium:hover {
-    background: #FF5722;
-}
-
-/* ================= BADGE ================= */
-.badge-premium {
+/* Badge (Counter) */
+.nav-badge {
     position: absolute;
-    top: -6px;
-    right: -10px;
-    background: #FF5722;
+    top: 4px;
+    right: 4px;
+    background: #B45309;
     color: white;
-    font-size: 10px;
-    font-weight: bold;
+    font-size: 9px;
+    font-weight: 800;
     width: 18px;
     height: 18px;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
+    border: 2px solid white;
+    box-shadow: 0 4px 10px rgba(180, 83, 9, 0.2);
 }
 
-/* ================= RESPONSIVE ================= */
+/* Brand Style */
+h1 {
+    letter-spacing: -0.05em;
+}
+
+/* Mobile Menu Transitions Dropdown Style */
+#mobileMenu {
+    z-index: -1;
+}
+
+#mobileMenu.\!translate-y-0 {
+    transform: translateY(0);
+}
+
+.mobile-nav-item {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 16px 24px;
+    border-radius: 20px;
+    text-decoration: none;
+    color: #4b5563;
+    transition: all 0.3s ease;
+}
+
+.mobile-nav-item span {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.mobile-nav-item i {
+    color: #d1d5db;
+    transition: all 0.3s ease;
+}
+
+.mobile-nav-item:hover, .mobile-nav-item.active {
+    background: #fffbeb;
+    color: #B45309;
+}
+
+.mobile-nav-item.active i, .mobile-nav-item:hover i {
+    color: #B45309;
+    transform: scale(1.1);
+}
+
+/* ================= RESPONSIVE ADAPTATION ================= */
+
+/* Layar Tablet & Laptop Kecil */
+@media (max-width: 1280px) {
+    .nav-list-link {
+        font-size: 11px;
+        padding: 8px 8px;
+    }
+}
+
 @media (max-width: 1024px) {
-    .nav-link-premium {
+    .silua-navbar {
+        height: 80px;
+    }
+
+    #navbar.scrolled {
+        height: 70px;
+    }
+
+    .nav-list-link, .nav-dot {
         display: none;
+    }
+
+    .brand-text-silua {
+        font-size: 1.5rem;
+    }
+}
+
+/* Layar Ponsel */
+@media (max-width: 640px) {
+    .silua-navbar {
+        height: 70px;
+    }
+
+    .brand-text-sub {
+        display: none; /* Sembunyikan slogan di HP agar ringkas */
+    }
+
+    .brand-text-silua {
+        font-size: 1.25rem;
+    }
+
+    .nav-util-icon {
+        width: 38px;
+        height: 38px;
+    }
+
+    .w-full.px-6 {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    /* Login button adjustment for small screens */
+    .silua-navbar a[href*="portal"] {
+        padding: 6px 12px;
+        font-size: 10px;
+    }
+}
+
+/* Landscape Mobile Fix */
+@media (max-height: 500px) and (max-width: 900px) {
+    #mobileMenu ul {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        padding: 20px;
+    }
+    #mobileMenu a {
+        font-size: 1.5rem;
     }
 }

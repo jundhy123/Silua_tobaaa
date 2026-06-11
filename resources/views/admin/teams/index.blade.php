@@ -1,68 +1,61 @@
 @extends('layouts.admin')
 
-@section('title', 'Kelola Tim')
-@section('page_title', 'Daftar Tim Silua Toba')
+@section('title', 'Kelola Tim - Admin Silua Toba')
+@section('page_title', 'Tim Kami')
 
 @section('content')
-<div class="flex flex-col md:flex-row justify-between items-center mb-10 gap-4">
-    <div>
-        <h3 class="text-3xl font-black text-navy-dark uppercase tracking-tighter">Anggota Tim</h3>
-        <p class="text-gray-500 text-sm">Kelola foto dan jabatan pemilik serta staff.</p>
-    </div>
-    <a href="{{ route('admin.teams.create') }}" class="btn-admin-primary">
-        <i data-lucide="user-plus" class="w-5 h-5"></i>
-        <span>Tambah Anggota</span>
-    </a>
-</div>
+<link rel="stylesheet" href="{{ asset('css/produk-admin.css') }}">
 
-@if(session('success'))
-    <div class="bg-green-50 border-l-4 border-green-500 p-4 mb-6 rounded-r-xl flex items-center gap-3">
-        <i data-lucide="check-circle" class="text-green-500 w-5 h-5"></i>
-        <p class="text-sm text-green-700 font-bold">{{ session('success') }}</p>
+<div class="space-y-10 animate-fade-in">
+    <!-- HEADER -->
+    <div class="admin-header-flex">
+        <div>
+            <h1 class="main-title-premium text-[#31326F]">Kelola <span class="text-[#4FB7B3]">Tim Kreatif</span></h1>
+            <p class="text-[#64748B] text-sm mt-1 italic">Individu yang menjaga dedikasi dan kualitas Silua Toba.</p>
+        </div>
+        <a href="{{ route('admin.teams.create') }}" class="btn-admin-add">
+            <i data-lucide="user-plus"></i>
+            Tambah Anggota
+        </a>
     </div>
-@endif
 
-<div class="admin-card overflow-hidden">
-    <div class="table-responsive">
+    <!-- DATA TABLE -->
+    <div class="admin-table-card">
         <table class="admin-table">
             <thead>
                 <tr>
-                    <th class="text-center">Foto</th>
-                    <th>Nama Lengkap</th>
-                    <th>Jabatan</th>
+                    <th width="100">Foto</th>
+                    <th>Identitas Anggota</th>
+                    <th>Posisi / Peran</th>
                     <th class="text-center">Aksi</th>
                 </tr>
             </thead>
             <tbody>
                 @forelse($teams as $t)
                 <tr>
-                    <td class="text-center w-32">
-                        <img src="{{ asset('uploads/teams/'.$t->photo) }}" class="product-img-thumb shadow-sm" style="width: 60px; height: 80px; object-fit: cover;">
+                    <td>
+                        <div class="w-16 h-16 rounded-full overflow-hidden border-2 border-white shadow-sm ring-1 ring-[#E2E8F0]">
+                            <img src="{{ asset('uploads/teams/'.$t->photo) }}" class="w-full h-full object-cover">
+                        </div>
                     </td>
                     <td>
-                        <div class="product-name-title">{{ $t->name }}</div>
+                        <div class="font-bold text-[#31326F] text-sm">{{ $t->name }}</div>
+                        <div class="text-[9px] font-bold text-[#4FB7B3] uppercase tracking-widest mt-0.5">Anggota Aktif</div>
                     </td>
                     <td>
-                        <span class="badge-pill-category" style="background: #FEF3C7; color: #B45309;">
+                        <span class="badge-pill bg-[#A8FBD3]/20 text-[#31326F] border border-[#A8FBD3]/30">
                             {{ $t->position }}
                         </span>
                     </td>
-                    
                     <td>
                         <div class="flex justify-center gap-3">
-                            <!-- ✅ TOMBOL EDIT BARU -->
-                            <a href="{{ route('admin.teams.edit', $t->id) }}" class="action-btn-pill edit" title="Ubah Data">
-                                <i data-lucide="edit-3"></i>
-                                <span>Edit</span>
+                            <a href="{{ route('admin.teams.edit', $t->id) }}" class="action-btn edit" title="Edit">
+                                <i data-lucide="edit-3" class="w-4 h-4"></i>
                             </a>
-
-                            <!-- TOMBOL HAPUS -->
-                            <form action="{{ route('admin.teams.destroy', $t->id) }}" method="POST" onsubmit="return confirm('Hapus anggota ini?')">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="action-btn-pill delete">
-                                    <i data-lucide="trash-2"></i>
-                                    <span>Hapus</span>
+                            <form action="{{ route('admin.teams.destroy', $t->id) }}" method="POST" onsubmit="return confirmDelete(this, 'Hapus Anggota Tim?')">
+                                @csrf @method('DELETE')
+                                <button type="submit" class="action-btn delete" title="Hapus">
+                                    <i data-lucide="trash-2" class="w-4 h-4"></i>
                                 </button>
                             </form>
                         </div>
@@ -70,9 +63,9 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="4" class="py-20 text-center">
-                        <i data-lucide="users" class="w-16 h-16 mx-auto text-gray-200 mb-4"></i>
-                        <p class="text-gray-400 font-bold italic">Belum ada anggota tim...</p>
+                    <td colspan="4" class="py-20 text-center opacity-30">
+                        <i data-lucide="users" class="w-16 h-16 mx-auto mb-4 text-[#64748B]"></i>
+                        <p class="font-bold uppercase tracking-widest text-xs">Belum ada anggota tim</p>
                     </td>
                 </tr>
                 @endforelse

@@ -1,89 +1,66 @@
 @extends('layouts.admin')
 
-@section('title', 'Edit Anggota Tim')
-@section('page_title', 'Ubah Data Tim')
+@section('title', 'Ubah Info Talenta - Admin Silua Toba')
+@section('page_title', 'Manajemen Tim')
 
 @section('content')
-<div class="max-w-5xl mx-auto">
-    <!-- Header Page -->
-    <div class="flex items-center justify-between mb-8">
-        <div class="flex items-center gap-5">
-            <!-- Tombol Kembali dengan Efek Hover -->
-            <a href="{{ route('admin.teams.index') }}" class="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-navy-dark shadow-sm hover:bg-gray-soft hover:text-white hover:rotate-[-10deg] transition-all duration-300">
-                <i data-lucide="chevron-left" class="w-6 h-6"></i>
-            </a>
-            <div>
-                <h3 class="text-2xl font-black text-navy-dark tracking-tight uppercase">Edit Anggota Tim</h3>
-                <p class="text-gray-400 text-sm font-medium">Perbarui profil pemilik atau staff Silua Toba.</p>
-            </div>
+<link rel="stylesheet" href="{{ asset('css/produk-admin.css') }}">
+
+<div class="max-w-4xl mx-auto space-y-10 animate-fade-in">
+    <!-- HEADER -->
+    <div class="flex items-center gap-6">
+        <a href="{{ route('admin.teams.index') }}" class="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-[#64748B] shadow-sm border border-[#E2E8F0] hover:bg-[#31326F] hover:text-white transition-all">
+            <i data-lucide="arrow-left" class="w-5 h-5"></i>
+        </a>
+        <div>
+            <h1 class="text-3xl font-black text-[#31326F]">Ubah <span class="text-[#4FB7B3]">Info Talenta</span></h1>
+            <p class="text-[#64748B] text-sm mt-1">Perbarui kredensial dan identitas visual <b>{{ $team->name }}</b>.</p>
         </div>
     </div>
 
-    <!-- Main Card Form -->
-    <div class="admin-card border-t-[10px] border-gray-soft shadow-2xl relative overflow-hidden">
-        <!-- Dekorasi Background Halus (Warna Kuning Aksen) -->
-        <div class="absolute top-0 right-0 w-32 h-32 bg-bg-light/10 rounded-full -mr-16 -mt-16"></div>
-
-        <form action="{{ route('admin.teams.update', $team->id) }}" method="POST" enctype="multipart/form-data" class="space-y-8 relative z-10">
+    <!-- FORM CARD -->
+    <div class="admin-form-card">
+        <form action="{{ route('admin.teams.update', $team->id) }}" method="POST" enctype="multipart/form-data" class="space-y-12">
             @csrf
-            @method('PUT') <!-- Wajib ada untuk proses update -->
+            @method('PUT')
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-8">
-                <!-- Nama Lengkap -->
-                <div class="admin-input-group">
-                    <label class="form-label-custom">Nama Lengkap</label>
-                    <div class="relative">
-                        <i data-lucide="user" class="input-icon-left"></i>
-                        <input type="text" name="name" value="{{ old('name', $team->name) }}" required class="silua-input-v2" placeholder="Nama lengkap anggota">
-                    </div>
-                    @error('name') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
-                </div>
-
-                <!-- Jabatan -->
-                <div class="admin-input-group">
-                    <label class="form-label-custom">Jabatan / Posisi</label>
-                    <div class="relative">
-                        <i data-lucide="briefcase" class="input-icon-left"></i>
-                        <input type="text" name="position" value="{{ old('position', $team->position) }}" required class="silua-input-v2" placeholder="Contoh: Owner / Manager">
-                    </div>
-                    @error('position') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
-                </div>
-            </div>
-
-            <!-- Bagian Foto Profil -->
-            <div class="admin-input-group">
-                <label class="form-label-custom">Foto Profil</label>
-                <div class="flex flex-col md:flex-row items-center gap-8 p-6 bg-gray-50 rounded-[2rem] border-2 border-dashed border-gray-soft/30">
-                    <!-- Preview Foto Lama -->
+            <div class="flex flex-col items-center">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
                     <div class="text-center">
-                        <p class="text-[10px] font-bold text-gray-400 uppercase mb-2">Foto Saat Ini</p>
-                        <img src="{{ asset('uploads/teams/'.$team->photo) }}" class="w-32 h-32 object-cover rounded-2xl border-4 border-white shadow-lg">
-                    </div>
-
-                    <div class="flex-1 w-full">
-                        <p class="text-xs font-bold text-navy-dark mb-3 uppercase opacity-60">Ganti Foto Baru</p>
-                        <div class="relative group">
-                            <input type="file" name="photo" id="photo" class="hidden-file-input" onchange="updateFileName(this)">
-                            <label for="photo" class="file-upload-wrapper !bg-white">
-                                <i data-lucide="image" class="w-5 h-5 text-gray-soft"></i>
-                                <span id="file-chosen" class="text-gray-400 font-medium">Pilih file jika ingin ganti...</span>
-                                <span class="bg-navy-dark text-white px-3 py-1 rounded-lg text-[10px] ml-auto uppercase font-bold">Browse</span>
-                            </label>
+                        <span class="text-[9px] font-bold text-[#64748B] uppercase mb-4 block">Foto Saat Ini</span>
+                        <div class="w-32 h-32 mx-auto rounded-full overflow-hidden border-4 border-white shadow-lg ring-1 ring-[#E2E8F0]">
+                            <img src="{{ asset('uploads/teams/'.$team->photo) }}" class="w-full h-full object-cover">
                         </div>
-                        <p class="text-[10px] text-gray-400 mt-3 italic">*Abaikan jika tidak ingin mengubah foto.</p>
+                    </div>
+                    <div class="text-center">
+                        <span class="text-[9px] font-bold text-[#64748B] uppercase mb-4 block">Ganti Foto</span>
+                        <div class="relative w-32 h-32 mx-auto group">
+                            <div class="w-full h-full rounded-full bg-[#F8FAFC] border-2 border-dashed border-[#E2E8F0] flex flex-col items-center justify-center overflow-hidden cursor-pointer" onclick="document.getElementById('photoInput').click()">
+                                <img id="preview" class="absolute inset-0 w-full h-full object-cover hidden">
+                                <i data-lucide="refresh-cw" id="icon" class="w-6 h-6 text-[#CBD5E1]"></i>
+                                <input type="file" name="photo" id="photoInput" accept="image/*" onchange="previewImage(event)" class="hidden">
+                            </div>
+                        </div>
                     </div>
                 </div>
-                @error('photo') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+                <p class="text-[9px] text-[#64748B] italic uppercase mt-6">*Biarkan kosong untuk mempertahankan foto lama</p>
             </div>
 
-            <!-- Action Buttons -->
-            <div class="flex items-center justify-end gap-4 pt-6 border-t border-gray-100">
-                <a href="{{ route('admin.teams.index') }}" class="px-8 py-4 text-gray-400 font-bold hover:text-navy-dark transition-all uppercase text-xs tracking-widest">
-                    Batal
-                </a>
-                <button type="submit" class="btn-admin-submit-v2 shadow-navy-dark/20 shadow-2xl">
-                    <i data-lucide="refresh-cw" class="w-5 h-5"></i>
-                    <span>UPDATE DATA TIM</span>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <div class="space-y-2">
+                    <label class="form-label-premium">Nama Lengkap</label>
+                    <input type="text" name="name" value="{{ old('name', $team->name) }}" required class="form-input-premium font-bold">
+                </div>
+
+                <div class="space-y-2">
+                    <label class="form-label-premium">Posisi Jabatan</label>
+                    <input type="text" name="position" value="{{ old('position', $team->position) }}" required class="form-input-premium">
+                </div>
+            </div>
+
+            <div class="pt-6">
+                <button type="submit" class="btn-submit-premium !bg-[#4FB7B3] hover:!bg-[#31326F]">
+                    Konfirmasi Pembaruan
                 </button>
             </div>
         </form>
@@ -91,13 +68,16 @@
 </div>
 
 <script>
-    // Script untuk update nama file saat dipilih
-    function updateFileName(input) {
-        if (input.files && input.files[0]) {
-            const fileName = input.files[0].name;
-            document.getElementById('file-chosen').textContent = fileName;
-            document.getElementById('file-chosen').classList.add('text-navy-dark');
-        }
+    function previewImage(event) {
+        var reader = new FileReader();
+        var output = document.getElementById('preview');
+        var icon = document.getElementById('icon');
+        reader.onload = function(){
+            output.src = reader.result;
+            output.classList.remove('hidden');
+            icon.classList.add('hidden');
+        };
+        reader.readAsDataURL(event.target.files[0]);
     }
 </script>
 @endsection

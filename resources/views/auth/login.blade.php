@@ -13,9 +13,10 @@
                 </div>
                 <span class="brand-name">Silua Toba</span>
             </div>
-            
+
             <div class="info-content">
-                <h1>Menghadirkan <br> Yang terbaik</h1>
+                <h1>Menghadirkan <br> Yang Terbaik</h1>
+                <p>Silakan masuk untuk menikmati pengalaman kuliner autentik Toba.</p>
             </div>
 
             <div class="auth-side-footer">
@@ -29,9 +30,7 @@
         <div class="auth-side-form">
             <!-- Navigation Links -->
             <div class="auth-nav-header">
-                <a href="{{ route('portal') }}" class="nav-link-btn">
-                    <i data-lucide="chevron-left"></i> PORTAL
-                </a>
+                <div></div> <!-- Spacer -->
                 <a href="{{ url('/') }}" class="nav-link-btn">
                     <i data-lucide="home"></i> HOME
                 </a>
@@ -39,19 +38,19 @@
 
             <div class="form-wrapper">
                 <div class="form-header">
-                    <h2>Sign In {{ $role == 'admin' ? 'Administrator' : 'Pelanggan' }}</h2>
-                    <p>Silakan masukkan kredensial akun Anda.</p>
+                    <h2>Sign In</h2>
+                    <p>Masukkan kredensial akun Anda untuk melanjutkan.</p>
                 </div>
 
                 <!-- Tampilkan Error Jika Ada -->
                 @if ($errors->any())
                 <div class="error-alert">
                     <i data-lucide="alert-circle"></i>
-                    <span>Email atau password salah.</span>
+                    <span>Kredensial salah atau akun tidak ditemukan.</span>
                 </div>
                 @endif
 
-                <form action="{{ $role == 'admin' ? route('admin.login.post') : route('user.login.post') }}" method="POST">
+                <form action="{{ route('login.post') }}" method="POST">
                     @csrf
                     <div class="input-group">
                         <label>ALAMAT EMAIL</label>
@@ -75,22 +74,15 @@
                     </button>
                 </form>
 
-                @if($role == 'pelanggan')
                 <div class="auth-switch">
-                    <p>Belum punya akun? <a href="{{ route('user.register') }}">Daftar gratis di sini</a></p>
+                    <p>Belum punya akun? <a href="{{ route('user.register') }}">Daftar di sini</a></p>
                 </div>
-                @else
-                <div class="auth-switch">
-                    <p class="admin-notice">Akses terbatas hanya untuk staf internal.</p>
-                </div>
-                @endif
             </div>
         </div>
     </div>
 </div>
 
 <script>
-    // Pastikan Lucide Icons ter-load
     if(typeof lucide !== 'undefined') lucide.createIcons();
 </script>
 @endsection

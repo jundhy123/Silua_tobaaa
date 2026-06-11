@@ -61,7 +61,7 @@ class CompanyProfileController extends Controller
         $profile->update($data);
 
         return redirect()->route('admin.profile.index')
-            ->with('success', 'Profil berhasil diupdate');
+            ->with('success', 'Profil berhasil diperbarui');
     }
 
     public function destroy(CompanyProfile $profile)

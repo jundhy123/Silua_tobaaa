@@ -1,100 +1,66 @@
 @extends('layouts.admin')
-@section('page_title', 'Tambah Profil')
+
+@section('title', 'Setup Profil - Admin Silua Toba')
+@section('page_title', 'Identitas Korporat')
 
 @section('content')
-<div class="max-w-5xl mx-auto">
+<link rel="stylesheet" href="{{ asset('css/produk-admin.css') }}">
 
-    <!-- NOTIFIKASI ERROR -->
-    @if ($errors->any())
-        <div class="bg-red-50 border-l-4 border-red-500 p-4 mb-6 rounded-r-xl">
-            <p class="text-sm text-red-700 font-bold mb-2">Terjadi kesalahan:</p>
-            <ul class="text-xs text-red-600 list-disc ml-5">
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
+<div class="max-w-5xl mx-auto space-y-10 animate-fade-in">
+    <!-- HEADER -->
+    <div class="flex items-center gap-6">
+        <a href="{{ route('admin.profile.index') }}" class="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-[#64748B] shadow-sm border border-[#E2E8F0] hover:bg-[#31326F] hover:text-white transition-all">
+            <i data-lucide="arrow-left" class="w-5 h-5"></i>
+        </a>
+        <div>
+            <h1 class="text-3xl font-black text-[#31326F]">Setup <span class="text-[#4FB7B3]">Identitas</span></h1>
+            <p class="text-[#64748B] text-sm mt-1">Konfigurasi fundamental dan visi misi perusahaan.</p>
         </div>
-    @endif
+    </div>
 
-    <!-- CARD -->
-    <div class="admin-card border-t-8 border-orange-brand p-6">
-
-        <!-- FORM -->
-        <form action="{{ route('admin.profile.store') }}" method="POST" class="space-y-8">
+    <!-- FORM CARD -->
+    <div class="admin-form-card">
+        <form action="{{ route('admin.profile.store') }}" method="POST" class="space-y-10">
             @csrf
 
-            <!-- HERO TITLE -->
-            <div class="admin-input-group">
-                <label>Judul Utama Halaman Profil (Hero Title)</label>
-                <input type="text" 
-                       name="hero_title" 
-                       value="{{ old('hero_title') }}" 
-                       class="silua-input-v2" 
-                       required
-                       placeholder="Contoh: Profil Perusahaan Silua Toba">
-
-                <p class="text-[10px] text-gray-400 mt-1">
-                    *Muncul sebagai tulisan besar di bagian atas halaman profil user.
-                </p>
+            <div class="space-y-4">
+                <span class="text-[10px] font-black uppercase tracking-widest text-[#4FB7B3] border-b border-[#A8FBD3] pb-2 inline-block">Kehadiran Digital</span>
+                <div class="space-y-2">
+                    <label class="form-label-premium">Headline Utama (Hero)</label>
+                    <input type="text" name="hero_title" value="{{ old('hero_title') }}" required placeholder="cth. Silua Toba: Warisan Rasa Tanah Batak" class="form-input-premium font-bold italic text-lg">
+                </div>
             </div>
 
-            <!-- HISTORY -->
-            <div class="admin-input-group">
-                <label>Sejarah / Tentang</label>
-                <textarea name="history_text" 
-                          rows="6" 
-                          class="silua-input-v2" 
-                          required
-                          placeholder="Ceritakan awal mula...">{{ old('history_text') }}</textarea>
+            <div class="space-y-2">
+                <label class="form-label-premium">Narasi Sejarah Brand</label>
+                <textarea name="history_text" rows="6" placeholder="Kisah bagaimana semuanya dimulai..." required class="form-input-premium leading-relaxed">{{ old('history_text') }}</textarea>
             </div>
 
-            <!-- VISI & MISI -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-
-                <div class="admin-input-group">
-                    <label>Visi</label>
-                    <textarea name="vision" 
-                              rows="4" 
-                              class="silua-input-v2" 
-                              required
-                              placeholder="Visi perusahaan...">{{ old('vision') }}</textarea>
+                <div class="space-y-2">
+                    <label class="form-label-premium">Visi Bisnis</label>
+                    <textarea name="vision" rows="4" placeholder="Tujuan jangka panjang..." required class="form-input-premium">{{ old('vision') }}</textarea>
                 </div>
-
-                <div class="admin-input-group">
-                    <label>Misi</label>
-                    <textarea name="mission" 
-                              rows="4" 
-                              class="silua-input-v2" 
-                              required
-                              placeholder="Misi perusahaan...">{{ old('mission') }}</textarea>
+                <div class="space-y-2">
+                    <label class="form-label-premium">Misi Strategis</label>
+                    <textarea name="mission" rows="4" placeholder="Tindakan harian..." required class="form-input-premium">{{ old('mission') }}</textarea>
                 </div>
-
             </div>
 
-            <!-- MAP -->
-            <div class="admin-input-group">
-                <label>Link Embed Google Maps</label>
-                <input type="text" 
-                       name="map_embed" 
-                       value="{{ old('map_embed') }}" 
-                       class="silua-input-v2" 
-                       required
-                       placeholder="Paste link dari Google Maps">
-
-                <p class="text-[10px] text-gray-400 mt-1">
-                    *Ambil dari Google Maps → Share → Embed → ambil URL src
-                </p>
+            <div class="space-y-2">
+                <label class="form-label-premium">URL Embed Google Maps</label>
+                <div class="relative group">
+                    <input type="text" name="map_embed" value="{{ old('map_embed') }}" required placeholder="https://www.google.com/maps/embed?..." class="form-input-premium !pl-14 text-xs font-medium">
+                    <i data-lucide="map-pin" class="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-[#CBD5E1]"></i>
+                </div>
+                <p class="text-[9px] text-[#64748B] italic px-2 mt-2">Dapatkan kode dari Google Maps > Bagikan > Sematkan peta > salin nilai 'src'</p>
             </div>
 
-            <!-- BUTTON -->
-            <div class="pt-4">
-                <button type="submit" 
-                        class="btn-admin-submit-v2 w-full shadow-lg hover:scale-[1.02] transition">
-                    <i data-lucide="save" class="w-5 h-5 mr-2"></i>
-                    SIMPAN PROFIL
+            <div class="pt-6">
+                <button type="submit" class="btn-submit-premium">
+                    Simpan Profil Perusahaan
                 </button>
             </div>
-
         </form>
     </div>
 </div>

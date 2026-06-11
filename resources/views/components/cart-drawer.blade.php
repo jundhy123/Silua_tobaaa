@@ -11,16 +11,16 @@
 
     <div class="cart-items-list">
         @auth
-            @php 
+            @php
                 $carts = \App\Models\Cart::where('user_id', auth()->id())
                             ->with('product')
-                            ->get(); 
-                $total = 0; 
+                            ->get();
+                $total = 0;
             @endphp
 
             @forelse($carts as $item)
                 @if($item->product)
-                    @php 
+                    @php
                         $subtotal = $item->product->price * $item->quantity;
                         $total += $subtotal;
                     @endphp
@@ -45,7 +45,7 @@
                                     </div>
                                 </form>
 
-                                <form action="{{ route('cart.destroy', $item) }}" method="POST">
+                                <form action="{{ route('cart.destroy', $item) }}" method="POST" onsubmit="return confirmDelete(this, 'Hapus dari Keranjang?', 'Produk ini akan dihapus dari keranjang belanja Anda.')">
                                     @csrf
                                     @method('DELETE')
                                     <button class="delete-icon-btn">

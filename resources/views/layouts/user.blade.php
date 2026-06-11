@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title','Rumah Kreatif Toba')</title>
 
+    <!-- FAVICON -->
+    <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}">
+
     <!-- GOOGLE FONTS -->
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@300;400;600;700;800&family=Lora:ital,wght@0,400;0,700;1,400&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
@@ -25,28 +28,67 @@
 
     <!-- LUCIDE ICONS LIBRARY -->
     <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- SWEETALERT2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        window.confirmDelete = function(form, title = 'Hapus data?', text = 'Data yang dihapus tidak dapat dikembalikan!') {
+            Swal.fire({
+                title: title,
+                text: text,
+                icon: 'warning',
+                iconColor: '#f97316',
+                showCancelButton: true,
+                confirmButtonColor: '#dc2626',
+                cancelButtonColor: '#5e6673',
+                confirmButtonText: 'Ya, hapus!',
+                cancelButtonText: 'Batal',
+                customClass: {
+                    popup: 'rounded-[2rem] p-8',
+                    title: 'text-2xl font-bold text-gray-800',
+                    htmlContainer: 'text-sm text-gray-500',
+                    confirmButton: 'px-6 py-3 rounded-xl font-bold text-white text-sm bg-red-600 hover:bg-red-700 focus:ring-4 focus:ring-red-200 transition-all duration-300',
+                    cancelButton: 'px-6 py-3 rounded-xl font-bold text-white text-sm bg-gray-500 hover:bg-gray-600 focus:ring-4 focus:ring-gray-200 transition-all duration-300 ml-3'
+                },
+                buttonsStyling: false
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
+            return false;
+        };
+    </script>
 </head>
 
 <body class="min-h-screen bg-[#EAEFEF] font-sans text-gray-900 overflow-x-hidden">
 
-    <!-- NOTIFIKASI GLOBAL (Laravel Session) -->
+    <!-- NOTIFIKASI GLOBAL (Laravel Session via SweetAlert2) -->
     @if(session('success') || session('error'))
-        <div id="global-alert" class="fixed top-28 right-8 z-[10002] px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-4 animate-bounce-in {{ session('error') ? 'bg-red-600 text-white' : 'bg-green-600 text-white' }}">
-            <div class="p-2 rounded-full bg-white/10">
-                <i data-lucide="check" class="w-4 h-4"></i>
-            </div>
-            <p class="text-xs font-bold uppercase tracking-widest">
-                {{ session('error') ?? session('success') }}
-            </p>
-            <button onclick="this.parentElement.remove()" class="ml-4 opacity-50 hover:opacity-100">
-                <i data-lucide="x" class="w-4 h-4"></i>
-            </button>
-        </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            Swal.fire({
+                title: "{{ session('error') ? 'Gagal!' : 'Berhasil!' }}",
+                text: "{{ session('error') ?? session('success') }}",
+                icon: "{{ session('error') ? 'error' : 'success' }}",
+                iconColor: "{{ session('error') ? '#ef4444' : '#10b981' }}",
+                confirmButtonColor: '#111827',
+                confirmButtonText: 'OK',
+                customClass: {
+                    popup: 'rounded-[2rem] p-8',
+                    title: 'text-2xl font-bold text-gray-800',
+                    htmlContainer: 'text-sm text-gray-500',
+                    confirmButton: 'px-6 py-3 rounded-xl font-bold text-white text-sm bg-gray-900 hover:bg-amber-700 transition-all duration-300'
+                },
+                buttonsStyling: false
+            });
+        });
+    </script>
     @endif
 
     <div class="min-h-screen flex flex-col">
         {{-- NAVBAR --}}
-        @include('components.navbar-user')
+        @include('components.navbar-user', ['nav_type' => $__env->getSection('nav_type')])
 
         {{-- CONTENT DINAMIS --}}
         <main class="flex-1">

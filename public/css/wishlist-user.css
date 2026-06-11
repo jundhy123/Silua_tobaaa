@@ -1,166 +1,208 @@
-/* --- BASE SETUP --- */
-:root {
-    --primary-orange: #FF5722;
-    --olive-green: #5B5B41;
-    --bg-creamy: #F9F9F4;
-    --text-dark: #1a1a1a;
-    --serif: 'Playfair Display', serif;
-    --sans: 'Poppins', sans-serif;
-    --transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-}
+/* ================= REDESIGN SILUA TOBA WISHLIST USER ================= */
 
 .wishlist-page-wrapper {
-    padding-top: 140px;
-    padding-bottom: 120px;
-    background-color: var(--bg-creamy);
-    font-family: var(--sans);
+    background-color: var(--bg-main);
     min-height: 100vh;
+    padding-top: 150px;
 }
 
-.container { max-width: 1100px; margin: 0 auto; padding: 0 25px; }
-
-/* --- HEADER --- */
-.wishlist-header { text-align: center; margin-bottom: 80px; }
-.top-label { color: var(--primary-orange); font-weight: 800; letter-spacing: 2px; font-size: 0.75rem; display: block; margin-bottom: 15px; }
-.main-title { font-family: var(--serif); font-size: 3.5rem; font-weight: 900; color: var(--text-dark); }
-.header-desc { color: #777; max-width: 500px; margin: 20px auto 0; line-height: 1.8; }
-.header-line { width: 60px; height: 5px; background: var(--primary-orange); margin: 30px auto 0; border-radius: 10px; }
-
-/* --- WISHLIST GRID --- */
-.wishlist-grid { 
-    display: grid; 
-    grid-template-columns: 1fr; /* Satu baris per item agar rapi (Horizontal style) */
-    gap: 25px; 
+/* Header */
+.wishlist-header {
+    text-align: center;
+    margin-bottom: 80px;
 }
 
+.top-label {
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--primary-teal);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    display: block;
+    margin-bottom: 15px;
+}
+
+.main-title {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    margin-bottom: 15px;
+}
+
+.header-desc {
+    color: var(--text-secondary);
+    max-width: 600px;
+    margin: 0 auto;
+    font-size: 1.1rem;
+}
+
+.header-line {
+    width: 60px;
+    height: 3px;
+    background: var(--primary-navy);
+    margin: 30px auto 0;
+    border-radius: 10px;
+}
+
+/* Grid */
+.wishlist-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 30px;
+}
+
+/* Card */
 .wish-card-premium {
     background: white;
-    padding: 20px;
-    border-radius: 35px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.03);
-    transition: var(--transition);
-}
-
-.wish-card-premium:hover { transform: translateY(-8px); box-shadow: 0 20px 60px rgba(0,0,0,0.06); }
-
-.wish-card-content {
-    display: flex;
-    gap: 30px;
-    align-items: center;
-}
-
-/* Area Gambar */
-.wish-img-wrapper {
-    width: 220px;
-    height: 160px;
-    border-radius: 25px;
+    border-radius: var(--radius-2xl);
+    border: 1px solid var(--border-soft);
     overflow: hidden;
-    flex-shrink: 0;
-    position: relative;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: var(--shadow-sm);
 }
 
-.wish-img-wrapper img { width: 100%; height: 100%; object-fit: cover; }
+.wish-card-premium:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--primary-teal);
+}
+
+.wish-img-wrapper {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+}
+
+.wish-img-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
 
 .price-badge {
     position: absolute;
-    bottom: 10px; right: 10px;
-    background: rgba(255,255,255,0.9);
-    padding: 5px 12px;
-    border-radius: 12px;
-    font-size: 11px;
+    bottom: 15px;
+    right: 15px;
+    background: var(--primary-navy);
+    color: white;
+    padding: 8px 15px;
+    border-radius: 10px;
     font-weight: 800;
-    color: var(--text-dark);
+    font-size: 13px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
 
-/* Area Info */
 .wish-details {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 160px;
+    padding: 25px;
 }
 
-.product-category { font-size: 9px; font-weight: 800; color: var(--primary-orange); text-transform: uppercase; letter-spacing: 1.5px; }
-.product-name { font-family: var(--serif); font-size: 1.8rem; font-weight: 800; color: #1a1a1a; margin: 2px 0 5px; }
-.product-short-desc { color: #888; font-size: 0.9rem; line-height: 1.5; }
+.product-category {
+    font-size: 9px;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: var(--primary-teal);
+    letter-spacing: 1px;
+}
 
-/* --- TOMBOL AKSI --- */
+.product-name {
+    font-size: 1.3rem;
+    margin: 8px 0 12px;
+}
+
+.product-short-desc {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin-bottom: 25px;
+    line-height: 1.5;
+}
+
 .wish-actions-row {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 15px;
+    flex-direction: column;
+    gap: 12px;
 }
 
-.btn-wish-action {
+.btn-wish-action.delete {
+    background: #fee2e2;
+    color: #ef4444;
+    width: 100%;
+    padding: 12px;
+    border-radius: 12px;
     font-size: 10px;
     font-weight: 800;
-    padding: 8px 16px;
-    border-radius: 10px;
-    border: none;
-    cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 6px;
+    justify-content: center;
+    gap: 8px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
-.btn-wish-action.delete { background: #fff1f1; color: #ff5252; transition: 0.3s; }
-.btn-wish-action.delete:hover { background: #ff5252; color: white; }
+.btn-wish-action.delete:hover {
+    background: #ef4444;
+    color: white;
+}
 
 .btn-wish-cart {
-    background: var(--olive-green);
-    color: white;
-    border: none;
-    padding: 12px 30px;
-    border-radius: 50px; /* Pill Shape */
+    background: var(--bg-main);
+    color: var(--primary-navy);
+    border: 1px solid var(--border-soft);
+    padding: 14px;
+    border-radius: 12px;
     font-weight: 700;
-    font-size: 0.85rem;
+    font-size: 11px;
     display: flex;
     align-items: center;
-    gap: 10px;
+    justify-content: center;
+    gap: 8px;
     cursor: pointer;
-    transition: 0.3s;
+    transition: all 0.3s ease;
 }
 
-.btn-wish-cart:hover { 
-    background: var(--primary-orange); 
-    box-shadow: 0 10px 20px rgba(255, 87, 34, 0.2);
-    transform: scale(1.03);
+.btn-wish-cart:hover {
+    background: var(--primary-teal);
+    color: white;
+    border-color: var(--primary-teal);
 }
 
-/* --- EMPTY STATE --- */
+/* Empty State */
 .empty-wishlist-box {
     text-align: center;
-    padding: 100px 0;
+    padding: 100px 20px;
+    background: white;
+    border-radius: var(--radius-3xl);
+    border: 1px solid var(--border-soft);
 }
 
-.empty-icon { color: #ddd; margin-bottom: 20px; }
-.empty-icon svg { width: 80px; height: 80px; }
-.empty-wishlist-box h2 { font-family: var(--serif); font-size: 2.5rem; margin-bottom: 10px; }
-.empty-wishlist-box p { color: #888; margin-bottom: 35px; }
+.empty-icon {
+    width: 80px;
+    height: 80px;
+    background: #f8fafc;
+    color: #cbd5e1;
+    border-radius: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 30px;
+}
+
+.empty-icon i { width: 40px; height: 40px; }
 
 .btn-go-shopping {
-    background: var(--text-dark);
+    display: inline-block;
+    margin-top: 30px;
+    padding: 18px 40px;
+    background: var(--primary-navy);
     color: white;
-    padding: 18px 45px;
-    border-radius: 50px;
+    border-radius: 15px;
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 1px;
     text-decoration: none;
-    font-weight: 700;
-    transition: 0.3s;
+    transition: all 0.3s ease;
 }
-.btn-go-shopping:hover { background: var(--primary-orange); }
 
-/* --- ANIMATIONS --- */
-.reveal, .reveal-up { opacity: 0; transform: translateY(30px); transition: var(--transition); }
-.active { opacity: 1; transform: translateY(0); }
-.reveal-up.active { transition-delay: calc(var(--order) * 0.1s); }
-
-/* Responsive */
-@media (max-width: 768px) {
-    .wish-card-content { flex-direction: column; text-align: center; }
-    .wish-img-wrapper { width: 100%; height: 200px; }
-    .wish-details { height: auto; }
-    .wish-actions-row { flex-direction: column; gap: 15px; }
-    .main-title { font-size: 2.5rem; }
+.btn-go-shopping:hover {
+    background: var(--primary-teal);
+    transform: translateY(-3px);
 }

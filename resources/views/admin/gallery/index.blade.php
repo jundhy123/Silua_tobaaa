@@ -1,36 +1,31 @@
 @extends('layouts.admin')
 
-@section('title', 'Kelola Galeri')
-@section('page_title', 'Galeri Dokumentasi')
+@section('title', 'Kelola Galeri - Admin Silua Toba')
+@section('page_title', 'Aset Visual')
 
 @section('content')
-<div class="flex flex-col md:flex-row justify-between items-center mb-10 gap-4">
-    <div>
-        <h3 class="text-3xl font-black text-navy-dark tracking-tighter uppercase">Daftar Galeri</h3>
-        <p class="text-gray-500 text-sm font-medium">Total terdapat {{ $galleries->count() }} foto dokumentasi aktivitas.</p>
-    </div>
-    <!-- Tombol Tambah -->
-    <a href="{{ route('admin.gallery.create') }}" class="btn-admin-primary">
-        <i data-lucide="image-plus" class="w-5 h-5"></i>
-        <span>Tambah Foto Baru</span>
-    </a>
-</div>
+<link rel="stylesheet" href="{{ asset('css/produk-admin.css') }}">
 
-<!-- Notifikasi Sukses -->
-@if(session('success'))
-    <div class="bg-green-50 border-l-4 border-green-500 p-4 mb-6 rounded-r-xl flex items-center gap-3 animate-fade-in">
-        <i data-lucide="check-circle" class="text-green-500 w-5 h-5"></i>
-        <p class="text-sm text-green-700 font-bold">{{ session('success') }}</p>
+<div class="space-y-10 animate-fade-in">
+    <!-- HEADER -->
+    <div class="admin-header-flex">
+        <div>
+            <h1 class="main-title-premium">Galeri <span class="text-[#4FB7B3]">Visual</span></h1>
+            <p class="text-[#64748B] text-sm mt-1 italic">Total {{ $galleries->count() }} memori yang telah diabadikan.</p>
+        </div>
+        <a href="{{ route('admin.gallery.create') }}" class="btn-admin-add">
+            <i data-lucide="image-plus"></i>
+            Tambah Momen
+        </a>
     </div>
-@endif
 
-<div class="admin-card overflow-hidden">
-    <div class="table-responsive">
+    <!-- DATA TABLE -->
+    <div class="admin-table-card">
         <table class="admin-table">
             <thead>
                 <tr>
-                    <th class="text-center">Preview</th>
-                    <th>Judul & Deskripsi</th>
+                    <th width="180">Pratinjau</th>
+                    <th>Konteks</th>
                     <th class="text-center">Tanggal</th>
                     <th class="text-center">Aksi</th>
                 </tr>
@@ -38,37 +33,29 @@
             <tbody>
                 @forelse($galleries as $g)
                 <tr>
-                    <td class="text-center w-32">
-                        <div class="inline-block relative group">
-                            <img src="{{ asset('uploads/gallery/'.$g->file) }}" class="product-img-thumb shadow-md transition-transform group-hover:scale-110">
+                    <td>
+                        <div class="relative w-32 h-20 rounded-xl overflow-hidden shadow-sm border border-[#E2E8F0]">
+                            <img src="{{ asset('uploads/gallery/'.$g->file) }}" class="w-full h-full object-cover">
                         </div>
                     </td>
                     <td>
-                        <div class="product-name-title">{{ $g->title }}</div>
-                        <div class="text-xs text-gray-400 mt-1 line-clamp-1 italic">
-                            {{ $g->description ?? 'Tidak ada deskripsi' }}
-                        </div>
+                        <div class="font-bold text-[#31326F]">{{ $g->title }}</div>
+                        <p class="text-[10px] text-[#64748B] mt-1 italic line-clamp-1 max-w-sm">"{{ $g->description ?? 'Tidak ada narasi.' }}"</p>
                     </td>
                     <td class="text-center">
-                        <span class="text-xs font-bold text-gray-500 bg-gray-100 px-3 py-1 rounded-full uppercase">
-                            {{ $g->created_at->format('d M Y') }}
+                        <span class="badge-pill bg-[#F8FAFC] text-[#64748B] border border-[#E2E8F0]">
+                            {{ $g->created_at->format('d/m/Y') }}
                         </span>
                     </td>
                     <td>
                         <div class="flex justify-center gap-3">
-                            <!-- ✅ TOMBOL EDIT (Pill Style) -->
-                            <a href="{{ route('admin.gallery.edit', $g->id) }}" class="action-btn-pill edit" title="Ubah Data">
-                                <i data-lucide="edit-3"></i>
-                                <span>Edit</span>
+                            <a href="{{ route('admin.gallery.edit', $g->id) }}" class="action-btn edit" title="Edit">
+                                <i data-lucide="edit-3" class="w-4 h-4"></i>
                             </a>
-
-                            <!-- TOMBOL HAPUS -->
-                            <form action="{{ route('admin.gallery.destroy', $g->id) }}" method="POST" onsubmit="return confirm('Hapus dokumentasi ini?')">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="action-btn-pill delete" title="Hapus">
-                                    <i data-lucide="trash-2"></i>
-                                    <span>Hapus</span>
+                            <form action="{{ route('admin.gallery.destroy', $g->id) }}" method="POST" onsubmit="return confirmDelete(this, 'Hapus Dokumentasi?')">
+                                @csrf @method('DELETE')
+                                <button type="submit" class="action-btn delete" title="Hapus">
+                                    <i data-lucide="trash-2" class="w-4 h-4"></i>
                                 </button>
                             </form>
                         </div>
@@ -76,11 +63,9 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="4" class="py-24 text-center">
-                        <div class="opacity-20 mb-4">
-                            <i data-lucide="image-off" class="w-20 h-20 mx-auto text-gray-400"></i>
-                        </div>
-                        <p class="text-gray-400 font-bold italic tracking-widest uppercase text-xs">Belum ada foto yang diupload.</p>
+                    <td colspan="4" class="py-20 text-center opacity-30">
+                        <i data-lucide="image" class="w-16 h-16 mx-auto mb-4 text-[#64748B]"></i>
+                        <p class="font-bold uppercase tracking-widest text-xs">Galeri Kosong</p>
                     </td>
                 </tr>
                 @endforelse

@@ -1,86 +1,74 @@
 @extends('layouts.admin')
-@section('page_title', 'Kelola Info Profil')
+
+@section('title', 'Identitas Perusahaan - Admin Silua Toba')
+@section('page_title', 'Identitas Korporat')
 
 @section('content')
-<div class="max-w-6xl mx-auto">
+<link rel="stylesheet" href="{{ asset('css/produk-admin.css') }}">
 
-    <!-- HEADER ATAS -->
-    <div class="flex justify-between items-center mb-4">
-        <h2 class="text-lg font-bold text-gray-700">
-            Data Profil
-        </h2>
-
-        <a href="{{ route('admin.profile.create') }}"
-           class="px-4 py-2 text-sm font-semibold text-white rounded-xl shadow-md
-                  hover:scale-105 transition"
-           style="background: linear-gradient(to right, #4FB7B3, #637AB9);">
-            + Tambah
+<div class="space-y-10 animate-fade-in">
+    <!-- HEADER -->
+    <div class="admin-header-flex">
+        <div>
+            <h1 class="main-title-premium text-[#31326F]">Profil <span class="text-[#4FB7B3]">Bisnis</span></h1>
+            <p class="text-[#64748B] text-sm mt-1 italic">Konfigurasi fundamental dan narasi identitas perusahaan.</p>
+        </div>
+        @if($profiles->isEmpty())
+        <a href="{{ route('admin.profile.create') }}" class="btn-admin-add">
+            <i data-lucide="plus"></i>
+            Buat Data Profil
         </a>
+        @endif
     </div>
 
-    <!-- HEADER TABLE -->
-    <div class="grid grid-cols-12 px-6 py-4 text-white text-xs font-bold uppercase tracking-wide
-                rounded-t-2xl"
-         style="background: linear-gradient(to right, #000000, #1f3c3a);">
-        <div class="col-span-7">Judul & Deskripsi</div>
-        <div class="col-span-3">Tanggal</div>
-        <div class="col-span-2 text-center">Aksi</div>
-    </div>
-
-    <!-- BODY -->
-    <div class="bg-white rounded-b-2xl shadow-sm divide-y">
-
-        @forelse ($profiles as $profile)
-        <div class="grid grid-cols-12 items-center px-6 py-4 hover:bg-gray-50 transition">
-
-            <!-- TITLE -->
-            <div class="col-span-7">
-                <h3 class="font-semibold text-gray-800 text-sm">
-                    {{ $profile->hero_title }}
-                </h3>
-                <p class="text-xs text-gray-400 italic">
-                    {{ Str::limit($profile->history_text, 60) }}
-                </p>
-            </div>
-
-            <!-- DATE -->
-            <div class="col-span-3">
-                <span class="text-[10px] bg-gray-100 px-3 py-1 rounded-full text-gray-500 font-semibold">
-                    {{ $profile->created_at->format('d M Y') }}
-                </span>
-            </div>
-
-            <!-- ACTION -->
-            <div class="col-span-2 flex justify-center gap-2">
-
-                <!-- EDIT -->
-                <a href="{{ route('admin.profile.edit', $profile->id) }}"
-                   class="px-3 py-1.5 text-xs rounded-lg 
-                          bg-gray-100 hover:bg-gray-200 text-gray-700 transition font-semibold">
-                    Edit
-                </a>
-
-                <!-- DELETE -->
-                <form action="{{ route('admin.profile.destroy', $profile->id) }}" method="POST">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit"
-                        onclick="return confirm('Hapus data ini?')"
-                        class="px-3 py-1.5 text-xs rounded-lg 
-                               bg-red-50 hover:bg-red-100 text-red-500 transition font-semibold">
-                        Hapus
-                    </button>
-                </form>
-
-            </div>
-        </div>
-
-        @empty
-        <div class="p-6 text-center text-gray-400 text-sm">
-            Tidak ada data
-        </div>
-        @endforelse
-
+    <!-- DATA TABLE -->
+    <div class="admin-table-card">
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>Referensi Nama</th>
+                    <th>Cuplikan Sejarah</th>
+                    <th class="text-center">Pembaruan</th>
+                    <th class="text-center">Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse($profiles as $profile)
+                <tr>
+                    <td>
+                        <div class="font-bold text-[#31326F]">{{ $profile->hero_title }}</div>
+                        <div class="text-[9px] font-bold text-[#4FB7B3] uppercase tracking-widest mt-1">Konfigurasi Global</div>
+                    </td>
+                    <td>
+                        <p class="text-xs text-[#64748B] italic line-clamp-2 max-w-md">"{!! strip_tags($profile->history_text) !!}"</p>
+                    </td>
+                    <td class="text-center">
+                        <span class="text-[10px] font-bold text-[#64748B]">{{ $profile->updated_at->format('d M Y') }}</span>
+                    </td>
+                    <td>
+                        <div class="flex justify-center gap-3">
+                            <a href="{{ route('admin.profile.edit', $profile->id) }}" class="flex items-center gap-2 px-4 py-2 bg-[#31326F] text-white rounded-lg text-[10px] font-bold uppercase tracking-widest hover:bg-[#4FB7B3] transition-all shadow-sm">
+                                <i data-lucide="edit-3" class="w-3 h-3"></i> Ubah Info
+                            </a>
+                            <form action="{{ route('admin.profile.destroy', $profile->id) }}" method="POST" onsubmit="return confirmDelete(this, 'Hapus Profil?')">
+                                @csrf @method('DELETE')
+                                <button type="submit" class="action-btn delete">
+                                    <i data-lucide="trash-2" class="w-4 h-4"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                @empty
+                <tr>
+                    <td colspan="4" class="py-20 text-center opacity-30">
+                        <i data-lucide="building" class="w-16 h-16 mx-auto mb-4 text-[#64748B]"></i>
+                        <p class="font-bold uppercase tracking-widest text-xs">Profil Belum Disetup</p>
+                    </td>
+                </tr>
+                @endforelse
+            </tbody>
+        </table>
     </div>
 </div>
 @endsection

@@ -6,8 +6,8 @@ use App\Models\About;
 
 // Controllers Umum
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserAuthController;
-use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\WishlistController;
@@ -30,7 +30,7 @@ use App\Http\Controllers\Admin\AboutController;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/products', function () {
-    $products = Product::with(['reviews.user'])->latest()->get(); 
+    $products = Product::with(['reviews.user'])->latest()->get();
     return view('user.products', compact('products'));
 })->name('user.products');
 
@@ -46,25 +46,13 @@ Route::get('/about', [HomeController::class, 'about'])->name('user.about');
 |--------------------------------------------------------------------------
 */
 Route::middleware('guest')->group(function () {
+    // LOGIN UNIFIKASI (Admin & Pelanggan)
+    Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+    Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 
-    Route::get('/portal', fn() => view('auth.portal'))->name('portal');
-
-    // USER AUTH
-    Route::prefix('user')->group(function () {
-        Route::get('/login', [UserAuthController::class, 'showLogin'])->name('user.login');
-        Route::post('/login', [UserAuthController::class, 'login'])->name('user.login.post');
-        Route::get('/register', [UserAuthController::class, 'showRegister'])->name('user.register');
-        Route::post('/register', [UserAuthController::class, 'register'])->name('user.register.post');
-    });
-
-    // ALIAS LOGIN
-    Route::get('/login', [UserAuthController::class, 'showLogin'])->name('login');
-
-    // ADMIN AUTH
-    Route::prefix('admin')->group(function () {
-        Route::get('/login', [AdminAuthController::class, 'showLogin'])->name('admin.login');
-        Route::post('/login', [AdminAuthController::class, 'login'])->name('admin.login.post');
-    });
+    // REGISTER (Khusus Pelanggan)
+    Route::get('/register', [UserAuthController::class, 'showRegister'])->name('user.register');
+    Route::post('/register', [UserAuthController::class, 'register'])->name('user.register.post');
 });
 
 
@@ -75,13 +63,13 @@ Route::middleware('guest')->group(function () {
 */
 Route::middleware('auth')->group(function () {
 
-    Route::post('/logout', [UserAuthController::class, 'logout'])->name('logout');
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
     /*
     |--- AREA ADMIN ---
     */
     Route::middleware('can:access-admin')->prefix('admin')->group(function () {
-        
+
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
 
         Route::resource('produk', ProductController::class)
@@ -112,19 +100,20 @@ Route::middleware('auth')->group(function () {
     |--- AREA CUSTOMER ---
     */
     Route::middleware('can:access-customer')->group(function () {
-        
+
         // CART
         Route::post('/cart/add', [CartController::class, 'store'])->name('cart.store');
         Route::patch('/cart/{cart}', [CartController::class, 'update'])->name('cart.update');
         Route::delete('/cart/{cart}', [CartController::class, 'destroy'])->name('cart.destroy');
-        
+
         // CHECKOUT CART (WhatsApp)
         Route::post('/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
 
-        // 🔥 PERBAIKAN DI SINI: Nama rute diubah dari cart.direct-order menjadi cart.directOrder
+        // DIRECT ORDER
         Route::post('/direct-order', [CartController::class, 'directOrder'])->name('cart.directOrder');
 
-        Route::get('/pesanan-saya', fn() => view('user.orders'))->name('user.orders');
+        // ORDERS
+        Route::get('/pesanan-saya', [CartController::class, 'myOrders'])->name('user.orders');
 
         // WISHLIST
         Route::get('/wishlist', [WishlistController::class, 'index'])->name('user.wishlist');
@@ -138,10 +127,5 @@ Route::middleware('auth')->group(function () {
         Route::post('/testimoni', [TestimonialController::class, 'store'])->name('testimoni.store');
         Route::patch('/testimoni/{testimonial}', [TestimonialController::class, 'update'])->name('testimoni.update');
         Route::delete('/testimoni/{testimonial}', [TestimonialController::class, 'destroy'])->name('testimoni.destroy');
-
-        Route::middleware('auth')->group(function () {
-    // ... rute lainnya
-    Route::get('/pesanan-saya', [App\Http\Controllers\CartController::class, 'myOrders'])->name('user.orders');
-});
     });
 });
