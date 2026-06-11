@@ -13,8 +13,8 @@ use Illuminate\Support\Str; // Tambahkan ini untuk generate kode unik
 class UserAuthController extends Controller
 {
     // 1. Tampilkan Form Login
-    public function showLogin() { 
-        return view('auth.login', ['role' => 'pelanggan']); 
+    public function showLogin() {
+        return view('auth.login', ['role' => 'pelanggan']);
     }
 
     // 2. Proses Login
@@ -35,8 +35,8 @@ class UserAuthController extends Controller
     }
 
     // 3. Tampilkan Form Register
-    public function showRegister() { 
-        return view('auth.register'); 
+    public function showRegister() {
+        return view('auth.register');
     }
 
     // 4. Proses Registrasi + Generate ID Pelanggan
@@ -62,11 +62,11 @@ class UserAuthController extends Controller
             'role' => 'pelanggan',
         ]);
 
-        return redirect()->route('user.login')->with('success', 'Pendaftaran berhasil! ID: ' . $customerId);
+        return redirect()->route('login')->with('success', 'Pendaftaran berhasil! ID: ' . $customerId);
     }
 
     // 5. Proses Logout
-    public function logout(Request $request) 
+    public function logout(Request $request)
     {
         Auth::logout();
         $request->session()->invalidate();

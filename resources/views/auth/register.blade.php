@@ -7,7 +7,7 @@
 
 <div class="auth-wrapper">
     <div class="auth-container reveal">
-        
+
         <!-- SISI KIRI: BRANDING & INFO (Premium Style) -->
         <div class="auth-side-info">
             <div class="auth-logo-top">
@@ -16,7 +16,7 @@
                 </div>
                 <span class="brand-name">Silua Toba</span>
             </div>
-            
+
             <div class="info-content">
                 <h1>Bergabunglah <br> Dengan Kami</h1>
                 <p>Ciptakan akun Anda dan nikmati kemudahan memesan cita rasa autentik Nusantara dalam satu sentuhan.</p>
@@ -33,7 +33,7 @@
         <div class="auth-side-form">
             <!-- Navigation Header -->
             <div class="auth-nav-header">
-                <a href="{{ route('user.login') }}" class="nav-link-btn">
+                <a href="{{ route('login') }}" class="nav-link-btn">
                     <i data-lucide="chevron-left"></i> LOGIN
                 </a>
                 <a href="{{ url('/') }}" class="nav-link-btn">
@@ -49,14 +49,14 @@
 
                 <form action="{{ route('user.register.post') }}" method="POST">
                     @csrf
-                    
+
                     <!-- Input Nama (Berjajar) -->
                     <div class="input-row-flex">
                         <div class="input-group flex-1">
                             <label>NAMA DEPAN</label>
                             <div class="input-relative">
                                 <i data-lucide="user" class="input-icon"></i>
-                                <input type="text" name="first_name" value="{{ old('first_name') }}" required 
+                                <input type="text" name="first_name" value="{{ old('first_name') }}" required
                                     class="premium-input @error('first_name') border-red @enderror" placeholder="Jundhy">
                             </div>
                             @error('first_name') <span class="error-msg">{{ $message }}</span> @enderror
@@ -65,7 +65,7 @@
                         <div class="input-group flex-1">
                             <label>NAMA BELAKANG</label>
                             <div class="input-relative">
-                                <input type="text" name="last_name" value="{{ old('last_name') }}" required 
+                                <input type="text" name="last_name" value="{{ old('last_name') }}" required
                                     class="premium-input @error('last_name') border-red @enderror" placeholder="Situmorang">
                             </div>
                             @error('last_name') <span class="error-msg">{{ $message }}</span> @enderror
@@ -77,7 +77,7 @@
                         <label>ALAMAT EMAIL</label>
                         <div class="input-relative">
                             <i data-lucide="mail" class="input-icon"></i>
-                            <input type="email" name="email" value="{{ old('email') }}" required 
+                            <input type="email" name="email" value="{{ old('email') }}" required
                                 class="premium-input @error('email') border-red @enderror" placeholder="name@example.com">
                         </div>
                         @error('email') <span class="error-msg">{{ $message }}</span> @enderror
@@ -88,7 +88,7 @@
                         <label>PASSWORD</label>
                         <div class="input-relative">
                             <i data-lucide="lock" class="input-icon"></i>
-                            <input type="password" name="password" required 
+                            <input type="password" name="password" required
                                 class="premium-input @error('password') border-red @enderror" placeholder="Min. 6 Karakter">
                         </div>
                         @error('password') <span class="error-msg">{{ $message }}</span> @enderror
@@ -99,7 +99,7 @@
                         <label>KONFIRMASI PASSWORD</label>
                         <div class="input-relative">
                             <i data-lucide="shield-check" class="input-icon"></i>
-                            <input type="password" name="password_confirmation" required 
+                            <input type="password" name="password_confirmation" required
                                 class="premium-input" placeholder="Ulangi password Anda">
                         </div>
                     </div>
@@ -111,7 +111,7 @@
                 </form>
 
                 <div class="auth-switch">
-                    <p>Sudah memiliki akun? <a href="{{ route('user.login') }}">Masuk di sini</a></p>
+                    <p>Sudah memiliki akun? <a href="{{ route('login') }}">Masuk di sini</a></p>
                 </div>
             </div>
         </div>
@@ -136,7 +136,7 @@
         text-transform: uppercase;
         letter-spacing: 0.5px;
     }
-    
+
     .border-red {
         border-color: #ff4d4d !important;
         background-color: #fffafa !important;
