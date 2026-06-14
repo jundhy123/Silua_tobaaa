@@ -7,13 +7,13 @@ use App\Models\Gallery;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 
-class GalleryController extends Controller 
+class GalleryController extends Controller
 {
     /**
      * Menampilkan daftar foto galeri di halaman Admin.
      */
     public function index() {
-        $galleries = Gallery::latest()->get();
+        $galleries = Gallery::latest()->paginate(10);
         return view('admin.gallery.index', compact('galleries'));
     }
 
@@ -86,7 +86,7 @@ class GalleryController extends Controller
             // 2. Upload foto baru
             $fileName = time() . '.' . $request->file->extension();
             $request->file->move(public_path('uploads/gallery'), $fileName);
-            
+
             // 3. Masukkan nama file baru ke model
             $gallery->file = $fileName;
         }

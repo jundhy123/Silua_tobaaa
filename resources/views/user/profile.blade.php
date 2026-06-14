@@ -13,7 +13,7 @@
     <header class="max-w-7xl mx-auto px-8 mb-20">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
             <div class="lg:col-span-8 reveal-up">
-                <h1 class="text-6xl md:text-8xl font-black italic leading-[0.8] mb-0 text-gray-900" style="font-family: 'Playfair Display', serif;">
+                <h1 class="text-5xl md:text-7xl font-black italic leading-tight mb-0 text-gray-900" style="font-family: 'Playfair Display', serif;">
                     Pilar <br> <i>Kejujuran</i> Rasa
                 </h1>
             </div>
@@ -77,11 +77,11 @@
         <!-- Ambient Glows -->
         <div class="absolute -top-40 -left-40 w-96 h-96 bg-amber-700/10 rounded-full blur-[120px] pointer-events-none"></div>
         <div class="absolute -bottom-40 -right-40 w-96 h-96 bg-orange-800/10 rounded-full blur-[120px] pointer-events-none"></div>
-        
+
         <div class="max-w-7xl mx-auto px-8 relative z-10">
             <div class="mb-20 text-center reveal-up">
                 <span class="micro-label !text-amber-500 mb-3 block">Purpose & Narrative</span>
-                <h2 class="text-4xl md:text-6xl font-black italic text-white" style="font-family: 'Playfair Display', serif;">Visi & <i>Misi</i> Kami</h2>
+                <h2 class="text-5xl md:text-7xl font-black italic text-white" style="font-family: 'Playfair Display', serif;">Visi & <i>Misi</i> Kami</h2>
                 <div class="w-20 h-0.5 bg-amber-600 mx-auto mt-6"></div>
             </div>
 
@@ -91,30 +91,30 @@
                     <!-- Subtle big number overlay -->
                     <div class="absolute -right-6 -bottom-10 text-[12rem] font-bold text-white/[0.01] select-none pointer-events-none italic font-serif group-hover:text-amber-500/[0.02] transition-all duration-700">01</div>
                     <div class="absolute right-12 top-12 text-white/5 text-8xl font-serif select-none pointer-events-none">“</div>
-                    
+
                     <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-500 text-[10px] font-bold uppercase tracking-wider mb-8 w-fit">
                         <i data-lucide="eye" class="w-3.5 h-3.5"></i>
                         Vision
                     </div>
-                    
+
                     <span class="text-amber-500 text-5xl font-black italic block mb-4" style="font-family: 'Playfair Display', serif;">01.</span>
                     <h3 class="text-3xl font-bold tracking-tight text-white mb-6">Visi Utama</h3>
                     <p class="text-lg md:text-xl text-gray-300 italic font-light leading-relaxed pl-6 border-l-2 border-amber-500/40">
                         "{{ $info->vision ?? 'Menjadi standar keagungan rasa yang membawa nama Danau Toba ke puncak dunia kuliner internasional.' }}"
                     </p>
                 </div>
-                
+
                 <!-- Misi Card -->
                 <div class="relative bg-gradient-to-b from-white/[0.04] to-transparent backdrop-blur-xl border border-white/10 rounded-[3rem] p-12 md:p-16 transition-all duration-500 hover:border-orange-500/30 hover:shadow-2xl hover:shadow-orange-500/5 hover:-translate-y-2 group overflow-hidden reveal-right">
                     <!-- Subtle big number overlay -->
                     <div class="absolute -right-6 -bottom-10 text-[12rem] font-bold text-white/[0.01] select-none pointer-events-none italic font-serif group-hover:text-orange-500/[0.02] transition-all duration-700">02</div>
                     <div class="absolute right-12 top-12 text-white/5 text-8xl font-serif select-none pointer-events-none">“</div>
-                    
+
                     <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-500 text-[10px] font-bold uppercase tracking-wider mb-8 w-fit">
                         <i data-lucide="compass" class="w-3.5 h-3.5"></i>
                         Mission
                     </div>
-                    
+
                     <span class="text-amber-500 text-5xl font-black italic block mb-4" style="font-family: 'Playfair Display', serif;">02.</span>
                     <h3 class="text-3xl font-bold tracking-tight text-white mb-6">Misi Kami</h3>
                     <p class="text-lg md:text-xl text-gray-300 italic font-light leading-relaxed pl-6 border-l-2 border-orange-500/40">
@@ -203,7 +203,7 @@
                 <div class="lg:col-span-4 reveal-left">
                     <div class="mb-8">
                         <span class="micro-label mb-6 block text-amber-700">Our Sanctuary</span>
-                        <h2 class="text-5xl md:text-7xl font-black italic leading-none mb-6 text-gray-900" style="font-family: 'Playfair Display', serif;">Kunjungi <i>Kami</i></h2>
+                        <h2 class="text-5xl md:text-7xl font-black italic leading-tight mb-6 text-gray-900" style="font-family: 'Playfair Display', serif;">Kunjungi <i>Kami</i></h2>
                         <div class="w-16 h-1 bg-amber-700 mb-8"></div>
                         <p class="text-lg text-gray-400 italic leading-relaxed mb-8">"Setiap pintu kami selalu terbuka bagi para penikmat rasa sejati. Mari temukan kehangatan Toba secara langsung."</p>
                     </div>

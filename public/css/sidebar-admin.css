@@ -3,10 +3,10 @@
 /* ============================================= */
 
 :root {
-    --side-bg: #1a1c1e;           /* Navy Darker yang lebih profesional */
-    --side-hover: #25282c;        /* Warna hover yang halus */
-    --brand-accent: #FF5722;      /* Orange khas Silua Toba */
-    --text-inactive: #94a3b8;     /* Abu-abu kebiruan agar mata tidak lelah */
+    --side-bg: #0f172a;           /* Slate 900 untuk kesan lebih mewah */
+    --side-hover: #1e293b;        /* Slate 800 */
+    --brand-accent: #FF5722;      /* Orange khas Silua Toba (Kembali ke warna awal) */
+    --text-inactive: #94a3b8;     /* Slate 400 */
     --text-bright: #ffffff;
 }
 
@@ -104,7 +104,6 @@
     background-color: var(--brand-accent) !important;
     color: #ffffff !important;
     font-weight: 700;
-    /* Shadow disesuaikan dengan warna orange, bukan kuning */
     box-shadow: 0 10px 20px rgba(255, 87, 34, 0.25);
 }
 
@@ -112,6 +111,18 @@
     color: #ffffff !important;
     opacity: 1;
     stroke-width: 2.5px;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 1024px) {
+    .silua-admin-sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+    }
+
+    .silua-admin-sidebar.show {
+        transform: translateX(0);
+    }
 }
 
 /* === DIVIDER === */

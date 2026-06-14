@@ -1,147 +1,308 @@
 @extends('layouts.user')
 
-@section('title', 'Katalog Produk Silua Toba - Artisanal Collection')
+@section('title', 'Katalog Produk Silua Toba')
 
 @section('content')
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="{{ asset('css/produk-user.css') }}">
 
-<div class="product-page-wrapper bg-[#F5F5F0] min-h-screen pt-32 pb-40">
+<style>
+    :root {
+        --primary-orange: #FF5722;
+        --navy-dark: #1a1a3a;
+        --bg-gray: #F8FAFC;
+    }
 
-    <!-- HEADER -->
-    <header class="max-w-7xl mx-auto px-8 mb-24 reveal-up">
-        <div class="flex flex-col md:flex-row justify-between items-end gap-10">
-            <div class="max-w-2xl">
-                <span class="micro-label mb-6 block">Koleksi Produk</span>
-                <h1 class="text-6xl md:text-8xl font-black italic leading-none mb-8" style="font-family: 'Playfair Display', serif;">
-                    Daftar <i>Produk</i> <br> Unggulan <i>Kami</i>
-                </h1>
-                <p class="text-xl text-gray-500 leading-relaxed italic">
-                    "Kurasi menu terbaik dari tanah Toba, diolah dengan cinta dan rempah pilihan untuk pengalaman kuliner yang tak terlupakan."
-                </p>
-            </div>
+    .product-page-container {
+        background-color: var(--bg-gray);
+        min-height: 100vh;
+        padding-top: 120px;
+        padding-bottom: 80px;
+    }
 
+    /* FIX NAVBAR OVERLAP: Ensure modal is always on top */
+    .product-modal {
+        z-index: 99999 !important;
+    }
+
+    /* TOP HEADER & SEARCH */
+    .catalog-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 40px;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .catalog-tagline {
+        font-size: 1.1rem;
+        font-weight: 500;
+        color: #64748b;
+        font-family: 'Inter', sans-serif;
+    }
+
+    .search-box-wrap {
+        display: flex;
+        gap: 10px;
+        background: white;
+        padding: 6px;
+        border-radius: 100px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        border: 1px solid #f1f5f9;
+        width: 100%;
+        max-width: 400px;
+    }
+
+    .search-input-minimal {
+        border: none;
+        outline: none;
+        padding: 10px 20px;
+        flex: 1;
+        font-size: 0.9rem;
+        border-radius: 100px;
+    }
+
+    .btn-search-minimal {
+        background-color: var(--primary-orange);
+        color: white;
+        border: none;
+        padding: 10px 24px;
+        border-radius: 100px;
+        font-weight: 700;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .btn-search-minimal:hover {
+        background-color: #111;
+        transform: translateY(-2px);
+    }
+
+    /* LAYOUT: SIDEBAR + GRID */
+    .catalog-layout {
+        display: grid;
+        grid-template-columns: 280px 1fr;
+        gap: 40px;
+    }
+
+    /* SIDEBAR KATEGORI */
+    .sidebar-card {
+        background: white;
+        border-radius: 24px;
+        padding: 30px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+        height: fit-content;
+        position: sticky;
+        top: 120px;
+    }
+
+    .sidebar-label {
+        font-size: 10px;
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: #cbd5e1;
+        margin-bottom: 20px;
+        display: block;
+    }
+
+    .cat-list {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .cat-link {
+        display: block;
+        padding: 14px 20px;
+        border-radius: 12px;
+        text-decoration: none;
+        color: #64748b;
+        font-weight: 600;
+        font-size: 0.95rem;
+        transition: all 0.3s ease;
+    }
+
+    .cat-link:hover {
+        background-color: #f1f5f9;
+        color: var(--primary-orange);
+        padding-left: 25px;
+    }
+
+    .cat-link.active {
+        background-color: var(--primary-orange);
+        color: white;
+        box-shadow: 0 10px 20px rgba(255, 87, 34, 0.2);
+    }
+
+    /* PRODUCT CARDS */
+    .product-grid-main {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 30px;
+    }
+
+    .minimal-card {
+        background: white;
+        border-radius: 30px;
+        overflow: hidden;
+        transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+        border: 1px solid #f1f5f9;
+        cursor: pointer;
+    }
+
+    .minimal-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+    }
+
+    .card-img-top {
+        aspect-ratio: 1;
+        width: 100%;
+        object-fit: cover;
+        background-color: #f1f5f9;
+    }
+
+    .card-info-bottom {
+        padding: 20px;
+        text-align: center;
+        background-color: white;
+    }
+
+    .p-name-minimal {
+        font-family: 'Playfair Display', serif;
+        font-weight: 700;
+        color: var(--navy-dark);
+        font-size: 1.1rem;
+        margin: 0;
+    }
+
+    .p-price-minimal {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--primary-orange);
+        margin-top: 5px;
+        display: block;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 1024px) {
+        .catalog-layout { grid-template-columns: 1fr; }
+        .sidebar-card { position: static; margin-bottom: 30px; }
+        .cat-list { flex-direction: row; flex-wrap: wrap; }
+    }
+
+    @media (max-width: 640px) {
+        .catalog-header { flex-direction: column; align-items: flex-start; }
+        .search-box-wrap { max-width: 100%; }
+    }
+</style>
+
+<div class="product-page-container">
+    <div class="max-w-7xl mx-auto px-6">
+
+        <!-- RESTORED PAGE TITLE -->
+        <header class="mb-20 reveal-up">
+            <span class="sidebar-label !mb-4">Koleksi Kami</span>
+            <h1 class="text-5xl md:text-7xl font-black italic text-navy-dark leading-tight" style="font-family: 'Playfair Display', serif;">
+                Daftar <i>Produk</i> <br> Unggulan <i>Kami</i>
+            </h1>
+            <div class="w-24 h-1 bg-primary-orange mt-8"></div>
+        </header>
+
+        <!-- HEADER & SEARCH -->
+        <div class="catalog-header reveal-up">
+            <p class="catalog-tagline">Temukan menu favorit untuk melengkapi aktivitasmu hari ini.</p>
+
+            <form action="{{ route('user.products') }}" method="GET" class="search-box-wrap">
+                <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari produk..." class="search-input-minimal">
+                @if(request('category') && request('category') != 'all')
+                    <input type="hidden" name="category" value="{{ request('category') }}">
+                @endif
+                <button type="submit" class="btn-search-minimal">Search</button>
+            </form>
         </div>
-        <div class="w-32 h-1 bg-amber-700 mt-16"></div>
-    </header>
 
-    <!-- CATALOG GRID -->
-    <section class="max-w-7xl mx-auto px-8">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10" id="productGrid">
-            @forelse ($products as $key => $p)
-            <div class="group reveal-up" style="transition-delay: {{ ($key % 3) * 100 }}ms">
-                <div class="relative bg-white rounded-[3rem] overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-700 border border-black/5">
+        <div class="catalog-layout">
 
-                    <!-- Top Actions -->
-                    <div class="absolute top-6 left-6 right-6 z-20 flex justify-between items-start opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-[-10px] group-hover:translate-y-0">
-                        @if($p->reviews->count() > 5)
-                            <span class="px-4 py-2 bg-amber-700 text-white text-[9px] font-black uppercase tracking-widest rounded-full shadow-lg">Terlaris</span>
-                        @else
-                            <span></span>
-                        @endif
+            <!-- SIDEBAR KATEGORI -->
+            <aside class="reveal-up">
+                <div class="sidebar-card">
+                    <span class="sidebar-label">Kategori</span>
+                    <nav class="cat-list">
+                        <a href="{{ route('user.products') }}" class="cat-link {{ !request('category') || request('category') == 'all' ? 'active' : '' }}">
+                            Semua Produk
+                        </a>
 
-                        @auth
-                            <form action="{{ route('wishlist.toggle') }}" method="POST" class="wishlist-form">
-                                @csrf
-                                <input type="hidden" name="product_id" value="{{ $p->id }}">
-                                @php
-                                    $isWishlisted = \App\Models\Wishlist::where('user_id', auth()->id())
-                                                        ->where('product_id', $p->id)
-                                                        ->exists();
-                                @endphp
-                                <button type="submit" class="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-lg hover:scale-110 transition-transform">
-                                    <i data-lucide="heart"
-                                       class="w-4 h-4 {{ $isWishlisted ? 'text-red-500' : 'text-gray-300' }}"
-                                       fill="{{ $isWishlisted ? 'currentColor' : 'none' }}"></i>
-                                </button>
-                            </form>
-                        @else
-                            <a href="{{ route('user.register') }}" class="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-lg hover:scale-110 transition-transform text-gray-300">
-                                <i data-lucide="heart" class="w-4 h-4"></i>
+                        {{-- Loop Kategori Dinamis --}}
+                        @foreach($categories as $cat)
+                            <a href="{{ route('user.products', ['category' => $cat, 'search' => request('search')]) }}"
+                               class="cat-link {{ request('category') == $cat ? 'active' : '' }}">
+                                {{ $cat }}
                             </a>
-                        @endauth
-                    </div>
-
-                    <!-- Image Section -->
-                    <div class="aspect-[4/5] overflow-hidden bg-gray-100">
-                        <img src="{{ asset('uploads/products/' . $p->image) }}" alt="{{ $p->name }}"
-                             class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110">
-
-                        <!-- Quick Add Overlay -->
-                        <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
-                            <button type="button"
-                                    onclick='openOrderModal({{ $p->id }}, "{{ addslashes($p->name) }}", {{ $p->price }}, "{{ asset('uploads/products/'.$p->image) }}", "{{ addslashes($p->description) }}", @json($p->reviews))'
-                                    class="px-10 py-5 bg-white text-black rounded-full font-black uppercase tracking-widest text-[10px] shadow-2xl hover:bg-amber-700 hover:text-white transition-all transform translate-y-10 group-hover:translate-y-0 duration-500">
-                                Detail & Pesan
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Content Section -->
-                    <div class="p-10">
-                        <div class="flex justify-between items-start mb-4">
-                            <div>
-                                <h3 class="text-2xl font-bold text-navy-dark leading-tight mb-2">{{ $p->name }}</h3>
-                                <div class="flex items-center gap-2">
-                                    <div class="flex text-amber-500">
-                                        @php $rating = $p->reviews->avg('rating') ?: 5; @endphp
-                                        @for($i=1; $i<=5; $i++)
-                                            <i data-lucide="star" class="w-3 h-3 {{ $i <= $rating ? 'fill-current' : '' }}"></i>
-                                        @endfor
-                                    </div>
-                                    <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">({{ $p->reviews->count() }} Ulasan)</span>
-                                </div>
-                            </div>
-                            <span class="text-xl font-black italic text-amber-700">Rp {{ number_format($p->price, 0, ',', '.') }}</span>
-                        </div>
-
-                        <p class="text-sm text-gray-500 leading-relaxed line-clamp-2 mb-8 italic">
-                            {{ $p->description }}
-                        </p>
-
-                        <div class="pt-8 border-t border-black/5 flex justify-between items-center">
-                            <form action="{{ route('cart.store') }}" method="POST" class="inline">
-                                @csrf
-                                <input type="hidden" name="product_id" value="{{ $p->id }}">
-                                <input type="hidden" name="quantity" value="1">
-                                <button type="submit" class="text-[10px] font-black uppercase tracking-[0.3em] text-navy-dark hover:text-amber-700 transition-colors flex items-center gap-3">
-                                    <i data-lucide="shopping-bag" class="w-4 h-4"></i> Masukkan ke Troli
-                                </button>
-                            </form>
-                            <button onclick='openOrderModal({{ $p->id }}, "{{ addslashes($p->name) }}", {{ $p->price }}, "{{ asset('uploads/products/'.$p->image) }}", "{{ addslashes($p->description) }}", @json($p->reviews))'
-                                    class="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center text-gray-400 hover:bg-black hover:text-white transition-all">
-                                <i data-lucide="eye" class="w-4 h-4"></i>
-                            </button>
-                        </div>
-                    </div>
+                        @endforeach
+                    </nav>
                 </div>
-            </div>
-            @empty
-            <div class="col-span-full py-40 text-center opacity-20">
-                <i data-lucide="package-open" class="w-20 h-20 mx-auto mb-6"></i>
-                <p class="text-2xl font-bold italic">Belum ada produk yang dapat ditampilkan.</p>
-            </div>
-            @endforelse
+            </aside>
+
+            <!-- GRID PRODUK -->
+            <main>
+                <div class="product-grid-main">
+                    @forelse($products as $p)
+                    <div class="minimal-card reveal-up"
+                         onclick='openOrderModal({{ $p->id }}, "{{ addslashes($p->name) }}", {{ $p->price }}, "{{ asset('uploads/products/'.$p->image) }}", "{{ addslashes($p->description) }}", @json($p->reviews))'>
+
+                        <div class="relative group">
+                            <img src="{{ asset('uploads/products/' . $p->image) }}" class="card-img-top" alt="{{ $p->name }}">
+
+                            <!-- Wishlist Button Over Image -->
+                            @auth
+                                <form action="{{ route('wishlist.toggle') }}" method="POST" class="absolute top-4 right-4 z-30" onclick="event.stopPropagation()">
+                                    @csrf
+                                    <input type="hidden" name="product_id" value="{{ $p->id }}">
+                                    @php
+                                        $isWishlisted = \App\Models\Wishlist::where('user_id', auth()->id())
+                                                            ->where('product_id', $p->id)
+                                                            ->exists();
+                                    @endphp
+                                    <button type="submit" class="w-10 h-10 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-lg hover:scale-110 transition-transform">
+                                        <i data-lucide="heart"
+                                           class="w-4 h-4 {{ $isWishlisted ? 'text-red-500 fill-current' : 'text-gray-400' }}"></i>
+                                    </button>
+                                </form>
+                            @else
+                                <a href="{{ route('login') }}" class="absolute top-4 right-4 z-30 w-10 h-10 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-lg" onclick="event.stopPropagation()">
+                                    <i data-lucide="heart" class="w-4 h-4 text-gray-400"></i>
+                                </a>
+                            @endauth
+                        </div>
+
+                        <div class="card-info-bottom">
+                            <h3 class="p-name-minimal">{{ $p->name }}</h3>
+                            <span class="p-price-minimal">Rp {{ number_format($p->price, 0, ',', '.') }}</span>
+                        </div>
+                    </div>
+                    @empty
+                    <div class="col-span-full py-32 text-center opacity-30 italic">
+                        <i data-lucide="package-search" class="w-16 h-16 mx-auto mb-4"></i>
+                        <p class="text-xl font-bold">Produk tidak ditemukan.</p>
+                    </div>
+                    @endforelse
+                </div>
+
+                <!-- PAGINATION -->
+                @if($products->hasPages())
+                <div class="mt-20 flex justify-center reveal-up">
+                    {{ $products->links() }}
+                </div>
+                @endif
+            </main>
+
         </div>
-    </section>
-
-    <!-- PROMO SECTION -->
-    <section class="max-w-7xl mx-auto px-8 mt-32">
-        <div class="bg-amber-700 rounded-[4rem] p-16 md:p-24 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-12 reveal-up">
-            <div class="absolute -top-20 -left-20 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
-            <div class="absolute -bottom-20 -right-20 w-64 h-64 bg-black/10 rounded-full blur-3xl"></div>
-
-            <div class="relative z-10 max-w-xl text-center md:text-left">
-                <span class="text-white/60 text-[10px] font-black uppercase tracking-[0.4em] mb-6 block">Penawaran Spesial</span>
-                <h2 class="text-4xl md:text-6xl font-black italic text-white leading-tight mb-8" style="font-family: 'Playfair Display', serif;">Dapatkan <i>Potongan</i> Khusus Member</h2>
-                <p class="text-white/70 text-lg leading-relaxed italic">Bergabunglah dengan program loyalitas kami dan nikmati penawaran eksklusif setiap bulannya.</p>
-            </div>
-
-            <div class="relative z-10">
-                <a href="{{ route('user.register') }}" class="px-12 py-6 bg-black text-white rounded-full font-black uppercase tracking-[0.3em] text-xs hover:bg-white hover:text-black transition-all duration-500 shadow-2xl">Daftar Sekarang</a>
-            </div>
-        </div>
-    </section>
+    </div>
 </div>
 
 @include('components.modal-detail-produk')

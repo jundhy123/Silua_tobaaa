@@ -33,6 +33,14 @@ class CartController extends Controller
             ]);
         }
 
+        if ($request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Produk berhasil masuk troli!',
+                'cart_count' => Cart::where('user_id', Auth::id())->sum('quantity')
+            ]);
+        }
+
         return back()->with('success', 'Produk berhasil masuk troli!');
     }
 
@@ -46,6 +54,13 @@ class CartController extends Controller
             $cart->increment('quantity');
         } else if ($request->action == 'minus' && $cart->quantity > 1) {
             $cart->decrement('quantity');
+        }
+
+        if ($request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'cart_count' => Cart::where('user_id', Auth::id())->sum('quantity')
+            ]);
         }
 
         return back();
@@ -70,7 +85,7 @@ class CartController extends Controller
         // Mengambil pesanan milik user yang sedang login
         // 'items.product' berasumsi relasi di model Order bernama 'items'
         $orders = Order::where('user_id', Auth::id())
-                       ->with('items.product') 
+                       ->with('items.product')
                        ->latest()
                        ->get();
 

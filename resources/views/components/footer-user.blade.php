@@ -104,11 +104,15 @@
         <div class="h-px bg-gradient-to-r from-transparent via-amber-700/30 to-transparent"></div>
 
         <!-- COPYRIGHT -->
-        <div class="py-10 flex flex-col md:flex-row justify-between items-center gap-3">
+        <div class="py-10 flex flex-col md:flex-row justify-between items-center gap-6">
 
-            <p class="copyright-text text-sm">
-                © {{ date('Y') }} Silua Toba. Seluruh Hak Cipta Dilindungi.
-            </p>
+            <div class="flex items-center gap-4">
+                <p class="copyright-text text-sm">
+                    © {{ date('Y') }} Silua Toba. Seluruh Hak Cipta Dilindungi.
+                </p>
+                <div class="w-px h-4 bg-gray-300 hidden md:block"></div>
+                <img src="{{ asset('images/logo_halal.png') }}" alt="Logo Halal" class="h-10 w-auto grayscale hover:grayscale-0 transition-all duration-500">
+            </div>
 
             <p class="text-xs text-gray-400 font-bold uppercase tracking-widest">
                 Pelestari Cita Rasa Toba

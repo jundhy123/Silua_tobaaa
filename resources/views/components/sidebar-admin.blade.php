@@ -1,12 +1,10 @@
 <aside class="silua-admin-sidebar">
     <!-- BRANDING -->
-    <div class="sidebar-branding">
-        <a href="/" class="no-underline">
-            <h1 class="italic tracking-tighter" style="font-family: 'Poppins', sans-serif;">
-                SILUA <span>TOBA</span>
-            </h1>
-            <span class="text-[9px] font-black uppercase tracking-[0.4em] text-white/30">Administrasi Utama</span>
+    <div class="sidebar-header">
+        <a href="{{ route('admin.dashboard') }}" class="sidebar-logo no-underline">
+            SILUA <span>TOBA</span>
         </a>
+        <p class="text-[9px] font-black uppercase tracking-[0.4em] text-white/30 mt-2">Administrasi Utama</p>
     </div>
 
     <!-- NAVIGATION -->
@@ -19,6 +17,8 @@
                 <span>Lihat Website</span>
             </a>
         </div>
+
+        <div class="sidebar-divider"></div>
 
         <!-- Utama -->
         <div class="nav-group">
@@ -62,16 +62,16 @@
                 <span>Kisah Brand</span>
             </a>
         </div>
-    </nav>
 
-    <!-- FOOTER -->
-    <div class="sidebar-footer">
-        <form action="{{ route('logout') }}" method="POST">
-            @csrf
-            <button type="submit" class="btn-logout">
-                <i data-lucide="log-out" class="w-4 h-4"></i>
-                <span class="text-[11px] uppercase tracking-widest">Keluar</span>
-            </button>
-        </form>
-    </div>
+        <!-- FOOTER / LOGOUT -->
+        <div class="mt-auto">
+            <form action="{{ route('logout') }}" method="POST">
+                @csrf
+                <button type="submit" class="logout-pill w-full">
+                    <i data-lucide="log-out"></i>
+                    <span>Keluar</span>
+                </button>
+            </form>
+        </div>
+    </nav>
 </aside>

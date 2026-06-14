@@ -14,6 +14,19 @@ class Product extends Model
         'description',
     ];
 
+    /**
+     * Daftar kategori produk yang dikelola secara hardcoded.
+     * Edit bagian ini jika ingin menambah/mengubah kategori.
+     */
+    public static function getAvailableCategories()
+    {
+        return [
+            'Makanan Berat',
+            'Cemilan',
+            'Minuman',
+        ];
+    }
+
     // RELASI
     public function reviews()
     {

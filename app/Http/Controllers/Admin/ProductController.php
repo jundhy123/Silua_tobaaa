@@ -15,10 +15,10 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::with('reviews.user')->get();
-        
+        $products = Product::with('reviews.user')->latest()->paginate(10);
+
         // 2. Ambil data profil (baris pertama)
-        $profiles = CompanyProfile::first(); 
+        $profiles = CompanyProfile::first();
 
         // 3. Kirim 'profiles' ke view bersama 'products'
         return view('admin.produk.index', compact('products', 'profiles'));
@@ -29,9 +29,9 @@ class ProductController extends Controller
      */
     public function create()
     {
-        // Tambahkan juga di sini jika halaman create error yang sama
         $profiles = CompanyProfile::first();
-        return view('admin.produk.create', compact('profiles'));
+        $categories = Product::getAvailableCategories();
+        return view('admin.produk.create', compact('profiles', 'categories'));
     }
 
     /**
@@ -73,11 +73,10 @@ class ProductController extends Controller
     public function edit($id)
     {
         $product = Product::findOrFail($id);
-        
-        // Tambahkan juga di sini
         $profiles = CompanyProfile::first();
-        
-        return view('admin.produk.edit', compact('product', 'profiles'));
+        $categories = Product::getAvailableCategories();
+
+        return view('admin.produk.edit', compact('product', 'profiles', 'categories'));
     }
 
     /**

@@ -12,7 +12,7 @@
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-end">
             <div class="lg:col-span-8 reveal-up">
                 <span class="micro-label mb-6 block">Dokumentasi Kami</span>
-                <h1 class="text-7xl md:text-[10rem] font-black italic leading-[0.8] mb-0" style="font-family: 'Playfair Display', serif;">
+                <h1 class="text-5xl md:text-7xl font-black italic leading-tight mb-0" style="font-family: 'Playfair Display', serif;">
                     Mengabadikan <i>Esensi</i>
                 </h1>
             </div>

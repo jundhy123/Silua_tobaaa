@@ -13,63 +13,18 @@ use Exception;
 
 class HomeController extends Controller
 {
+    /**
+     * Menampilkan Halaman Depan (Landing Page)
+     */
     public function index()
     {
         try {
-            $categories = Category::all();
-            $products = Product::all();
+            // Ambil 3 produk terbaru saja untuk ditampilkan di Home sebagai preview
+            $products = Product::latest()->take(3)->get();
         } catch (Exception $e) {
-            $categories = [];
             $products = [];
         }
 
-        return view('user.home', compact('categories', 'products'));
-    }
-
-    /**
-     * HALAMAN GALERI
-     */
-    public function gallery()
-    {
-        try {
-            $galleries = Gallery::latest()->get();
-        } catch (Exception $e) {
-            $galleries = [];
-        }
-
-        return view('user.gallery', compact('galleries'));
-    }
-
-    /**
-     * HALAMAN PROFIL
-     */
-    public function profile() 
-    {
-        try {
-            $info = CompanyProfile::first(); // Ambil satu data profil
-            $teams = Team::all(); // Ambil semua tim
-        } catch (Exception $e) {
-            $info = null;
-            $teams = [];
-        }
-
-        return view('user.profile', compact('info', 'teams'));
-    }
-
-    /**
-     * HALAMAN ABOUT US (SOLUSI ERROR ANDA)
-     */
-    public function about()
-    {
-        try {
-            // Mengambil data About pertama dari database
-            $abouts = \App\Models\About::orderBy('id', 'asc')->get();
-
-        } catch (Exception $e) {
-            $about = null;
-        }
-
-        // Mengarahkan ke file resources/views/user/about.blade.php
-        return view('user.about', compact('abouts'));
+        return view('user.home', compact('products'));
     }
 }

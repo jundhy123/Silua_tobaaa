@@ -4,18 +4,25 @@
 @section('page_title', 'Dashboard Analitik')
 
 @section('content')
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,900;1,700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+    :root {
+        --primary-orange: #FF5722;
+    }
+    .text-primary-orange { color: var(--primary-orange); }
+    .bg-primary-orange { background-color: var(--primary-orange); }
+</style>
 
 <div class="space-y-10 animate-fade-in pb-20">
 
     <!-- HEADER & PERIOD SELECTOR -->
     <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6">
         <div>
-            <span class="text-[10px] font-black uppercase tracking-[0.3em] text-amber-700 mb-2 block">Ringkasan Perusahaan</span>
-            <h2 class="text-4xl font-black italic text-gray-900" style="font-family: 'Playfair Display', serif;">
-                Selamat Datang, <span class="text-amber-800">{{ Auth::user()->name }}</span>
-            </h2>
+            <span class="text-[10px] font-black uppercase tracking-[0.3em] text-primary-orange mb-2 block">Ringkasan Perusahaan</span>
+            <h1 class="text-4xl font-black italic text-gray-900" style="font-family: 'Playfair Display', serif;">
+                Selamat Datang, <span class="text-primary-orange">{{ Auth::user()->name }}</span>
+            </h1>
             <p class="text-gray-400 text-sm mt-1 italic">Analisis performa bisnis Silua Toba berdasarkan pesanan selesai.</p>
         </div>
 
@@ -35,7 +42,7 @@
         <!-- Revenue Card -->
         <div class="bg-white p-8 rounded-[2.5rem] border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-500 group">
             <div class="flex justify-between items-start mb-6">
-                <div class="w-12 h-12 bg-amber-50 text-amber-700 rounded-2xl flex items-center justify-center">
+                <div class="w-12 h-12 bg-orange-50 text-primary-orange rounded-2xl flex items-center justify-center">
                     <i data-lucide="wallet" class="w-6 h-6"></i>
                 </div>
                 <span class="px-3 py-1 rounded-lg text-[9px] font-bold {{ $stats['revenue']['diff'] >= 0 ? 'bg-green-50 text-green-600' : 'bg-red-50 text-red-600' }}">
@@ -50,7 +57,7 @@
         <!-- Orders Card -->
         <div class="bg-white p-8 rounded-[2.5rem] border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-500">
             <div class="flex justify-between items-start mb-6">
-                <div class="w-12 h-12 bg-amber-50 text-amber-700 rounded-2xl flex items-center justify-center">
+                <div class="w-12 h-12 bg-orange-50 text-primary-orange rounded-2xl flex items-center justify-center">
                     <i data-lucide="shopping-bag" class="w-6 h-6"></i>
                 </div>
                 <span class="px-3 py-1 rounded-lg text-[9px] font-bold {{ $stats['orders']['diff'] >= 0 ? 'bg-green-50 text-green-600' : 'bg-red-50 text-red-600' }}">
@@ -65,7 +72,7 @@
         <!-- Items Card -->
         <div class="bg-white p-8 rounded-[2.5rem] border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-500">
             <div class="flex justify-between items-start mb-6">
-                <div class="w-12 h-12 bg-amber-50 text-amber-700 rounded-2xl flex items-center justify-center">
+                <div class="w-12 h-12 bg-orange-50 text-primary-orange rounded-2xl flex items-center justify-center">
                     <i data-lucide="package" class="w-6 h-6"></i>
                 </div>
                 <span class="px-3 py-1 rounded-lg text-[9px] font-bold {{ $stats['items']['diff'] >= 0 ? 'bg-green-50 text-green-600' : 'bg-red-50 text-red-600' }}">
@@ -80,10 +87,10 @@
         <!-- Profit Card -->
         <div class="bg-gray-900 p-8 rounded-[2.5rem] shadow-lg shadow-gray-900/10 text-white transition-all duration-500">
             <div class="flex justify-between items-start mb-6">
-                <div class="w-12 h-12 bg-white/10 text-amber-500 rounded-2xl flex items-center justify-center">
+                <div class="w-12 h-12 bg-white/10 text-primary-orange rounded-2xl flex items-center justify-center">
                     <i data-lucide="trending-up" class="w-6 h-6"></i>
                 </div>
-                <span class="text-[9px] font-bold text-amber-500 uppercase tracking-widest">Est. 30% Profit</span>
+                <span class="text-[9px] font-bold text-primary-orange uppercase tracking-widest">Est. 30% Profit</span>
             </div>
             <p class="text-[10px] font-black text-white/50 uppercase tracking-widest">Estimasi Keuntungan</p>
             <h3 class="text-2xl font-black text-white mt-2 tracking-tighter">Rp {{ number_format($stats['profit']['total'], 0, ',', '.') }}</h3>
@@ -100,7 +107,7 @@
             </div>
             <div class="flex items-center gap-6">
                 <div class="flex items-center gap-2">
-                    <span class="w-3 h-3 rounded-full bg-amber-700"></span>
+                    <span class="w-3 h-3 rounded-full bg-primary-orange"></span>
                     <span class="text-[9px] font-black text-gray-500 uppercase">Pendapatan</span>
                 </div>
                 <div class="flex items-center gap-2">
@@ -131,7 +138,7 @@
                 </div>
 
                 <div class="w-full space-y-6">
-                    @php $colors = ['Minuman' => '#B45309', 'Camilan' => '#F59E0B', 'Makanan Berat' => '#111827']; @endphp
+                    @php $colors = ['Minuman' => '#FF5722', 'cemilan' => '#f97316', 'Makanan Berat' => '#111827']; @endphp
                     @foreach($categoryDist['data'] as $cat)
                     <div class="space-y-2">
                         <div class="flex justify-between items-center">
@@ -154,7 +161,7 @@
         <div class="lg:col-span-7 bg-white p-10 rounded-[3.5rem] border border-gray-100 shadow-sm h-full">
             <div class="flex justify-between items-center mb-10">
                 <h3 class="text-xl font-black text-gray-900 italic" style="font-family: 'Playfair Display', serif;">Produk Terlaris</h3>
-                <div class="w-10 h-10 bg-amber-50 rounded-xl flex items-center justify-center text-amber-700">
+                <div class="w-10 h-10 bg-orange-50 rounded-xl flex items-center justify-center text-primary-orange">
                     <i data-lucide="award" class="w-5 h-5"></i>
                 </div>
             </div>
@@ -167,14 +174,14 @@
                     </div>
                     <div class="flex-1 min-w-0">
                         <div class="flex items-center gap-2 mb-1">
-                            <span class="px-2 py-0.5 bg-amber-700 text-white text-[7px] font-black uppercase tracking-widest rounded">Top</span>
-                            <span class="text-[8px] text-amber-700 font-black uppercase tracking-widest">{{ $tp->product->category }}</span>
+                            <span class="px-2 py-0.5 bg-primary-orange text-white text-[7px] font-black uppercase tracking-widest rounded">Top</span>
+                            <span class="text-[8px] text-primary-orange font-black uppercase tracking-widest">{{ $tp->product->category }}</span>
                         </div>
                         <h5 class="font-bold text-gray-900 text-base truncate">{{ $tp->product->name }}</h5>
                         <div class="flex items-center gap-4 mt-2">
                             <span class="text-[10px] font-black text-gray-900">{{ $tp->total_qty }} <span class="text-[8px] font-normal text-gray-400 italic">Terjual</span></span>
                             <div class="w-px h-3 bg-gray-100"></div>
-                            <span class="text-[10px] font-black text-amber-700">{{ $tp->percentage }}% <span class="text-[8px] font-normal text-gray-400 italic">Kontribusi</span></span>
+                            <span class="text-[10px] font-black text-primary-orange">{{ $tp->percentage }}% <span class="text-[8px] font-normal text-gray-400 italic">Kontribusi</span></span>
                         </div>
                     </div>
                 </div>
@@ -188,7 +195,7 @@
 
             <div class="mt-12 pt-8 border-t border-gray-50 flex justify-between items-center">
                 <p class="text-[9px] font-bold text-gray-400 uppercase tracking-widest">Total {{ $totalProducts }} Produk Aktif</p>
-                <a href="{{ route('admin.produk.index') }}" class="text-[10px] font-black text-amber-700 uppercase tracking-widest hover:underline">Kelola Katalog →</a>
+                <a href="{{ route('admin.produk.index') }}" class="text-[10px] font-black text-primary-orange uppercase tracking-widest hover:underline">Kelola Katalog →</a>
             </div>
         </div>
 
@@ -196,20 +203,20 @@
 
     <!-- 4. INSIGHTS SUMMARY -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div class="bg-amber-50 p-8 rounded-[2.5rem] border border-amber-100">
-            <p class="text-[9px] font-black text-amber-700 uppercase tracking-widest mb-3">Top Category</p>
+        <div class="bg-orange-50 p-8 rounded-[2.5rem] border border-orange-100">
+            <p class="text-[9px] font-black text-primary-orange uppercase tracking-widest mb-3">Top Category</p>
             <h4 class="text-xl font-black text-gray-900">{{ $insights['top_category'] }}</h4>
-            <div class="w-8 h-1 bg-amber-700 mt-4 rounded-full"></div>
+            <div class="w-8 h-1 bg-primary-orange mt-4 rounded-full"></div>
         </div>
         <div class="bg-gray-50 p-8 rounded-[2.5rem] border border-gray-100">
             <p class="text-[9px] font-black text-gray-500 uppercase tracking-widest mb-3">Top Selling</p>
             <h4 class="text-xl font-black text-gray-900 truncate">{{ $insights['top_product'] }}</h4>
             <div class="w-8 h-1 bg-gray-900 mt-4 rounded-full"></div>
         </div>
-        <div class="bg-amber-50 p-8 rounded-[2.5rem] border border-amber-100">
-            <p class="text-[9px] font-black text-amber-600 uppercase tracking-widest mb-3">Volume Sold</p>
+        <div class="bg-orange-50 p-8 rounded-[2.5rem] border border-orange-100">
+            <p class="text-[9px] font-black text-primary-orange uppercase tracking-widest mb-3">Volume Sold</p>
             <h4 class="text-xl font-black text-gray-900">{{ $insights['total_sold'] }} <span class="text-xs font-bold text-gray-400 ml-1 uppercase italic">Items</span></h4>
-            <div class="w-8 h-1 bg-amber-500 mt-4 rounded-full"></div>
+            <div class="w-8 h-1 bg-orange-500 mt-4 rounded-full"></div>
         </div>
         <div class="bg-gray-900/5 p-8 rounded-[2.5rem] border border-gray-900/10">
             <p class="text-[9px] font-black text-gray-900 uppercase tracking-widest mb-3">Business Growth</p>
@@ -224,8 +231,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // 1. MAIN SALES CHART
     const salesCtx = document.getElementById('mainSalesChart').getContext('2d');
     const primaryGradient = salesCtx.createLinearGradient(0, 0, 0, 400);
-    primaryGradient.addColorStop(0, 'rgba(180, 83, 9, 0.15)');
-    primaryGradient.addColorStop(1, 'rgba(180, 83, 9, 0)');
+    primaryGradient.addColorStop(0, 'rgba(255, 87, 34, 0.15)');
+    primaryGradient.addColorStop(1, 'rgba(255, 87, 34, 0)');
 
     new Chart(salesCtx, {
         type: 'line',
@@ -235,14 +242,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 {
                     label: 'Pendapatan (Rp)',
                     data: {!! json_encode($chartData['revenue']) !!},
-                    borderColor: '#B45309',
+                    borderColor: '#FF5722',
                     backgroundColor: primaryGradient,
                     fill: true,
                     tension: 0.4,
                     borderWidth: 4,
                     pointRadius: 6,
                     pointBackgroundColor: '#fff',
-                    pointBorderColor: '#B45309',
+                    pointBorderColor: '#FF5722',
                     pointBorderWidth: 2,
                     yAxisID: 'y',
                 },
@@ -295,7 +302,7 @@ document.addEventListener('DOMContentLoaded', function() {
             labels: {!! json_encode(collect($categoryDist['data'])->pluck('name')) !!},
             datasets: [{
                 data: {!! json_encode(collect($categoryDist['data'])->pluck('count')) !!},
-                backgroundColor: ['#B45309', '#F59E0B', '#111827'],
+                backgroundColor: ['#FF5722', '#f97316', '#111827'],
                 borderWidth: 5,
                 borderColor: '#fff',
                 hoverOffset: 15

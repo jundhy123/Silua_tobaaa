@@ -137,7 +137,7 @@
         <div class="text-left space-y-8 reveal-right">
             <div>
                 <span class="micro-label block mb-4">Sejarah & Tradisi</span>
-                <h2 class="section-title-premium leading-tight">Cita Rasa Otentik <i>Warisan</i></h2>
+                <h2 class="text-5xl md:text-7xl font-black italic text-gray-900 leading-tight" style="font-family: 'Playfair Display', serif;">Cita Rasa Otentik <i>Warisan</i></h2>
             </div>
             <p class="section-desc-premium text-lg leading-relaxed text-gray-600">
                 Silua Toba lahir dari kerinduan akan cita rasa otentik tanah Batak. Kami menyajikan hidangan yang memadukan resep turun-temurun dengan sentuhan modern, menggunakan bahan-bahan segar dari hasil bumi Danau Toba.
@@ -216,7 +216,7 @@
     <div class="max-w-7xl mx-auto px-8">
         <div class="text-center mb-24 reveal-bottom">
             <span class="micro-label mb-6 block">Kualitas Kami</span>
-            <h2 class="section-title-premium text-center">Mengapa Memilih <i>Silua Toba</i>?</h2>
+            <h2 class="text-5xl md:text-7xl font-black italic text-gray-900 text-center" style="font-family: 'Playfair Display', serif;">Mengapa Memilih <i>Silua Toba</i>?</h2>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
@@ -254,7 +254,7 @@
     </div>
 
     <div class="relative z-10 max-w-4xl mx-auto px-8 text-center">
-        <h2 class="text-5xl md:text-7xl font-black italic mb-10 leading-none">Siap Mencicipi <i>Tradisi</i>?</h2>
+        <h2 class="text-5xl md:text-7xl font-black italic text-gray-900 leading-tight mb-10" style="font-family: 'Playfair Display', serif;">Siap Mencicipi <i>Tradisi</i>?</h2>
         <p class="text-xl text-gray-500 mb-12 max-w-2xl mx-auto leading-relaxed">
             Pesan sekarang dan nikmati kelezatan kuliner khas Danau Toba yang diantar langsung ke depan pintu Anda.
         </p>

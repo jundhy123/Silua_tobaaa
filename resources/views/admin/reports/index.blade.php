@@ -132,7 +132,7 @@
                         </div>
                         <div class="h-2 bg-gray-50 rounded-full overflow-hidden">
                             @php
-                                $colors = ['Minuman' => '#4FB7B3', 'Camilan' => '#637AB9', 'Makanan Berat' => '#31326F'];
+                                $colors = ['Minuman' => '#4FB7B3', 'cemilan' => '#637AB9', 'Makanan Berat' => '#31326F'];
                                 $bgColor = $colors[$cat['name']] ?? '#4FB7B3';
                             @endphp
                             <div class="h-full rounded-full transition-all duration-1000" style="width: {{ $cat['percentage'] }}%; background-color: {{ $bgColor }}"></div>

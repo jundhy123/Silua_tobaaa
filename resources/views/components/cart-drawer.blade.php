@@ -9,7 +9,7 @@
         </button>
     </div>
 
-    <div class="cart-items-list">
+    <div class="cart-items-list" id="cartItemsContainer">
         @auth
             @php
                 $carts = \App\Models\Cart::where('user_id', auth()->id())
@@ -25,9 +25,9 @@
                         $total += $subtotal;
                     @endphp
 
-                    <div class="cart-item-premium">
+                    <div class="cart-item-premium" data-id="{{ $item->id }}">
                         <div class="item-img">
-                            <img src="{{ asset('uploads/products/'.$item->product->image) }}">
+                            <img src="{{ asset('uploads/products/'.$item->product->image) }}" class="w-full h-full object-cover">
                         </div>
 
                         <div class="item-info">
@@ -35,21 +35,17 @@
                             <p class="product-price-mini">Rp {{ number_format($item->product->price,0,',','.') }}</p>
 
                             <div class="item-actions-row">
-                                <form action="{{ route('cart.update', $item) }}" method="POST" class="qty-form">
-                                    @csrf
-                                    @method('PATCH')
-                                    <div class="qty-stepper-mini">
-                                        <button name="action" value="minus" class="step-btn">-</button>
-                                        <span class="qty-val">{{ $item->quantity }}</span>
-                                        <button name="action" value="plus" class="step-btn">+</button>
-                                    </div>
-                                </form>
+                                <div class="qty-stepper-mini">
+                                    <button onclick="updateCartQty({{ $item->id }}, 'minus')" class="step-btn">-</button>
+                                    <span class="qty-val">{{ $item->quantity }}</span>
+                                    <button onclick="updateCartQty({{ $item->id }}, 'plus')" class="step-btn">+</button>
+                                </div>
 
                                 <form action="{{ route('cart.destroy', $item) }}" method="POST" onsubmit="return confirmDelete(this, 'Hapus dari Keranjang?', 'Produk ini akan dihapus dari keranjang belanja Anda.')">
                                     @csrf
                                     @method('DELETE')
                                     <button class="delete-icon-btn">
-                                        <i data-lucide="trash-2"></i>
+                                        <i data-lucide="trash-2" class="w-4 h-4"></i>
                                     </button>
                                 </form>
                             </div>
@@ -58,19 +54,18 @@
                 @endif
             @empty
                 <div class="empty-cart-state">
-                    <i data-lucide="shopping-bag" class="w-12 h-12 opacity-10 mx-auto mb-4"></i>
-                    <p>Troli Anda masih kosong...</p>
+                    <i data-lucide="shopping-bag" class="w-12 h-12 opacity-10 mx-auto mb-4 text-gray-400"></i>
+                    <p class="italic text-gray-400">Troli Anda masih kosong...</p>
                 </div>
             @endforelse
         @endauth
     </div>
 
     @auth
-        @if(isset($total) && $total > 0)
-        <div class="cart-footer-premium">
+        <div class="cart-footer-premium {{ !isset($total) || $total == 0 ? 'hidden' : '' }}" id="cartFooter">
             <div class="total-row">
                 <span class="label">TOTAL BELANJA</span>
-                <span class="value">Rp {{ number_format($total,0,',','.') }}</span>
+                <span class="value" id="cartTotalValue">Rp {{ number_format($total ?? 0,0,',','.') }}</span>
             </div>
 
             <form action="{{ route('cart.checkout') }}" method="POST" class="w-full">
@@ -81,7 +76,6 @@
                 </button>
             </form>
         </div>
-        @endif
     @endauth
 </div>
 

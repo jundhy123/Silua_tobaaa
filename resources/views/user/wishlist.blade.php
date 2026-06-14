@@ -10,13 +10,13 @@
 <div class="wishlist-page-wrapper">
 
     <!-- HEADER SECTION -->
-    <header class="wishlist-header container reveal">
-        <span class="top-label">KOLEKSI ANDA</span>
-        <h1 class="main-title">Wishlist Saya</h1>
-        <p class="header-desc">
+    <header class="wishlist-header container reveal text-center py-20">
+        <span class="micro-label mb-6 block">Koleksi Anda</span>
+        <h1 class="text-5xl md:text-7xl font-black italic text-navy-dark leading-tight mb-8" style="font-family: 'Playfair Display', serif;">Wishlist <i>Saya</i></h1>
+        <p class="text-xl text-gray-500 leading-relaxed italic max-w-2xl mx-auto">
             Daftar rasa favorit yang telah Anda simpan. Siap untuk dinikmati kapan saja.
         </p>
-        <div class="header-line"></div>
+        <div class="w-24 h-1 bg-amber-700 mx-auto mt-12"></div>
     </header>
 
     <!-- LIST ITEMS -->

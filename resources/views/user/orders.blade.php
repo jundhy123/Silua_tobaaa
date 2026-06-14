@@ -11,7 +11,7 @@
         <!-- HEADER -->
         <header class="mb-24 reveal-up text-center">
             <span class="micro-label mb-6 block">Riwayat Pesanan</span>
-            <h1 class="text-6xl md:text-8xl font-black italic leading-none mb-8" style="font-family: 'Playfair Display', serif;">
+            <h1 class="text-5xl md:text-7xl font-black italic leading-tight mb-8" style="font-family: 'Playfair Display', serif;">
                 Pesanan <i>Saya</i>
             </h1>
             <div class="w-24 h-1 bg-amber-700 mx-auto mt-12"></div>

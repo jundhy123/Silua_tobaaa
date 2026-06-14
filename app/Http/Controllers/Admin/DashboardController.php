@@ -167,7 +167,7 @@ class DashboardController extends Controller
 
     private function getCategoryDistribution()
     {
-        $categories = ['Minuman', 'Camilan', 'Makanan Berat'];
+        $categories = ['Minuman', 'cemilan', 'Makanan Berat'];
         $dist = [];
         $totalSold = OrderItem::whereHas('order', function($q){ $q->where('status', 'delivered'); })->sum('quantity');
 

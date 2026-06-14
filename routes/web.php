@@ -6,6 +6,10 @@ use App\Models\About;
 
 // Controllers Umum
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\UserProductController;
+use App\Http\Controllers\UserGalleryController;
+use App\Http\Controllers\UserAboutController;
+use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserAuthController;
 use App\Http\Controllers\CartController;
@@ -29,15 +33,12 @@ use App\Http\Controllers\Admin\AboutController;
 */
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::get('/products', function () {
-    $products = Product::with(['reviews.user'])->latest()->get();
-    return view('user.products', compact('products'));
-})->name('user.products');
+Route::get('/products', [UserProductController::class, 'index'])->name('user.products');
 
-Route::get('/profil', [HomeController::class, 'profile'])->name('user.profile');
-Route::get('/galeri', [HomeController::class, 'gallery'])->name('user.gallery');
+Route::get('/profil', [UserProfileController::class, 'index'])->name('user.profile');
+Route::get('/galeri', [UserGalleryController::class, 'index'])->name('user.gallery');
 Route::get('/testimoni', [TestimonialController::class, 'index'])->name('user.testimoni');
-Route::get('/about', [HomeController::class, 'about'])->name('user.about');
+Route::get('/about', [UserAboutController::class, 'index'])->name('user.about');
 
 
 /*

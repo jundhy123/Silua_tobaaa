@@ -35,6 +35,13 @@ class OrderController extends Controller {
             $query->where('status', $request->status);
         }
 
+        // 2b. FILTER KATEGORI (Berdasarkan produk di dalam pesanan)
+        if ($request->filled('category') && $request->category != 'all') {
+            $query->whereHas('items.product', function($q) use ($request) {
+                $q->where('category', $request->category);
+            });
+        }
+
         // 3. FILTER TANGGAL (Hanya tanggal tertentu)
         if ($request->filled('date')) {
             $query->whereDate('created_at', $request->date);
@@ -62,6 +69,9 @@ class OrderController extends Controller {
         $perPage = $request->get('per_page', 10);
         $orders = $query->latest()->paginate($perPage)->withQueryString();
 
+        // AMBIL SEMUA KATEGORI UNTUK FILTER
+        $categories = \App\Models\Product::select('category')->distinct()->pluck('category');
+
         // STATISTIK RINGKASAN
         $stats = [
             'total'      => Order::count(),
@@ -82,7 +92,7 @@ class OrderController extends Controller {
             ]);
         }
 
-        return view('admin.orders.index', compact('orders', 'stats'));
+        return view('admin.orders.index', compact('orders', 'stats', 'categories'));
     }
 
     /**

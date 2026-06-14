@@ -167,42 +167,68 @@
 /* Empty State */
 .empty-wishlist-box {
     text-align: center;
-    padding: 100px 20px;
+    padding: 120px 40px;
     background: white;
-    border-radius: var(--radius-3xl);
-    border: 1px solid var(--border-soft);
+    border-radius: 4rem;
+    border: 1px solid #f1f5f9;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .empty-icon {
-    width: 80px;
-    height: 80px;
-    background: #f8fafc;
-    color: #cbd5e1;
-    border-radius: 25px;
+    width: 120px;
+    height: 120px;
+    background: #fff5f2; /* Light orange tint */
+    color: #FF5722;      /* Primary Orange */
+    border-radius: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 auto 30px;
+    margin-bottom: 40px;
+    transition: all 0.5s ease;
 }
 
-.empty-icon i { width: 40px; height: 40px; }
+.empty-wishlist-box:hover .empty-icon {
+    transform: scale(1.1) rotate(10deg);
+}
+
+.empty-icon i { width: 60px; height: 60px; }
+
+.empty-wishlist-box h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    font-weight: 900;
+    font-style: italic;
+    color: #1a1a3a;
+    margin-bottom: 15px;
+}
+
+.empty-wishlist-box p {
+    color: #94a3b8;
+    font-size: 1.1rem;
+    margin-bottom: 40px;
+    font-style: italic;
+}
 
 .btn-go-shopping {
     display: inline-block;
-    margin-top: 30px;
-    padding: 18px 40px;
-    background: var(--primary-navy);
+    padding: 20px 50px;
+    background: #1a1a3a;
     color: white;
-    border-radius: 15px;
+    border-radius: 20px;
     font-weight: 800;
     text-transform: uppercase;
-    font-size: 12px;
-    letter-spacing: 1px;
+    font-size: 13px;
+    letter-spacing: 2px;
     text-decoration: none;
     transition: all 0.3s ease;
+    box-shadow: 0 10px 25px rgba(26, 26, 58, 0.15);
 }
 
 .btn-go-shopping:hover {
-    background: var(--primary-teal);
-    transform: translateY(-3px);
+    background: #FF5722;
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(255, 87, 34, 0.25);
 }

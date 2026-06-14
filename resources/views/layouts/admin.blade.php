@@ -17,10 +17,13 @@
     <!-- LUCIDE ICONS -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
+    <!-- SIDEBAR CSS -->
+    <link rel="stylesheet" href="{{ asset('css/sidebar-admin.css') }}">
+
     <style>
         :root {
             --navy-dark: #111827; /* Gray 900 */
-            --amber-700: #B45309;
+            --primary-orange: #FF5722;
         }
 
         body {
@@ -38,7 +41,7 @@
 
         .main-content {
             flex: 1;
-            margin-left: 320px; /* Width of Sidebar */
+            margin-left: 280px; /* Matched with sidebar-admin.css width */
             min-height: 100vh;
             padding: 50px 80px;
         }
@@ -73,15 +76,22 @@
 
             <!-- TOP BAR -->
             <header class="flex items-center justify-between mb-20">
-                <div>
-                    <h2 class="text-[9px] font-black uppercase tracking-[0.5em] text-gray-400 mb-2">Pusat Operasional</h2>
-                    <p class="text-sm font-bold text-gray-900 border-l-2 border-amber-700 pl-4">@yield('page_title', 'Administrasi')</p>
+                <div class="flex items-center gap-4">
+                    <!-- Mobile Toggle -->
+                    <button id="sidebarToggle" class="lg:hidden p-2 rounded-xl bg-white shadow-sm border border-gray-100 text-gray-600">
+                        <i data-lucide="menu"></i>
+                    </button>
+
+                    <div>
+                        <h2 class="text-[9px] font-black uppercase tracking-[0.5em] text-gray-400 mb-2">Pusat Operasional</h2>
+                        <p class="text-sm font-bold text-gray-900 border-l-2 border-[#FF5722] pl-4">@yield('page_title', 'Administrasi')</p>
+                    </div>
                 </div>
 
                 <div class="flex items-center gap-8">
                     <div class="text-right hidden sm:block">
                         <p class="text-[11px] font-black uppercase tracking-widest text-gray-900 leading-none mb-1">{{ Auth::user()->name }}</p>
-                        <span class="text-[9px] text-amber-700 font-bold uppercase tracking-widest">Admin Utama</span>
+                        <span class="text-[9px] text-[#FF5722] font-bold uppercase tracking-widest">Admin Utama</span>
                     </div>
                     <div class="w-14 h-14 rounded-2xl bg-gray-900 flex items-center justify-center text-white font-black italic text-xl shadow-xl shadow-gray-200 border-4 border-white">
                         {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
@@ -142,7 +152,7 @@
                     popup: 'rounded-[2rem] p-8',
                     title: 'text-2xl font-bold text-gray-800',
                     htmlContainer: 'text-sm text-gray-500',
-                    confirmButton: 'px-6 py-3 rounded-xl font-bold text-white text-sm bg-gray-900 hover:bg-amber-700 transition-all duration-300'
+                    confirmButton: 'px-6 py-3 rounded-xl font-bold text-white text-sm bg-gray-900 hover:bg-[#FF5722] transition-all duration-300'
                 },
                 buttonsStyling: false
             });
@@ -164,7 +174,7 @@
                     popup: 'rounded-[2rem] p-8',
                     title: 'text-2xl font-bold text-gray-800',
                     htmlContainer: 'text-sm text-gray-500',
-                    confirmButton: 'px-6 py-3 rounded-xl font-bold text-white text-sm bg-gray-900 hover:bg-amber-700 transition-all duration-300'
+                    confirmButton: 'px-6 py-3 rounded-xl font-bold text-white text-sm bg-gray-900 hover:bg-[#FF5722] transition-all duration-300'
                 },
                 buttonsStyling: false
             });
@@ -176,6 +186,25 @@
         document.addEventListener('DOMContentLoaded', () => {
             if (window.lucide) {
                 lucide.createIcons();
+            }
+
+            // Sidebar Toggle for Mobile
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            const sidebar = document.querySelector('.silua-admin-sidebar');
+
+            if (sidebarToggle && sidebar) {
+                sidebarToggle.addEventListener('click', () => {
+                    sidebar.classList.toggle('show');
+                });
+
+                // Close sidebar when clicking outside on mobile
+                document.addEventListener('click', (e) => {
+                    if (window.innerWidth <= 1024) {
+                        if (!sidebar.contains(e.target) && !sidebarToggle.contains(e.target) && sidebar.classList.contains('show')) {
+                            sidebar.classList.remove('show');
+                        }
+                    }
+                });
             }
         });
     </script>

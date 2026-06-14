@@ -15,7 +15,7 @@
             <!-- Sisi Teks -->
             <div class="lg:col-span-7 reveal-left">
                 <span class="micro-label mb-8 block">Warisan Rasa</span>
-                <h1 class="text-7xl md:text-9xl font-black italic leading-[0.85] mb-12" style="font-family: 'Playfair Display', serif;">
+                <h1 class="text-5xl md:text-7xl font-black italic leading-tight mb-12" style="font-family: 'Playfair Display', serif;">
                     {{ $first->title }} <br>
                     <span class="text-amber-700 ml-4 md:ml-12">{{ $first->subtitle }}</span>
                 </h1>
@@ -134,7 +134,7 @@
     {{-- ================= SECTION 4: INVITATION (CTA) ================= --}}
     <section class="relative py-24 bg-white">
         <div class="max-w-4xl mx-auto px-8 text-center reveal-up">
-            <h2 class="text-6xl md:text-8xl font-black italic leading-none mb-12" style="font-family: 'Playfair Display', serif;">
+            <h2 class="text-5xl md:text-7xl font-black italic leading-tight mb-12" style="font-family: 'Playfair Display', serif;">
                 Mari Jadi Bagian dari <br> <i>Cerita</i> Kami.
             </h2>
             <p class="text-xl text-gray-400 mb-16 max-w-2xl mx-auto italic leading-relaxed">

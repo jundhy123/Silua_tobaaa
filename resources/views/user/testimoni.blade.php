@@ -12,7 +12,7 @@
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-end">
             <div class="lg:col-span-8 reveal-up">
                 <span class="micro-label mb-6 block">Cerita Dari Pengunjung</span>
-                <h1 class="text-7xl md:text-[10rem] font-black italic leading-[0.8] mb-0" style="font-family: 'Playfair Display', serif;">
+                <h1 class="text-5xl md:text-7xl font-black italic leading-tight mb-0" style="font-family: 'Playfair Display', serif;">
                     Kesan Dan Pesan <i>dari Mereka</i>
                 </h1>
             </div>
@@ -100,7 +100,7 @@
 
             <div class="relative z-10">
                 <span class="micro-label !text-amber-500 mb-8 block">Share Your Experience</span>
-                <h2 class="text-5xl md:text-7xl font-black italic text-white mb-10" style="font-family: 'Playfair Display', serif;">Tuliskan <i>Cerita</i> Anda</h2>
+                <h2 class="text-5xl md:text-7xl font-black italic text-white leading-tight mb-10" style="font-family: 'Playfair Display', serif;">Tuliskan <i>Cerita</i> Anda</h2>
                 <p class="text-xl text-white/30 mb-16 max-w-lg mx-auto leading-relaxed italic">"Punya kenangan manis bersama produk kami? Ceritakan bagaimana Silua Toba menjadi bagian dari hari Anda."</p>
 
                 @auth
