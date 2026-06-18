@@ -28,8 +28,9 @@ class UserProductController extends Controller
         // Ambil produk dengan pagination (9 per halaman)
         $products = $query->latest()->paginate(9)->withQueryString();
 
-        // Ambil daftar kategori dari model Product (Hardcoded list)
-        $categories = Product::getAvailableCategories();
+        // Trigger Sync dan ambil dari Database
+        Product::getAvailableCategories();
+        $categories = Category::pluck('category_name')->toArray();
 
         return view('user.products', compact('products', 'categories'));
     }

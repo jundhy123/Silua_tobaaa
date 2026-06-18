@@ -62,7 +62,7 @@
     <!-- Slide 3 -->
     <div class="premium-slide">
         <div class="slide-bg-wrap">
-            <img src="{{ asset('images/miegomak.png') }}" class="ken-burns">
+            <img src="{{ asset('images/kacang.jpeg') }}" class="ken-burns">
         </div>
         <div class="max-w-7xl mx-auto px-8 h-full flex items-center relative z-10">
             <div class="text-container-masked">

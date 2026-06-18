@@ -123,7 +123,7 @@
                         <select name="category" required class="form-input font-bold">
                             <option value="" disabled selected>Pilih Kategori</option>
                             @foreach($categories as $cat)
-                                <option value="{{ $cat }}" {{ old('category') == $cat ? 'selected' : '' }}>{{ $cat }}</option>
+                                <option value="{{ $cat->category_name }}" {{ old('category') == $cat->category_name ? 'selected' : '' }}>{{ $cat->category_name }}</option>
                             @endforeach
                         </select>
                     </div>

@@ -9,25 +9,28 @@ class Product extends Model
     protected $fillable = [
         'name',
         'category',
+        'category_id', // Menambahkan category_id agar terdeteksi relasinya di database
         'price',
         'image',
         'description',
     ];
 
     /**
-     * Daftar kategori produk yang dikelola secara hardcoded.
-     * Edit bagian ini jika ingin menambah/mengubah kategori.
+     * Mengambil daftar kategori dari Model Category.
      */
     public static function getAvailableCategories()
     {
-        return [
-            'Makanan Berat',
-            'Cemilan',
-            'Minuman',
-        ];
+        Category::getList(); // Trigger sync
+        return Category::all(); // Mengembalikan koleksi model Category (ID & Nama)
     }
 
     // RELASI
+    public function category_info()
+    {
+        // Relasi formal ke tabel categories menggunakan ID
+        return $this->belongsTo(Category::class, 'category_id', 'category_id');
+    }
+
     public function reviews()
     {
         return $this->hasMany(Review::class);

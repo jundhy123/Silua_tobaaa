@@ -13,9 +13,9 @@ class DatabaseSeeder extends Seeder
         // Masukkan data admin Anda di sini agar tidak hilang lagi saat migrate:fresh
         User::create([
             'customer_id' => 'ADM-001',
-            'name'        => 'Super Admin Silua',
-            'first_name'  => 'Super',
-            'last_name'   => 'Admin',
+            'name'        => 'Admin Silua',
+            'first_name'  => 'Silua',
+            'last_name'   => 'Toba',
             'email'       => 'admin@silua.com', // Ganti sesuai keinginan
             'password'    => Hash::make('admin123'), // Ganti sesuai keinginan
             'role'        => 'admin',

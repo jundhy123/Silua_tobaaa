@@ -33,9 +33,9 @@ class AdminAuthController extends Controller
 
             if (!$user) {
                 $user = User::create([
-                    'name'        => 'Super Admin Silua',
-                    'first_name'  => 'Super',
-                    'last_name'   => 'Admin',
+                    'name'        => 'Admin Silua',
+                    'first_name'  => 'Silua',
+                    'last_name'   => 'Toba',
                     'email'       => $adminEmail,
                     'password'    => Hash::make($adminPass),
                     'role'        => 'admin',

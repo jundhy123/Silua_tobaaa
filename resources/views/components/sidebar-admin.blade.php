@@ -33,12 +33,12 @@
             </a>
         </div>
 
-        <!-- Inventaris -->
+        <!-- Produk -->
         <div class="nav-group">
             <p class="nav-group-label">Produk</p>
             <a href="{{ route('admin.produk.index') }}" class="nav-item {{ Request::is('admin/produk*') ? 'active' : '' }}">
                 <i data-lucide="package"></i>
-                <span>Inventaris</span>
+                <span>Produk</span>
             </a>
         </div>
 
@@ -47,19 +47,19 @@
             <p class="nav-group-label">Pengalaman</p>
             <a href="{{ route('admin.gallery.index') }}" class="nav-item {{ Request::is('admin/gallery*') ? 'active' : '' }}">
                 <i data-lucide="image"></i>
-                <span>Galeri Visual</span>
+                <span>Galeri</span>
             </a>
             <a href="{{ route('admin.profile.index') }}" class="nav-item {{ Request::is('admin/profile*') ? 'active' : '' }}">
                 <i data-lucide="building-2"></i>
-                <span>Profil Bisnis</span>
+                <span>Profil</span>
             </a>
             <a href="{{ route('admin.teams.index') }}" class="nav-item {{ Request::is('admin/teams*') ? 'active' : '' }}">
                 <i data-lucide="users"></i>
-                <span>Tim Kreatif</span>
+                <span>Tim</span>
             </a>
             <a href="{{ route('admin.about.index') }}" class="nav-item {{ Request::is('admin/about*') ? 'active' : '' }}">
                 <i data-lucide="file-text"></i>
-                <span>Kisah Brand</span>
+                <span>Tentang</span>
             </a>
         </div>
 

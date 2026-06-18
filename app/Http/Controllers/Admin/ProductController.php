@@ -55,9 +55,13 @@ class ProductController extends Controller
             $image->move(public_path('uploads/products'), $imageName);
         }
 
+        // Cari category_id berdasarkan nama kategori yang dipilih
+        $cat = \App\Models\Category::where('category_name', $request->category)->first();
+
         Product::create([
             'name' => $request->name,
             'category' => $request->category,
+            'category_id' => $cat->category_id ?? null,
             'price' => $request->price,
             'image' => $imageName,
             'description' => $request->description,
@@ -94,9 +98,13 @@ class ProductController extends Controller
             'description' => 'nullable|string'
         ]);
 
+        // Cari category_id berdasarkan nama kategori yang dipilih
+        $cat = \App\Models\Category::where('category_name', $request->category)->first();
+
         $data = [
             'name' => $request->name,
             'category' => $request->category,
+            'category_id' => $cat->category_id ?? null,
             'price' => $request->price,
             'description' => $request->description,
         ];
