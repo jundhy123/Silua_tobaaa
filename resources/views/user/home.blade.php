@@ -148,7 +148,7 @@
                     <p class="text-xs uppercase tracking-widest font-bold text-gray-400">Bahan Alami</p>
                 </div>
                 <div class="space-y-2">
-                    <h4 class="text-3xl font-bold text-amber-800 italic">5+</h4>
+                    <h4 class="text-3xl font-bold text-amber-800 italic">{{ $totalProduk }}+</h4>
                     <p class="text-xs uppercase tracking-widest font-bold text-gray-400">Resep Warisan</p>
                 </div>
             </div>

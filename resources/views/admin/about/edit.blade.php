@@ -121,7 +121,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-end">
                 <div class="space-y-2">
                     <label class="form-label">Penanda Waktu (Tahun)</label>
-                    <input type="number" name="years_experience" value="{{ old('years_experience', $about->years_experience) }}" class="form-input font-black text-2xl">
+                    <input type="number" name="years_experience" value="{{ old('years_experience', $about->years_experience) }}" min="0" class="form-input font-black text-2xl">
                 </div>
                 <div class="space-y-2">
                     <label class="form-label">Visual Bab</label>

@@ -11,7 +11,10 @@ class WishlistController extends Controller
 {
     // Tampilkan Halaman Wishlist
     public function index() {
-        $wishlists = Wishlist::where('user_id', Auth::id())->with('product')->latest()->get();
+        $wishlists = Wishlist::where('user_id', Auth::id())
+                        ->with(['product.reviews.user'])
+                        ->latest()
+                        ->get();
         return view('user.wishlist', compact('wishlists'));
     }
 

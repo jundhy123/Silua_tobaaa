@@ -133,7 +133,7 @@
 
                     <div class="space-y-2">
                         <label class="form-label">Harga Jual (IDR)</label>
-                        <input type="number" name="price" value="{{ old('price', $product->price) }}" required class="form-input font-black">
+                        <input type="number" name="price" value="{{ old('price', $product->price) }}" min="0" required class="form-input font-black">
                     </div>
                 </div>
 

@@ -44,6 +44,7 @@
                 confirmButtonText: 'Ya, hapus!',
                 cancelButtonText: 'Batal',
                 customClass: {
+                    container: 'z-[999999]',
                     popup: 'rounded-[2rem] p-8',
                     title: 'text-2xl font-bold text-gray-800',
                     htmlContainer: 'text-sm text-gray-500',
@@ -75,6 +76,7 @@
                 confirmButtonColor: '#111827',
                 confirmButtonText: 'OK',
                 customClass: {
+                    container: 'z-[999999]',
                     popup: 'rounded-[2rem] p-8',
                     title: 'text-2xl font-bold text-gray-800',
                     htmlContainer: 'text-sm text-gray-500',
@@ -223,6 +225,7 @@ window.addEventListener("load", function () {
                             confirmButtonColor: '#111827',
                             confirmButtonText: 'OK',
                             customClass: {
+                                container: 'z-[999999]',
                                 popup: 'rounded-[2rem] p-8',
                                 title: 'text-2xl font-bold text-gray-800',
                                 htmlContainer: 'text-sm text-gray-500',

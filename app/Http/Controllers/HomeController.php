@@ -21,10 +21,12 @@ class HomeController extends Controller
         try {
             // Ambil 3 produk terbaru saja untuk ditampilkan di Home sebagai preview
             $products = Product::latest()->take(3)->get();
+            $totalProduk = Product::count();
         } catch (Exception $e) {
             $products = [];
+            $totalProduk = 0;
         }
 
-        return view('user.home', compact('products'));
+        return view('user.home', compact('products', 'totalProduk'));
     }
 }

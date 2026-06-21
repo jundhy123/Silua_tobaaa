@@ -112,7 +112,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-end">
                 <div class="space-y-2">
                     <label class="form-label">Penanda Waktu (Tahun)</label>
-                    <input type="number" name="years_experience" placeholder="cth. 15" class="form-input font-black text-xl">
+                    <input type="number" name="years_experience" placeholder="cth. 15" min="0" class="form-input font-black text-xl">
                 </div>
                 <div class="space-y-2">
                     <label class="form-label">Visual Bab</label>

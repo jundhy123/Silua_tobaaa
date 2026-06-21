@@ -21,45 +21,27 @@
 
     <!-- LIST ITEMS -->
     <section class="container pb-20">
-        <div class="wishlist-grid">
+        <div class="wishlist-grid max-w-7xl mx-auto">
             @forelse($wishlists as $key => $w)
-            <div class="wish-card-premium reveal-up" style="--order: {{ $key }}">
+            <div class="wish-card-premium reveal-up" style="--order: {{ $key }}"
+                 onclick='openOrderModal({{ $w->product->id }}, "{{ addslashes($w->product->name) }}", {{ $w->product->price }}, "{{ asset('uploads/products/'.$w->product->image) }}", "{{ addslashes($w->product->description) }}", @json($w->product->reviews))'>
 
-                <div class="wish-card-content">
-                    <!-- Area Gambar -->
-                    <div class="wish-img-wrapper">
-                        <img src="{{ asset('uploads/products/' . $w->product->image) }}" alt="{{ $w->product->name }}">
-                        <!-- Badge Harga di Atas Gambar -->
-                        <div class="price-badge">Rp {{ number_format($w->product->price, 0, ',', '.') }}</div>
-                    </div>
+                <!-- Tombol Hapus (Heart Icon) -->
+                <form action="{{ route('wishlist.toggle') }}" method="POST" onclick="event.stopPropagation()">
+                    @csrf
+                    <input type="hidden" name="product_id" value="{{ $w->product->id }}">
+                    <button type="submit" class="btn-wish-toggle" title="Hapus dari Wishlist">
+                        <i data-lucide="heart"></i>
+                    </button>
+                </form>
 
-                    <!-- Area Info -->
-                    <div class="wish-details">
-                        <div>
-                            <span class="product-category">{{ $w->product->category ?? 'Produk Nusantara' }}</span>
-                            <h3 class="product-name">{{ $w->product->name }}</h3>
-                            <p class="product-short-desc">{{ Str::limit($w->product->description, 60) }}</p>
-                        </div>
+                <div class="wish-img-wrapper">
+                    <img src="{{ asset('uploads/products/' . $w->product->image) }}" alt="{{ $w->product->name }}">
+                </div>
 
-                        <!-- Tombol Aksi di Bagian Bawah Info -->
-                        <div class="wish-actions-row">
-                            <!-- Tombol Hapus (Badge Merah Muda) -->
-                            <form action="{{ route('wishlist.toggle') }}" method="POST" onsubmit="return confirmDelete(this, 'Hapus Wishlist?', 'Produk ini akan dihapus dari daftar keinginan Anda.')">
-                                @csrf
-                                <input type="hidden" name="product_id" value="{{ $w->product->id }}">
-                                <button type="submit" class="btn-wish-action delete" title="Hapus dari Wishlist">
-                                    <i data-lucide="trash-2"></i> HAPUS
-                                </button>
-                            </form>
-
-                            <!-- Tombol Detail (Pill Style) -->
-                            <button type="button" class="btn-wish-cart w-full"
-                                onclick="openOrderModal('{{ $w->product->id }}', '{{ addslashes($w->product->name) }}', '{{ $w->product->price }}', '{{ asset('uploads/products/'.$w->product->image) }}', '{{ addslashes($w->product->description) }}')">
-                                <i data-lucide="eye"></i>
-                                <span>Lihat Detail & Pesan</span>
-                            </button>
-                        </div>
-                    </div>
+                <div class="wish-details">
+                    <h3 class="product-name">{{ $w->product->name }}</h3>
+                    <span class="product-price">Rp {{ number_format($w->product->price, 0, ',', '.') }}</span>
                 </div>
             </div>
             @empty
