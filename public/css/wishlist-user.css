@@ -1,7 +1,7 @@
 /* ================= REDESIGN SILUA TOBA WISHLIST USER ================= */
 
 .wishlist-page-wrapper {
-    background-color: var(--bg-main);
+    background-color: #F8FAFC;
     min-height: 100vh;
     padding-top: 150px;
 }
@@ -12,45 +12,15 @@
     margin-bottom: 80px;
 }
 
-.top-label {
-    font-size: 11px;
-    font-weight: 800;
-    color: var(--primary-teal);
-    text-transform: uppercase;
-    letter-spacing: 3px;
-    display: block;
-    margin-bottom: 15px;
-}
-
-.main-title {
-    font-size: clamp(2.5rem, 5vw, 4rem);
-    margin-bottom: 15px;
-}
-
-.header-desc {
-    color: var(--text-secondary);
-    max-width: 600px;
-    margin: 0 auto;
-    font-size: 1.1rem;
-}
-
-.header-line {
-    width: 60px;
-    height: 3px;
-    background: var(--primary-navy);
-    margin: 30px auto 0;
-    border-radius: 10px;
-}
-
-/* Grid */
+/* Grid - Menyesuaikan agar card berada di tengah jika jumlahnya sedikit */
 .wishlist-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
     gap: 30px;
-    justify-content: center;
+    justify-content: center; /* Mengetengahkan item */
 }
 
-/* Card */
+/* Card - Bentuk tumpul (rounded) mengikuti katalog produk */
 .wish-card-premium {
     background: white;
     border-radius: 30px;
@@ -79,6 +49,7 @@
     object-fit: cover;
 }
 
+/* Tombol Wishlist (Hati) di pojok kanan atas gambar */
 .btn-wish-toggle {
     position: absolute;
     top: 15px;
@@ -108,6 +79,7 @@
     fill: #ef4444;
 }
 
+/* Detail di bawah gambar */
 .wish-details {
     padding: 20px;
     text-align: center;
@@ -119,7 +91,6 @@
     color: #1a1a3a;
     font-size: 1.1rem;
     margin: 0;
-    text-transform: lowercase;
 }
 
 .product-price {
@@ -146,37 +117,16 @@
 .empty-icon {
     width: 120px;
     height: 120px;
-    background: #fff5f2; /* Light orange tint */
-    color: #FF5722;      /* Primary Orange */
+    background: #fff5f2;
+    color: #FF5722;
     border-radius: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
     margin-bottom: 40px;
-    transition: all 0.5s ease;
-}
-
-.empty-wishlist-box:hover .empty-icon {
-    transform: scale(1.1) rotate(10deg);
 }
 
 .empty-icon i { width: 60px; height: 60px; }
-
-.empty-wishlist-box h2 {
-    font-family: 'Playfair Display', serif;
-    font-size: 2.5rem;
-    font-weight: 900;
-    font-style: italic;
-    color: #1a1a3a;
-    margin-bottom: 15px;
-}
-
-.empty-wishlist-box p {
-    color: #94a3b8;
-    font-size: 1.1rem;
-    margin-bottom: 40px;
-    font-style: italic;
-}
 
 .btn-go-shopping {
     display: inline-block;
@@ -190,11 +140,9 @@
     letter-spacing: 2px;
     text-decoration: none;
     transition: all 0.3s ease;
-    box-shadow: 0 10px 25px rgba(26, 26, 58, 0.15);
 }
 
 .btn-go-shopping:hover {
     background: #FF5722;
     transform: translateY(-5px);
-    box-shadow: 0 15px 30px rgba(255, 87, 34, 0.25);
 }

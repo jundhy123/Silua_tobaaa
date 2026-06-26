@@ -178,18 +178,35 @@
 <form id="formReject" action="" method="POST" class="hidden">
     @csrf @method('PATCH')
     <input type="hidden" name="status" value="rejected">
-    <input type="hidden" name="reject_reason" id="inputRejectReason">
 </form>
 
 <script>
     function showRejectModal(id) {
-        let reason = prompt("Masukkan alasan penolakan untuk pelanggan:");
-        if (reason != null && reason != "") {
-            let form = document.getElementById('formReject');
-            form.action = "/admin/pesanan/" + id + "/update";
-            document.getElementById('inputRejectReason').value = reason;
-            form.submit();
-        }
+        Swal.fire({
+            title: 'Tolak Pesanan?',
+            text: 'Pesanan ini akan dibatalkan dan pelanggan akan mendapatkan notifikasi.',
+            icon: 'warning',
+            iconColor: '#f97316',
+            showCancelButton: true,
+            confirmButtonColor: '#dc2626',
+            cancelButtonColor: '#5e6673',
+            confirmButtonText: 'Ya, Tolak!',
+            cancelButtonText: 'Batal',
+            customClass: {
+                popup: 'rounded-[2rem] p-8',
+                title: 'text-2xl font-bold text-gray-800',
+                htmlContainer: 'text-sm text-gray-500',
+                confirmButton: 'px-6 py-3 rounded-xl font-bold text-white text-sm bg-red-600 hover:bg-red-700 focus:ring-4 focus:ring-red-200 transition-all duration-300',
+                cancelButton: 'px-6 py-3 rounded-xl font-bold text-white text-sm bg-gray-500 hover:bg-gray-600 focus:ring-4 focus:ring-gray-200 transition-all duration-300 ml-3'
+            },
+            buttonsStyling: false
+        }).then((result) => {
+            if (result.isConfirmed) {
+                let form = document.getElementById('formReject');
+                form.action = "/admin/pesanan/" + id + "/update";
+                form.submit();
+            }
+        });
     }
 </script>
 @endsection

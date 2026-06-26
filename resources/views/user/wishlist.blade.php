@@ -4,27 +4,24 @@
 
 @section('content')
 <!-- Import Font Premium -->
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{{ asset('css/wishlist-user.css') }}">
 
 <div class="wishlist-page-wrapper">
 
     <!-- HEADER SECTION -->
-    <header class="wishlist-header container reveal text-center py-20">
-        <span class="micro-label mb-6 block">Koleksi Anda</span>
-        <h1 class="text-5xl md:text-7xl font-black italic text-navy-dark leading-tight mb-8" style="font-family: 'Playfair Display', serif;">Wishlist <i>Saya</i></h1>
-        <p class="text-xl text-gray-500 leading-relaxed italic max-w-2xl mx-auto">
-            Daftar rasa favorit yang telah Anda simpan. Siap untuk dinikmati kapan saja.
-        </p>
-        <div class="w-24 h-1 bg-amber-700 mx-auto mt-12"></div>
+    <header class="wishlist-header max-w-7xl mx-auto px-6 reveal text-left py-20">
+        <span class="text-[10px] font-black uppercase tracking-[0.3em] text-gray-300 mb-4 block">Koleksi Favorit</span>
+        <h1 class="text-5xl md:text-7xl font-black italic text-[#1a1a3a] leading-tight mb-8" style="font-family: 'Playfair Display', serif;">Wishlist <i>Saya</i></h1>
+        <div class="w-24 h-1 bg-[#FF5722]"></div>
     </header>
 
     <!-- LIST ITEMS -->
-    <section class="container pb-20">
-        <div class="wishlist-grid max-w-7xl mx-auto">
+    <section class="max-w-7xl mx-auto px-6 pb-20">
+        <div class="wishlist-grid">
             @forelse($wishlists as $key => $w)
             <div class="wish-card-premium reveal-up" style="--order: {{ $key }}"
-                 onclick='openOrderModal({{ $w->product->id }}, "{{ addslashes($w->product->name) }}", {{ $w->product->price }}, "{{ asset('uploads/products/'.$w->product->image) }}", "{{ addslashes($w->product->description) }}", @json($w->product->reviews))'>
+                 onclick='openOrderModal({{ $w->product->id }}, "{{ addslashes($w->product->name) }}", {{ $w->product->price }}, "{{ asset("uploads/products/".$w->product->image) }}", "{{ addslashes($w->product->description) }}", @json($w->product->reviews))'>
 
                 <!-- Tombol Hapus (Heart Icon) -->
                 <form action="{{ route('wishlist.toggle') }}" method="POST" onclick="event.stopPropagation()">
@@ -45,13 +42,13 @@
                 </div>
             </div>
             @empty
-            <!-- Tampilan Kosong yang Manis -->
+            <!-- Tampilan Kosong -->
             <div class="empty-wishlist-box col-span-full reveal">
                 <div class="empty-icon">
                     <i data-lucide="heart-off"></i>
                 </div>
-                <h2>Belum Ada Favorit</h2>
-                <p>Jelajahi produk kami dan temukan rasa yang Anda cintai.</p>
+                <h2 class="text-3xl font-black italic mb-4" style="font-family: 'Playfair Display', serif;">Belum Ada Favorit</h2>
+                <p class="text-gray-400 italic mb-8">Jelajahi produk kami dan temukan rasa yang Anda cintai.</p>
                 <a href="{{ route('user.products') }}" class="btn-go-shopping">Cari Produk Sekarang</a>
             </div>
             @endforelse

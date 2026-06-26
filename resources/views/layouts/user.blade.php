@@ -235,10 +235,17 @@ window.addEventListener("load", function () {
                         });
 
                         // Update counter badges globally
-                        document.querySelectorAll('.nav-badge').forEach(badge => {
-                            badge.innerText = data.cart_count;
-                            badge.style.display = 'flex';
-                        });
+                        const cartBadge = document.getElementById('cart-badge');
+                        if (cartBadge) {
+                            cartBadge.innerText = data.cart_count;
+                            if (data.cart_count > 0) {
+                                cartBadge.classList.remove('hidden');
+                                cartBadge.classList.add('flex');
+                            } else {
+                                cartBadge.classList.remove('flex');
+                                cartBadge.classList.add('hidden');
+                            }
+                        }
 
                         // Refresh cart content without reload
                         refreshCartUI();
@@ -269,9 +276,17 @@ window.addEventListener("load", function () {
             if (data.success) {
                 // Refresh total and badges
                 refreshCartUI();
-                document.querySelectorAll('.nav-badge').forEach(badge => {
-                    badge.innerText = data.cart_count;
-                });
+                const cartBadge = document.getElementById('cart-badge');
+                if (cartBadge) {
+                    cartBadge.innerText = data.cart_count;
+                    if (data.cart_count > 0) {
+                        cartBadge.classList.remove('hidden');
+                        cartBadge.classList.add('flex');
+                    } else {
+                        cartBadge.classList.remove('flex');
+                        cartBadge.classList.add('hidden');
+                    }
+                }
             }
         });
     }

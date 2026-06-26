@@ -38,7 +38,7 @@
     </div>
 
     <!-- 1. KEY METRICS GRID -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-6">
         <!-- Revenue Card -->
         <div class="bg-white p-8 rounded-[2.5rem] border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-500 group">
             <div class="flex justify-between items-start mb-6">
@@ -82,19 +82,6 @@
             <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest">Produk Terjual</p>
             <h3 class="text-2xl font-black text-gray-900 mt-2 tracking-tighter">{{ $stats['items']['total'] }} Produk</h3>
             <p class="text-[9px] text-gray-400 mt-4 italic uppercase">Bulan ini: {{ $stats['items']['current_month'] }} unit</p>
-        </div>
-
-        <!-- Profit Card -->
-        <div class="bg-gray-900 p-8 rounded-[2.5rem] shadow-lg shadow-gray-900/10 text-white transition-all duration-500">
-            <div class="flex justify-between items-start mb-6">
-                <div class="w-12 h-12 bg-white/10 text-primary-orange rounded-2xl flex items-center justify-center">
-                    <i data-lucide="trending-up" class="w-6 h-6"></i>
-                </div>
-                <span class="text-[9px] font-bold text-primary-orange uppercase tracking-widest">Est. 30% Profit</span>
-            </div>
-            <p class="text-[10px] font-black text-white/50 uppercase tracking-widest">Estimasi Keuntungan</p>
-            <h3 class="text-2xl font-black text-white mt-2 tracking-tighter">Rp {{ number_format($stats['profit']['total'], 0, ',', '.') }}</h3>
-            <p class="text-[9px] text-white/30 mt-4 italic uppercase">Akumulasi laba kotor</p>
         </div>
     </div>
 

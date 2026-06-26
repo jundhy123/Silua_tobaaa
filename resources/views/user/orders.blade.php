@@ -63,7 +63,7 @@
                     <div class="w-16 h-16 bg-red-500 text-white rounded-full flex items-center justify-center text-3xl shrink-0">✕</div>
                     <div>
                         <h4 class="text-red-700 font-black uppercase tracking-widest text-[10px] mb-2">Pesanan Dibatalkan</h4>
-                        <p class="text-gray-600 italic">"{{ $order->reject_reason ?? 'Mohon maaf, pesanan tidak dapat kami proses saat ini.' }}"</p>
+                        <p class="text-gray-600 italic">Mohon maaf, pesanan tidak dapat kami proses saat ini.</p>
                     </div>
                 </div>
             @else

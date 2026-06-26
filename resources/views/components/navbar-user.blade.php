@@ -37,9 +37,7 @@
                 <i data-lucide="heart" class="w-6 h-6"></i>
                 @auth
                     @php $wishCount = \App\Models\Wishlist::where('user_id', auth()->id())->count(); @endphp
-                    @if($wishCount > 0)
-                        <span class="nav-badge">{{ $wishCount }}</span>
-                    @endif
+                    <span id="wishlist-badge" class="nav-badge {{ $wishCount > 0 ? 'flex' : 'hidden' }}">{{ $wishCount }}</span>
                 @endauth
             </a>
 
@@ -48,9 +46,7 @@
                 <i data-lucide="shopping-cart" class="w-6 h-6"></i>
                 @auth
                     @php $count = \App\Models\Cart::where('user_id', auth()->id())->sum('quantity'); @endphp
-                    @if($count > 0)
-                        <span class="nav-badge">{{ $count }}</span>
-                    @endif
+                    <span id="cart-badge" class="nav-badge {{ $count > 0 ? 'flex' : 'hidden' }}">{{ $count }}</span>
                 @endauth
             </button>
 

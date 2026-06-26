@@ -4,28 +4,24 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
-use App\Models\CompanyProfile; // 1. Pastikan Model Profile di-import
+use App\Models\CompanyProfile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 
 class ProductController extends Controller
 {
     /**
-     * 1. Menampilkan daftar semua produk
+     * Menampilkan daftar semua produk untuk dikelola Admin
      */
     public function index()
     {
         $products = Product::with('reviews.user')->latest()->paginate(10);
-
-        // 2. Ambil data profil (baris pertama)
         $profiles = CompanyProfile::first();
-
-        // 3. Kirim 'profiles' ke view bersama 'products'
         return view('admin.produk.index', compact('products', 'profiles'));
     }
 
     /**
-     * 2. Form tambah produk
+     * Membuka halaman formulir untuk menambah produk baru
      */
     public function create()
     {
@@ -35,10 +31,11 @@ class ProductController extends Controller
     }
 
     /**
-     * 3. Simpan produk
+     * Memproses penyimpanan data produk baru ke database
      */
     public function store(Request $request)
     {
+        // Validasi input: Nama wajib, Kategori wajib, Harga minimal 0, Gambar wajib
         $request->validate([
             'name' => 'required|string|max:255',
             'category' => 'required',
@@ -48,14 +45,12 @@ class ProductController extends Controller
         ]);
 
         $imageName = null;
-
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $imageName = time() . '.' . $image->getClientOriginalExtension();
             $image->move(public_path('uploads/products'), $imageName);
         }
 
-        // Cari category_id berdasarkan nama kategori yang dipilih
         $cat = \App\Models\Category::where('category_name', $request->category)->first();
 
         Product::create([
@@ -72,7 +67,7 @@ class ProductController extends Controller
     }
 
     /**
-     * 4. Edit produk
+     * Membuka halaman edit untuk mengubah data produk yang sudah ada
      */
     public function edit($id)
     {
@@ -84,7 +79,7 @@ class ProductController extends Controller
     }
 
     /**
-     * 5. Update produk
+     * Memproses pembaruan data produk ke database
      */
     public function update(Request $request, $id)
     {
@@ -98,7 +93,6 @@ class ProductController extends Controller
             'description' => 'nullable|string'
         ]);
 
-        // Cari category_id berdasarkan nama kategori yang dipilih
         $cat = \App\Models\Category::where('category_name', $request->category)->first();
 
         $data = [
@@ -111,7 +105,6 @@ class ProductController extends Controller
 
         if ($request->hasFile('image')) {
             $oldImagePath = public_path('uploads/products/' . $product->image);
-
             if (File::exists($oldImagePath)) {
                 File::delete($oldImagePath);
             }
@@ -119,7 +112,6 @@ class ProductController extends Controller
             $image = $request->file('image');
             $imageName = time() . '.' . $image->getClientOriginalExtension();
             $image->move(public_path('uploads/products'), $imageName);
-
             $data['image'] = $imageName;
         }
 
@@ -130,12 +122,11 @@ class ProductController extends Controller
     }
 
     /**
-     * 6. Hapus produk
+     * Menghapus produk secara permanen beserta file gambarnya
      */
     public function destroy($id)
     {
         $product = Product::findOrFail($id);
-
         $imagePath = public_path('uploads/products/' . $product->image);
 
         if (File::exists($imagePath)) {

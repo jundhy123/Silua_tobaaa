@@ -103,11 +103,6 @@ class DashboardController extends Controller
                 'total' => OrderItem::whereHas('order', function($q){ $q->where('status', 'delivered'); })->sum('quantity'),
                 'current_month' => $currentItems,
                 'diff' => $this->calculateDiff($currentItems, $prevItems)
-            ],
-            'profit' => [
-                'total' => Order::where('status', 'delivered')->sum('total_price') * 0.3,
-                'current_month' => $currentRevenue * 0.3,
-                'diff' => $this->calculateDiff($currentRevenue, $prevRevenue)
             ]
         ];
     }

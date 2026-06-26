@@ -12,7 +12,9 @@ use Illuminate\Support\Facades\DB;
 
 class CartController extends Controller
 {
-    // 1. TAMBAH KE KERANJANG
+    /**
+     * Menambahkan produk ke dalam keranjang belanja (troli)
+     */
     public function store(Request $request) {
         $request->validate([
             'product_id' => 'required|exists:products,id',
@@ -23,9 +25,11 @@ class CartController extends Controller
                     ->where('product_id', $request->product_id)
                     ->first();
 
+        // Jika produk sudah ada di keranjang, tambah jumlahnya
         if ($cart) {
             $cart->increment('quantity', $request->quantity);
         } else {
+            // Jika belum ada, buat baris baru di tabel keranjang
             Cart::create([
                 'user_id' => Auth::id(),
                 'product_id' => $request->product_id,
@@ -44,7 +48,9 @@ class CartController extends Controller
         return back()->with('success', 'Produk berhasil masuk troli!');
     }
 
-    // 2. UPDATE JUMLAH (PLUS/MINUS)
+    /**
+     * Memperbarui jumlah produk (tambah/kurang) langsung dari sidebar keranjang
+     */
     public function update(Request $request, Cart $cart) {
         if (auth()->id() !== $cart->user_id) {
             return back()->with('error', 'Akses ditolak');
@@ -66,7 +72,9 @@ class CartController extends Controller
         return back();
     }
 
-    // 3. HAPUS ITEM
+    /**
+     * Menghapus item tertentu dari keranjang belanja
+     */
     public function destroy(Cart $cart) {
         if (auth()->id() !== $cart->user_id) {
             return back()->with('error', 'Akses ditolak');
@@ -77,13 +85,10 @@ class CartController extends Controller
     }
 
     /**
-     * 4. PESANAN SAYA (RIWAYAT & TRACKING)
-     * Tambahan fungsi untuk fitur pelacakan pesanan
+     * Menampilkan riwayat pesanan milik pelanggan yang sedang login
      */
     public function myOrders()
     {
-        // Mengambil pesanan milik user yang sedang login
-        // 'items.product' berasumsi relasi di model Order bernama 'items'
         $orders = Order::where('user_id', Auth::id())
                        ->with('items.product')
                        ->latest()
@@ -92,7 +97,9 @@ class CartController extends Controller
         return view('user.orders', compact('orders'));
     }
 
-    // 5. DIRECT ORDER (Pesan Sekarang dari Modal Detail)
+    /**
+     * Fitur 'Beli Sekarang' - Membuat pesanan instan tanpa lewat keranjang
+     */
     public function directOrder(Request $request) {
         $request->validate([
             'product_id' => 'required|exists:products,id',
@@ -122,18 +129,18 @@ class CartController extends Controller
             });
 
             $adminWA = "6285361839192";
-            $message = "✨ *PESANAN LANGSUNG - SILUA TOBA* ✨\n";
-            $message .= "--------------------------------------------\n";
+            // Format pesan rapi untuk dikirim ke WhatsApp Admin
+            $message = "📦 *PESANAN BARU (LANGSUNG)* 📦\n";
+            $message .= "------------------------------------------\n";
             $message .= "🆔 *Order ID:* #{$order->id}\n";
-            $message .= "👤 *Nama:* {$user->name}\n";
-            $message .= "📞 *No. HP:* " . ($user->phone ?? '-') . "\n";
-            $message .= "--------------------------------------------\n\n";
-            $message .= "🛒 *Item:* \n";
-            $message .= "• {$product->name}\n";
-            $message .= "  {$request->quantity} x Rp " . number_format($product->price, 0, ',', '.') . "\n\n";
-            $message .= "💰 *TOTAL TAGIHAN: Rp " . number_format($totalPrice, 0, ',', '.') . "*\n";
-            $message .= "--------------------------------------------\n";
-            $message .= "Mohon instruksi selanjutnya ya Admin. Terima kasih!";
+            $message .= "👤 *Pelanggan:* {$user->name}\n";
+            $message .= "------------------------------------------\n\n";
+            $message .= "🛒 *Detail Produk:* \n";
+            $message .= "• *{$product->name}*\n";
+            $message .= "  Qty: {$request->quantity} x Rp " . number_format($product->price, 0, ',', '.') . "\n\n";
+            $message .= "💰 *TOTAL BAYAR: Rp " . number_format($totalPrice, 0, ',', '.') . "*\n";
+            $message .= "------------------------------------------\n";
+            $message .= "Mohon konfirmasi pesanan saya ya Admin, Terima kasih! 🙏";
 
             return redirect("https://wa.me/{$adminWA}?text=" . urlencode($message));
 
@@ -142,7 +149,9 @@ class CartController extends Controller
         }
     }
 
-    // 6. CHECKOUT (Dari Troli Samping)
+    /**
+     * Finalisasi belanja (Checkout) dari semua isi keranjang ke WhatsApp
+     */
     public function checkout() {
         $user = Auth::user();
         $cartItems = Cart::where('user_id', $user->id)->with('product')->get();
@@ -172,29 +181,29 @@ class CartController extends Controller
                     ]);
                 }
 
+                // Kosongkan keranjang setelah checkout berhasil
                 Cart::where('user_id', $user->id)->delete();
 
                 return $newOrder;
             });
 
             $adminWA = "6285361839192";
-            $message = "✨ *PESANAN BARU - SILUA TOBA* ✨\n";
-            $message .= "--------------------------------------------\n";
+            $message = "🛍️ *PESANAN BARU (TROLI)* 🛍️\n";
+            $message .= "------------------------------------------\n";
             $message .= "🆔 *Order ID:* #{$order->id}\n";
-            $message .= "👤 *Nama:* {$user->name}\n";
-            $message .= "📞 *No. HP:* " . ($user->phone ?? '-') . "\n";
-            $message .= "--------------------------------------------\n\n";
+            $message .= "👤 *Pelanggan:* {$user->name}\n";
+            $message .= "------------------------------------------\n\n";
             $message .= "🛒 *Daftar Belanja:* \n";
 
             foreach ($cartItems as $item) {
                 $subtotal = $item->product->price * $item->quantity;
-                $message .= "• {$item->product->name} (x{$item->quantity})\n";
+                $message .= "• *{$item->product->name}* (x{$item->quantity})\n";
                 $message .= "  Subtotal: Rp " . number_format($subtotal, 0, ',', '.') . "\n";
             }
 
             $message .= "\n💰 *TOTAL AKHIR: Rp " . number_format($order->total_price, 0, ',', '.') . "*\n";
-            $message .= "--------------------------------------------\n";
-            $message .= "Mohon konfirmasi pesanannya Admin 🙏";
+            $message .= "------------------------------------------\n";
+            $message .= "Mohon segera diproses ya Admin, Terima kasih! 🙏";
 
             return redirect("https://wa.me/{$adminWA}?text=" . urlencode($message));
 

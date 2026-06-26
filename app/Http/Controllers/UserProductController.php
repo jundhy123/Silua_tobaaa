@@ -9,26 +9,27 @@ use Illuminate\Http\Request;
 class UserProductController extends Controller
 {
     /**
-     * Menampilkan katalog produk untuk sisi pelanggan (User)
+     * Menampilkan katalog produk untuk pelanggan dengan fitur filter dan pencarian
      */
     public function index(Request $request)
     {
+        // Memanggil model Product beserta relasi ulasannya
         $query = Product::with(['reviews.user']);
 
-        // Filter Pencarian Nama
+        // Filter Pencarian berdasarkan nama produk jika ada input dari user
         if ($request->filled('search')) {
             $query->where('name', 'LIKE', '%' . $request->search . '%');
         }
 
-        // Filter Kategori
+        // Filter berdasarkan kategori jika dipilih (kecuali 'all'/semua)
         if ($request->filled('category') && $request->category != 'all') {
             $query->where('category', $request->category);
         }
 
-        // Ambil produk dengan pagination (9 per halaman)
+        // Mengambil data produk dengan sistem pagination (9 produk per halaman)
         $products = $query->latest()->paginate(9)->withQueryString();
 
-        // Trigger Sync dan ambil dari Database
+        // Mengambil daftar kategori yang tersedia untuk ditampilkan di menu filter sidebar
         Product::getAvailableCategories();
         $categories = Category::pluck('category_name')->toArray();
 

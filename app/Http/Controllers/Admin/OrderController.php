@@ -10,12 +10,12 @@ use Illuminate\Support\Facades\DB;
 class OrderController extends Controller {
 
     /**
-     * Menampilkan daftar pesanan masuk dengan filter, pencarian, dan statistik
+     * Menampilkan daftar pesanan masuk dengan fitur filter status, pencarian, dan statistik ringkasan
      */
     public function index(Request $request) {
         $query = Order::with(['user', 'items.product']);
 
-        // 1. PENCARIAN CEPAT
+        // Fitur pencarian berdasarkan kode order, nama user, atau nama produk
         if ($request->filled('search')) {
             $search = $request->search;
             $query->where(function($q) use ($search) {
@@ -30,24 +30,24 @@ class OrderController extends Controller {
             });
         }
 
-        // 2. FILTER STATUS
+        // Filter data berdasarkan status pesanan (pending, accepted, dll)
         if ($request->filled('status') && $request->status != 'all') {
             $query->where('status', $request->status);
         }
 
-        // 2b. FILTER KATEGORI (Berdasarkan produk di dalam pesanan)
+        // Filter data berdasarkan kategori produk yang dipesan
         if ($request->filled('category') && $request->category != 'all') {
             $query->whereHas('items.product', function($q) use ($request) {
                 $q->where('category', $request->category);
             });
         }
 
-        // 3. FILTER TANGGAL (Hanya tanggal tertentu)
+        // Filter data berdasarkan tanggal pesanan dibuat
         if ($request->filled('date')) {
             $query->whereDate('created_at', $request->date);
         }
 
-        // 7. PENGELOMPOKAN PESANAN (TABS)
+        // Pengelompokan pesanan berdasarkan waktu (Hari ini, Kemarin, Minggu ini, Bulan ini)
         if ($request->filled('group')) {
             switch ($request->group) {
                 case 'today':
@@ -69,10 +69,10 @@ class OrderController extends Controller {
         $perPage = $request->get('per_page', 10);
         $orders = $query->latest()->paginate($perPage)->withQueryString();
 
-        // AMBIL SEMUA KATEGORI UNTUK FILTER
+        // Mengambil daftar kategori unik untuk ditampilkan di filter dropdown
         $categories = \App\Models\Product::select('category')->distinct()->pluck('category');
 
-        // STATISTIK RINGKASAN
+        // Menghitung statistik untuk ditampilkan di kartu ringkasan Dashboard
         $stats = [
             'total'      => Order::count(),
             'new'        => Order::where('status', 'pending')->count(),
@@ -83,7 +83,7 @@ class OrderController extends Controller {
             'revenue'    => Order::where('status', 'delivered')->sum('total_price'),
         ];
 
-        // CEK APAKAH REQUEST AJAX
+        // Mendukung request AJAX untuk pembaruan tabel tanpa reload halaman
         if ($request->ajax()) {
             return response()->json([
                 'table' => view('admin.orders._table', compact('orders'))->render(),
@@ -96,46 +96,40 @@ class OrderController extends Controller {
     }
 
     /**
-     * Update Status Pesanan (Accepted, Rejected, Shipping, Delivered)
+     * Memperbarui status pesanan (Terima, Tolak, Kirim, atau Selesai)
      */
     public function updateStatus(Request $request, $id)
     {
-        // Validasi status sesuai alur premium
         $request->validate([
             'status' => 'required|in:pending,accepted,rejected,shipping,delivered',
-            'reject_reason' => 'nullable|string'
         ]);
 
         $order = Order::findOrFail($id);
 
-        // Update status dan simpan alasan penolakan (jika ada)
+        // Update status pesanan
         $order->update([
             'status' => $request->status,
-            'reject_reason' => $request->status == 'rejected' ? $request->reject_reason : null
         ]);
 
         return back()->with('success', 'Status pesanan #' . $id . ' berhasil diperbarui!');
     }
 
     /**
-     * Hapus Riwayat Pesanan
+     * Menghapus riwayat pesanan secara permanen (Hanya untuk pesanan yang sudah selesai atau ditolak)
      */
     public function destroy($id)
     {
         $order = Order::findOrFail($id);
 
-        // Proteksi: Hanya boleh hapus jika sudah selesai (delivered) atau ditolak (rejected)
-        // Pesanan yang masih diproses (pending, accepted, shipping) tidak boleh dihapus
+        // Proteksi agar pesanan yang masih aktif tidak bisa dihapus sembarangan
         if (in_array($order->status, ['pending', 'accepted', 'shipping'])) {
             return back()->with('error', 'Pesanan masih dalam proses aktif, tidak bisa dihapus!');
         }
 
         try {
             DB::transaction(function () use ($order) {
-                // Hapus semua detail item terkait (OrderItem) agar tidak jadi sampah di DB
+                // Hapus item-item di dalam pesanan terlebih dahulu sebelum menghapus data utama pesanan
                 $order->items()->delete();
-
-                // Hapus data order utama
                 $order->delete();
             });
 
